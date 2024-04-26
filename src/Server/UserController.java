@@ -248,23 +248,10 @@ public class UserController implements PropertyChangeListener {
         } */
 
         private void addTestValues() {
-        //testvärden för användare
-        ImageIcon userImage1 = new ImageIcon("images/loubro.png");
-        ImageIcon resizedImage1 = new ImageIcon(userImage1.getImage().getScaledInstance(150,150,Image.SCALE_DEFAULT));
-        User user1 = new User("loubro");
-        user1.setImageIcon(resizedImage1);
-        ImageIcon userImage2 = new ImageIcon("images/alacol.png");
-        ImageIcon resizedImage2 = new ImageIcon(userImage2.getImage().getScaledInstance(150,150,Image.SCALE_DEFAULT));
-        User user2 = new User("alacol");
-        user2.setImageIcon(resizedImage2);
-        ImageIcon userImage3 = new ImageIcon("images/idanor.png");
-        ImageIcon resizedImage3 = new ImageIcon(userImage3.getImage().getScaledInstance(150,150,Image.SCALE_DEFAULT));
-        User user3 = new User("idanor");
-        user3.setImageIcon(resizedImage3);
-        ImageIcon userImage4 = new ImageIcon("images/kenalt.png");
-        ImageIcon resizedImage4 = new ImageIcon(userImage4.getImage().getScaledInstance(150,150,Image.SCALE_DEFAULT));
-        User user4 = new User("kenalt");
-        //user4.setImageIcon(resizedImage4);
+            User user1 = new User("loubro");
+            User user2 = new User("alacol");
+            User user3 = new User("idanor");
+            User user4 = new User("kenalt");
         user1.setOnline(false);
         user2.setOnline(false);
         user3.setOnline(false);
