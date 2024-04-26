@@ -1,11 +1,21 @@
 package Client;
 
+import Entity.Message;
+import Entity.MessageType;
 import Entity.User;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ContactController {
-    private List<User> allUsers;
-    private List<User> friends;
+    private List<User> allUsers = new ArrayList<>();
+    private List<User> friends = new ArrayList<>();
+    private ClientViewController controller;
+
+    public ContactController(ClientViewController controller) {
+        this.controller = controller;
+    }
 
     public List<User> getAllUsers() {
         return allUsers;
@@ -24,11 +34,18 @@ public class ContactController {
     }
 
     public void addNewFriend(int index){
-        for(int i = 0 ; i < allUsers.size() ; i++){
-            if (i == index){
-                friends.add(allUsers.get(i));
+        if (index != -1) { // if something is selected in the left menu list
+            for (int i = 0; i < allUsers.size(); i++) {
+                if (i == index) {
+                    friends.add(allUsers.get(i));
+                }
             }
         }
+    }
+
+    public void setFriendsListInServer() {
+        Message message = new Message(MessageType.addFriends, null, controller.getLogController().getLoggedInUser(), friends, LocalDateTime.now(), null);
+        controller.getLogController().getCnb().sendMessage(message);
     }
 
     //hämta alla kontakter från server

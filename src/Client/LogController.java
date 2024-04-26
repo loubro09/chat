@@ -11,12 +11,19 @@ import javax.swing.*;
 public class LogController implements PropertyChangeListener{
     private ClientNetworkBoundary cnb;
     private ClientViewController cvc;
+
+    public User getLoggedInUser() {
+        return loggedInUser;
+    }
+
     private User loggedInUser; //sparas för att kunna logga ut
 
 
     public LogController(ClientViewController cvc) {
         this.cvc = cvc;
     }
+
+    public ClientNetworkBoundary getCnb() {return cnb;}
 
     public void logIn(String userName) {
         User user = new User(userName);
@@ -70,6 +77,7 @@ public class LogController implements PropertyChangeListener{
             Message message = (Message) evt.getNewValue();
             User user = message.getSender();
             cvc.getContactController().setAllUsers(message.getReceivers());
+            cvc.getContactController().setFriends(user.getFriendList());
             loginSuccess(user);
         } else if ("logFail".equals(evt.getPropertyName())) {
             loginFail();

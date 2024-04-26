@@ -64,6 +64,7 @@ public class MainFrame extends JFrame {
         mainPanel.getUserNameLabel1().setText(user.getUserName());
         mainPanel.getUserImageLabel1().setVisible(true);
         mainPanel.getUserImageLabel1().setIcon(user.getImageIcon());
+        mainPanel.getRightPanel().getBtnSelectContact().setEnabled(true);
     }
 
     public void enableAllButtons() {

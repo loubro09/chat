@@ -9,7 +9,11 @@ public class User implements Serializable {
     private String userName;
     private Icon userPicture;
     private boolean online;
-    private List<User> friendList;
+    private List<User> friendList = new ArrayList<>();
+
+    public void setFriendList(List<User> friendList) {
+        this.friendList = friendList;
+    }
 
     public User(String userName) {
         this.userName = userName;

@@ -16,7 +16,7 @@ public class ClientViewController {
 
     public ClientViewController() {
         logController = new LogController(this);
-        contactController = new ContactController();
+        contactController = new ContactController(this);
         mainFrame = new MainFrame(1000, 500, this);
         mainFrame.enableAllButtons();
         /*mainFrame.disableLogOutButton();
@@ -40,10 +40,11 @@ public class ClientViewController {
             case send:
                 break;
             case Choose_Contact:
-                mainFrame.getMainPanel().getRightPanel().getBtnSelectContact().setEnabled(true);
                 contactController.addNewFriend(mainFrame.getSelectionRightPanel());
+                contactController.setFriendsListInServer();
                 break;
             case friends:
+                mainFrame.clearRightPanel();
                 allUsersToString(contactController.getFriends());
                 break;
             case allUsers:

@@ -110,6 +110,8 @@ public class ServerNetworkBoundary {
                         case registerUser:
                             propertyChangeSupport.firePropertyChange("register", message, this);
                             break;
+                        case addFriends:
+                            propertyChangeSupport.firePropertyChange("updateFriendsList", message, this);
                     }
                 }
             } catch (IOException | ClassNotFoundException e) {

@@ -60,6 +60,7 @@ public class UserController implements PropertyChangeListener {
             for (User u : allUsers) {
                 if (u.getUserName().equals(userName)) {
                     savedUser = u;
+                    updateFriendsListFromFile(savedUser);
                 }
             }
             if (checkHashmapList(savedUser)) {
@@ -99,7 +100,12 @@ public class UserController implements PropertyChangeListener {
             Message message = (Message) evt.getNewValue();
             User user = message.getSender();
             logOut(user);
-            
+        }
+        else if ("updateFriendsList".equals(evt.getPropertyName())) {
+            Message message = (Message) evt.getOldValue();
+            String userName = message.getSender().getUserName();
+            List<User> friends = message.getReceivers();
+            appendUsersToFile(userName, friends);
         }
     }
 
@@ -173,6 +179,54 @@ public class UserController implements PropertyChangeListener {
             for (User user : allUsers) {
                 writer.write(user.getUserName()); // Write the username
                 writer.newLine(); // Add a new line
+                createUserFile(user);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void createUserFile(User user) {
+        String userFilePath = user.getUserName() + ".txt";
+        File userFile = new File(userFilePath);
+        try {
+            if (userFile.createNewFile()) {
+                System.out.println("Created file: " + userFilePath); // Debugging
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(userFile))) {
+                    writer.write(user.getUserName()); // Write the username
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                System.out.println("File already exists: " + userFilePath); // Debugging
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void appendUsersToFile(String username, List<User> friends) {
+        String userFilePath = username + ".txt";
+        File userFile = new File(userFilePath);
+        try (BufferedReader reader = new BufferedReader(new FileReader(userFile))) {
+            List<String> existingUsers = new ArrayList<>();
+            String line;
+            // Read existing usernames from the file
+            while ((line = reader.readLine()) != null) {
+                existingUsers.add(line.trim());
+            }
+
+            // Append only the new friends to the file
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(userFile, true))) {
+                writer.newLine(); // Add a new line before appending users
+                for (User user : friends) {
+                    String friendName = user.getUserName();
+                    if (!existingUsers.contains(friendName)) {
+                        writer.write(friendName); // Write the username
+                        writer.newLine(); // Add a new line
+                        existingUsers.add(friendName); // Update existing users list
+                    }
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -194,58 +248,44 @@ public class UserController implements PropertyChangeListener {
         return userList;
     }
 
-    /*private void addUsersToFile(String filePath) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath, false))) {
-            oos.writeInt(allUsers.size());
-            for (User user : allUsers) {
-                oos.writeObject(user);
+    public void updateFriendsListFromFile(User loggedInUser) {
+        System.out.println("help");
+        String userFilePath = loggedInUser.getUserName() + ".txt";
+        File userFile = new File(userFilePath);
+        try (BufferedReader reader = new BufferedReader(new FileReader(userFile))) {
+            String line;
+            System.out.println("242");
+            if ((line = reader.readLine()) != null) {
+                System.out.println("244");
+                String userName = line.trim(); // Read the first username from the file
+                System.out.println("§" + userName +"§");
+                User user = getUserByUsername(userName); // Find the corresponding user object
+                if (user != null) {
+                    List<User> friends = new ArrayList<>();
+                    while ((line = reader.readLine()) != null) {
+                        String friendUserName = line.trim();
+                        System.out.println("§" +friendUserName +"§");
+                        User friend = getUserByUsername(friendUserName); // Find the corresponding friend user object
+                        if (friend != null) {
+                            friends.add(friend); // Add the friend to the list
+                        }
+                    }
+                    loggedInUser.setFriendList(friends); // Set the friend list for the logged-in user
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }*/
+    }
 
-   /* private void addUsersToFile(String filePath) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath, false))) {
-            bw.write(allUsers.size());
-            for (User user : allUsers) {
-                bw.write(user.getUserName());
+    private User getUserByUsername(String userName) {
+        for (User user : allUsers) {
+            if (user.getUserName().equals(userName)) {
+                return user;
             }
-            bw.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-    }*/
-
-    /*private List<User> readUsersFromFile(String filePath) {
-        List<User> userList = new ArrayList<>();
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))) {
-            int size = ois.readInt() -1;
-            for (int i = 0; i < size ; i++) {
-                User user = (User) ois.readObject();
-                userList.add(user);
-            }
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return userList;
-    }*/
-
-   /* private List<User> readUsersFromFile(String filePath) {
-        List<User> userList = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader (new FileReader(filePath)) {
-            int size = br.read() -1;
-            for (int i = 0; i < size; i++) {
-                String userName = br.readLine();
-            }
-        } catch (IOException | ClassNotFoundException ef) {
-            ef.printStackTrace();
-        return userList;
-    } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } */
+        return null; // User not found
+    }
 
         private void addTestValues() {
         //testvärden för användare
