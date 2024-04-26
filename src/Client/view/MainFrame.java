@@ -21,6 +21,8 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    public MainPanel getMainPanel() {return mainPanel;}
+
     public void showMessage(String message) {
         JOptionPane.showMessageDialog(this, message);
     }
@@ -62,6 +64,7 @@ public class MainFrame extends JFrame {
         mainPanel.getUserNameLabel1().setText(user.getUserName());
         mainPanel.getUserImageLabel1().setVisible(true);
         mainPanel.getUserImageLabel1().setIcon(user.getImageIcon());
+        mainPanel.getRightPanel().getBtnSelectContact().setEnabled(true);
     }
 
     public void enableAllButtons() {
@@ -79,5 +82,23 @@ public class MainFrame extends JFrame {
         disableStartButtons();
         mainPanel.getLeftPanel().getBtnlogIn().setEnabled(true);
         mainPanel.getLeftPanel().getBtnRegUser().setEnabled(true);
+        mainPanel.getLeftPanel().getBtnLogOut().setEnabled(false);
+        clearRightPanel();
+    }
+
+    public void setSelectContact() {
+        mainPanel.getRightPanel().getBtnSelectContact().setVisible(true);
+    }
+
+    public void clearRightPanel(){
+        mainPanel.getRightPanel().clearRightPanelList();
+    }
+
+    public void populateRightPanel(String[] informationArray){
+        mainPanel.getRightPanel().populateList(informationArray);
+    }
+
+    public int getSelectionRightPanel(){
+        return mainPanel.getRightPanel().getRightPanelList().getSelectedIndex();
     }
 }

@@ -2,8 +2,7 @@ package Client;
 
 import Entity.Message;
 import Entity.MessageType;
-import Entity.User;
-import Server.ServerNetworkBoundary;
+
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -28,7 +27,6 @@ public class ClientNetworkBoundary {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public void addPropertyChangeListener(PropertyChangeListener propertyChangeListener){

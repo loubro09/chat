@@ -12,7 +12,6 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class ServerNetworkBoundary {
@@ -71,7 +70,6 @@ public class ServerNetworkBoundary {
         }
     }
 
-
     public class ClientHandler extends Thread {
         private ObjectOutputStream oos;
         private ObjectInputStream ois;
@@ -117,6 +115,8 @@ public class ServerNetworkBoundary {
                             propertyChangeSupport.firePropertyChange("register", message, this);
                             activityController.LogFile(message);
                             break;
+                        case addFriends:
+                            propertyChangeSupport.firePropertyChange("updateFriendsList", message, this);
                     }
                 }
             } catch (IOException | ClassNotFoundException e) {

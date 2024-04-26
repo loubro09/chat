@@ -1,15 +1,11 @@
 package Client.view;
 
 import Client.ClientViewController;
-import Entity.User;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
 
 public class LogInFrame  extends JFrame implements ActionListener{
     private JPanel mainPanel;
@@ -66,7 +62,7 @@ public class LogInFrame  extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == login) {
-            controller.getLc().logIn(enterUserName.getText());
+            controller.getLogController().logIn(enterUserName.getText());
         }
     }
 

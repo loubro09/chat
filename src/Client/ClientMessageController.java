@@ -2,9 +2,7 @@ package Client;
 
 import Client.view.MainFrame;
 import Entity.Message;
-import Entity.MessageType;
 import Entity.User;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 

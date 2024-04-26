@@ -1,15 +1,12 @@
 package Server;
 
-import Entity.Buffer;
 import Entity.Message;
 import Entity.MessageType;
 import Entity.User;
 
-import javax.imageio.ImageIO;
+import javax.annotation.processing.Filer;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.*;
@@ -21,7 +18,7 @@ public class UserController implements PropertyChangeListener {
     private ServerNetworkBoundary serverNetworkBoundary;
     private HashMap<User, ServerNetworkBoundary.ClientHandler> clients = new HashMap<>();
     private List<User> allUsers;
-    private String userFileName = "userFile.dat";
+    private String userFileName = "userFile.txt";
 
     public UserController(ServerNetworkBoundary serverNetworkBoundary){
         this.serverNetworkBoundary = serverNetworkBoundary;
@@ -63,6 +60,7 @@ public class UserController implements PropertyChangeListener {
             for (User u : allUsers) {
                 if (u.getUserName().equals(userName)) {
                     savedUser = u;
+                    updateFriendsListFromFile(savedUser);
                 }
             }
             if (checkHashmapList(savedUser)) {
@@ -71,7 +69,8 @@ public class UserController implements PropertyChangeListener {
             }
             clients.put(savedUser, client);
             System.out.println("User " + savedUser.getUserName() + " logged in successfully.");
-            Message message = new Message(MessageType.loginSuccess, savedUser);
+            savedUser.setOnline(true);
+            Message message = new Message(MessageType.loginSuccess, savedUser, allUsers);
             serverNetworkBoundary.sendMessage(message, client);
         } else {
             System.out.println("User " + user.getUserName() + " does not exist.");
@@ -83,7 +82,6 @@ public class UserController implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if ("login".equals(evt.getPropertyName())){
-            //loginBuffer.put((Message) evt.getNewValue());
             User user = (User) evt.getNewValue();
             ServerNetworkBoundary.ClientHandler client = (ServerNetworkBoundary.ClientHandler) evt.getOldValue();
             logIn(user, client);
@@ -103,9 +101,16 @@ public class UserController implements PropertyChangeListener {
             User user = message.getSender();
             logOut(user);
         }
+        else if ("updateFriendsList".equals(evt.getPropertyName())) {
+            Message message = (Message) evt.getOldValue();
+            String userName = message.getSender().getUserName();
+            List<User> friends = message.getReceivers();
+            appendUsersToFile(userName, friends);
+        }
     }
 
     private void logOut(User user) {
+        user.setOnline(false);
         for(User u : clients.keySet()) {
             if (u.getUserName().equals(user.getUserName())) {
                 clients.remove(u);
@@ -118,7 +123,6 @@ public class UserController implements PropertyChangeListener {
 
         if (userExists == false) {
             allUsers.add(user);
-        //    saveImage(user);
             addUsersToFile(userFileName);
             Message message = new Message(MessageType.registerSuccess);
             serverNetworkBoundary.sendMessage(message, client);
@@ -171,10 +175,58 @@ public class UserController implements PropertyChangeListener {
     }
 
     private void addUsersToFile(String filePath) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath, false))) {
-            oos.writeInt(allUsers.size());
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             for (User user : allUsers) {
-                oos.writeObject(user);
+                writer.write(user.getUserName()); // Write the username
+                writer.newLine(); // Add a new line
+                createUserFile(user);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void createUserFile(User user) {
+        String userFilePath = user.getUserName() + ".txt";
+        File userFile = new File(userFilePath);
+        try {
+            if (userFile.createNewFile()) {
+                System.out.println("Created file: " + userFilePath); // Debugging
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(userFile))) {
+                    writer.write(user.getUserName()); // Write the username
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                System.out.println("File already exists: " + userFilePath); // Debugging
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void appendUsersToFile(String username, List<User> friends) {
+        String userFilePath = username + ".txt";
+        File userFile = new File(userFilePath);
+        try (BufferedReader reader = new BufferedReader(new FileReader(userFile))) {
+            List<String> existingUsers = new ArrayList<>();
+            String line;
+            // Read existing usernames from the file
+            while ((line = reader.readLine()) != null) {
+                existingUsers.add(line.trim());
+            }
+
+            // Append only the new friends to the file
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(userFile, true))) {
+                writer.newLine(); // Add a new line before appending users
+                for (User user : friends) {
+                    String friendName = user.getUserName();
+                    if (!existingUsers.contains(friendName)) {
+                        writer.write(friendName); // Write the username
+                        writer.newLine(); // Add a new line
+                        existingUsers.add(friendName); // Update existing users list
+                    }
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -183,32 +235,80 @@ public class UserController implements PropertyChangeListener {
 
     private List<User> readUsersFromFile(String filePath) {
         List<User> userList = new ArrayList<>();
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))) {
-            int size = ois.readInt();
-            for (int i = 0; i < size; i++) {
-                User user = (User) ois.readObject();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String userName = line.trim();
+                User user = new User(userName);
                 userList.add(user);
             }
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return userList;
     }
 
-    private void addTestValues() {
+    public void updateFriendsListFromFile(User loggedInUser) {
+        System.out.println("help");
+        String userFilePath = loggedInUser.getUserName() + ".txt";
+        File userFile = new File(userFilePath);
+        try (BufferedReader reader = new BufferedReader(new FileReader(userFile))) {
+            String line;
+            System.out.println("242");
+            if ((line = reader.readLine()) != null) {
+                System.out.println("244");
+                String userName = line.trim(); // Read the first username from the file
+                System.out.println("§" + userName +"§");
+                User user = getUserByUsername(userName); // Find the corresponding user object
+                if (user != null) {
+                    List<User> friends = new ArrayList<>();
+                    while ((line = reader.readLine()) != null) {
+                        String friendUserName = line.trim();
+                        System.out.println("§" +friendUserName +"§");
+                        User friend = getUserByUsername(friendUserName); // Find the corresponding friend user object
+                        if (friend != null) {
+                            friends.add(friend); // Add the friend to the list
+                        }
+                    }
+                    loggedInUser.setFriendList(friends); // Set the friend list for the logged-in user
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private User getUserByUsername(String userName) {
+        for (User user : allUsers) {
+            if (user.getUserName().equals(userName)) {
+                return user;
+            }
+        }
+        return null; // User not found
+    }
+
+        private void addTestValues() {
         //testvärden för användare
         ImageIcon userImage1 = new ImageIcon("images/loubro.png");
         ImageIcon resizedImage1 = new ImageIcon(userImage1.getImage().getScaledInstance(150,150,Image.SCALE_DEFAULT));
-        User user1 = new User("loubro",resizedImage1);
+        User user1 = new User("loubro");
+        user1.setImageIcon(resizedImage1);
         ImageIcon userImage2 = new ImageIcon("images/alacol.png");
         ImageIcon resizedImage2 = new ImageIcon(userImage2.getImage().getScaledInstance(150,150,Image.SCALE_DEFAULT));
-        User user2 = new User("alacol", resizedImage2);
+        User user2 = new User("alacol");
+        user2.setImageIcon(resizedImage2);
         ImageIcon userImage3 = new ImageIcon("images/idanor.png");
         ImageIcon resizedImage3 = new ImageIcon(userImage3.getImage().getScaledInstance(150,150,Image.SCALE_DEFAULT));
-        User user3 = new User("idanor", resizedImage3);
+        User user3 = new User("idanor");
+        user3.setImageIcon(resizedImage3);
         ImageIcon userImage4 = new ImageIcon("images/kenalt.png");
         ImageIcon resizedImage4 = new ImageIcon(userImage4.getImage().getScaledInstance(150,150,Image.SCALE_DEFAULT));
-        User user4 = new User("kenalt", resizedImage4);
+        User user4 = new User("kenalt");
+        user4.setImageIcon(resizedImage4);
+        user1.setOnline(false);
+        user2.setOnline(false);
+        user3.setOnline(false);
+        user4.setOnline(false);
         allUsers.add(user1);
         allUsers.add(user2);
         allUsers.add(user3);
