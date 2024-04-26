@@ -83,6 +83,10 @@ public class MainFrame extends JFrame {
         clearRightPanel();
     }
 
+    public void setSelectContact() {
+        mainPanel.getRightPanel().getBtnSelectContact().setEnabled(true);
+    }
+
     public void clearRightPanel(){
         mainPanel.getRightPanel().clearRightPanelList();
     }

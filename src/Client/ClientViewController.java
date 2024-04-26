@@ -44,6 +44,8 @@ public class ClientViewController {
             case friends:
                 break;
             case allUsers:
+                allUsersToString();
+                mainFrame.setSelectContact();
                 break;
         }
     }

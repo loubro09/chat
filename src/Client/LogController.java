@@ -71,7 +71,6 @@ public class LogController implements PropertyChangeListener{
             User user = message.getSender();
             cvc.getContactController().setAllUsers(message.getReceivers());
             loginSuccess(user);
-            cvc.allUsersToString();
         } else if ("logFail".equals(evt.getPropertyName())) {
             loginFail();
         }
