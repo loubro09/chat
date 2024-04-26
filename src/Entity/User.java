@@ -41,4 +41,9 @@ public class User implements Serializable {
     public void setFriendList(List<User> friendList) {
         this.friendList = friendList;
     }
+
+    @Override
+    public String toString() {
+        return userName ;
+    }
 }

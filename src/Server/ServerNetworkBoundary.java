@@ -21,6 +21,7 @@ public class ServerNetworkBoundary {
     private Buffer<Message> messageBuffer = new Buffer<>();
     private Buffer<Message> logoutBuffer = new Buffer<>();
     private List<ClientHandler> clientsList;
+    private ActivityController activityController;
 
 
     public ServerNetworkBoundary(int port) {
@@ -100,17 +101,21 @@ public class ServerNetworkBoundary {
                     switch (messageType) {
                         case message:
                             messageBuffer.put(message);
+                            activityController.LogFile(message);
                             break;
                         case logIn:
                             user = message.getSender();
                             propertyChangeSupport.firePropertyChange("login", this, user);
+                            activityController.LogFile(message);
                             break;
                         case logOut:
                             //logoutBuffer.put(message);
                             propertyChangeSupport.firePropertyChange("logout",null,message);
+                            activityController.LogFile(message);
                             break;
                         case registerUser:
                             propertyChangeSupport.firePropertyChange("register", message, this);
+                            activityController.LogFile(message);
                             break;
                     }
                 }
