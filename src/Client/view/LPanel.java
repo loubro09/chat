@@ -2,12 +2,13 @@ package Client.view;
 
 import Entity.Message;
 
-        import javax.swing.*;
-        import java.awt.*;
-        import java.util.ArrayList;
+import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
 
 public class LPanel extends JPanel {
     private JLabel userNameLabel;
+    private JLabel interactingUserLabel; // New label to display the user you are interacting with
     private JList<Message> leftPanelList;
     private JTextArea textChatBox;
     private JTextField messageTextField;
@@ -65,6 +66,9 @@ public class LPanel extends JPanel {
         userNameLabel = new JLabel();
         userNameLabel.setFont(new Font("Serif", Font.BOLD, 14));
         topPanel.add(userNameLabel, BorderLayout.NORTH);
+
+        interactingUserLabel = new JLabel("Interacting with: "); // Initializing label
+        topPanel.add(interactingUserLabel, BorderLayout.SOUTH); // Adding label to topPanel
         add(topPanel, BorderLayout.NORTH);
 
         JPanel bottomPanel = new JPanel(new BorderLayout()); // Skapa ett nytt panel för att innehålla messageTextField och knappen
@@ -92,6 +96,11 @@ public class LPanel extends JPanel {
     // Funktion för att ställa in användarnamnet
     protected void setUserName(String userName) {
         userNameLabel.setText("User: " + userName);
+    }
+
+    // Function to set the interacting user label
+    protected void setInteractingUser(String userName) {
+        interactingUserLabel.setText("Interacting with: " + userName);
     }
 
     public void populateList(ArrayList<Message> messages) {
