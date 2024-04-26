@@ -40,11 +40,14 @@ public class ClientViewController {
             case send:
                 break;
             case Choose_Contact:
+                mainFrame.getMainPanel().getRightPanel().getBtnSelectContact().setEnabled(true);
+                contactController.addNewFriend(mainFrame.getSelectionRightPanel());
                 break;
             case friends:
+                allUsersToString(contactController.getFriends());
                 break;
             case allUsers:
-                allUsersToString();
+                allUsersToString(contactController.getAllUsers());
                 mainFrame.setSelectContact();
                 break;
         }
@@ -74,8 +77,7 @@ public class ClientViewController {
         return mainFrame;
     }
 
-    public void allUsersToString() {
-        List<User> allUsers = contactController.getAllUsers();
+    public void allUsersToString(List<User> allUsers) {
         String[] userNames = new String[allUsers.size()];
         for (int i = 0; i <allUsers.size(); i++) {
             userNames[i] = allUsers.get(i).getUserName();

@@ -21,6 +21,8 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    public MainPanel getMainPanel() {return mainPanel;}
+
     public void showMessage(String message) {
         JOptionPane.showMessageDialog(this, message);
     }

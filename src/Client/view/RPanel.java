@@ -71,7 +71,7 @@ public class RPanel extends JPanel {
         return btnFriends;
     }
 
-    protected JButton getBtnSelectContact() {
+    public JButton getBtnSelectContact() {
         return btnSelectContact;
     }
 

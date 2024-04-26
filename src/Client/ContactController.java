@@ -23,7 +23,13 @@ public class ContactController {
         this.friends = friends;
     }
 
-
+    public void addNewFriend(int index){
+        for(int i = 0 ; i < allUsers.size() ; i++){
+            if (i == index){
+                friends.add(allUsers.get(i));
+            }
+        }
+    }
 
     //hämta alla kontakter från server
     //hämta alla vänner från users kontaktlista
