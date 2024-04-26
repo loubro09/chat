@@ -93,23 +93,24 @@ public class LogInFrame extends JFrame implements ActionListener {
                     img = ImageIO.read(file);
                     Image scaledImg = img.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
                     userIcon = new ImageIcon(scaledImg); // Store the selected picture in userIcon
-                    System.out.println("User icon assigned: " + userIcon); // Print userIcon value
                     picture.setIcon(userIcon); // Set the ImageIcon directly to the picture label
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
             }
-        } else if (e.getSource() == login) {
+        } else if (e.getSource() == login) { // Check if "Log in" button is clicked
             controller.getLogController().logIn(enterUserName.getText());
         }
     }
 
 
+
     public void setSuccess() {
         this.dispose();
-        picture.setIcon(userIcon);
+    }
 
-
+    public ImageIcon getUserIcon() {
+        return userIcon;
     }
 
     public void setError(String errorMessage) {

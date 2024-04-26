@@ -264,7 +264,7 @@ public class UserController implements PropertyChangeListener {
         ImageIcon userImage4 = new ImageIcon("images/kenalt.png");
         ImageIcon resizedImage4 = new ImageIcon(userImage4.getImage().getScaledInstance(150,150,Image.SCALE_DEFAULT));
         User user4 = new User("kenalt");
-        user4.setImageIcon(resizedImage4);
+        //user4.setImageIcon(resizedImage4);
         user1.setOnline(false);
         user2.setOnline(false);
         user3.setOnline(false);

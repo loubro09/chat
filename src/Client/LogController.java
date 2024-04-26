@@ -52,7 +52,8 @@ public class LogController implements PropertyChangeListener{
     public void loginSuccess(User user) {
         this.loggedInUser = user; //för utloggning
         cvc.getLoginFrame().setSuccess();
-        cvc.getMainFrame().setLoggedIn(user);
+        cvc.getMainFrame().setLoggedIn(user,cvc.getLoginFrame().getUserIcon());
+
     }
 
     public void loginFail() {
