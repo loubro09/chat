@@ -83,9 +83,9 @@ public class ClientViewController {
         for (int i = 0; i <allUsers.size(); i++) {
             userNames[i] = allUsers.get(i).getUserName();
             if(allUsers.get(i).getOnline()) {
-                userNames[i] += " (Online)";
+                userNames[i] = " 🟢 " + userNames[i];
             }else{
-                userNames[i] += " (Offline)";
+                userNames[i] = " 🔴 " + userNames[i];
             }
         }
         mainFrame.populateRightPanel(userNames);
