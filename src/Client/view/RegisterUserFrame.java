@@ -94,7 +94,7 @@ public class RegisterUserFrame extends JFrame implements ActionListener {
                 }
             }
         }else if(e.getSource() == registerbtn){
-            controller.getLc().addUser(enterUserName.getText(), picture.getIcon());
+            controller.getLogController().addUser(enterUserName.getText(), picture.getIcon());
         }
     }
 

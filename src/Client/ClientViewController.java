@@ -4,15 +4,19 @@ import Client.view.ButtonType;
 import Client.view.LogInFrame;
 import Client.view.MainFrame;
 import Client.view.RegisterUserFrame;
+import Entity.User;
+import java.util.List;
 
 public class ClientViewController {
     private MainFrame mainFrame;
-    private LogController lc;
+    private LogController logController;
+    private ContactController contactController;
     private RegisterUserFrame registerUserFrame;
     private LogInFrame logInFrame;
 
     public ClientViewController() {
-        lc = new LogController(this);
+        logController = new LogController(this);
+        contactController = new ContactController();
         mainFrame = new MainFrame(1000, 500, this);
         mainFrame.enableAllButtons();
         /*mainFrame.disableLogOutButton();
@@ -28,7 +32,7 @@ public class ClientViewController {
                 logInFrame = new LogInFrame(this);
                 break;
             case Log_Out:
-                lc.logOut();
+                logController.logOut();
                 break;
             case Register_new_user:
                 registerUserFrame = new RegisterUserFrame(this);
@@ -44,17 +48,41 @@ public class ClientViewController {
         }
     }
 
-    public static void main (String[] args) {
-        ClientViewController controller = new ClientViewController();
+    public static void main(String[] args) {
+        ClientViewController viewController = new ClientViewController();
     }
 
-    public LogController getLc() {
-        return lc;
+    public LogController getLogController() {
+        return logController;
     }
 
-    public RegisterUserFrame getRegisterUserFrame() {return registerUserFrame;}
+    public ContactController getContactController() {
+        return contactController;
+    }
 
-    public LogInFrame getLoginFrame() {return logInFrame;}
+    public RegisterUserFrame getRegisterUserFrame() {
+        return registerUserFrame;
+    }
 
-    public MainFrame getMainFrame() {return mainFrame;}
+    public LogInFrame getLoginFrame() {
+        return logInFrame;
+    }
+
+    public MainFrame getMainFrame() {
+        return mainFrame;
+    }
+
+    public void allUsersToString() {
+        List<User> allUsers = contactController.getAllUsers();
+        String[] userNames = new String[allUsers.size()];
+        for (int i = 0; i <allUsers.size(); i++) {
+            userNames[i] = allUsers.get(i).getUserName();
+            if(allUsers.get(i).getOnline()) {
+                userNames[i] += " (Online)";
+            }else{
+                userNames[i] += " (Offline)";
+            }
+        }
+        mainFrame.populateRightPanel(userNames);
+    }
 }

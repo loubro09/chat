@@ -1,15 +1,12 @@
 package Server;
 
-import Entity.Buffer;
 import Entity.Message;
 import Entity.MessageType;
 import Entity.User;
 
-import javax.imageio.ImageIO;
+import javax.annotation.processing.Filer;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.*;
@@ -21,7 +18,7 @@ public class UserController implements PropertyChangeListener {
     private ServerNetworkBoundary serverNetworkBoundary;
     private HashMap<User, ServerNetworkBoundary.ClientHandler> clients = new HashMap<>();
     private List<User> allUsers;
-    private String userFileName = "userFile.dat";
+    private String userFileName = "userFile.txt";
 
     public UserController(ServerNetworkBoundary serverNetworkBoundary){
         this.serverNetworkBoundary = serverNetworkBoundary;
@@ -71,7 +68,8 @@ public class UserController implements PropertyChangeListener {
             }
             clients.put(savedUser, client);
             System.out.println("User " + savedUser.getUserName() + " logged in successfully.");
-            Message message = new Message(MessageType.loginSuccess, savedUser);
+            savedUser.setOnline(true);
+            Message message = new Message(MessageType.loginSuccess, savedUser, allUsers);
             serverNetworkBoundary.sendMessage(message, client);
         } else {
             System.out.println("User " + user.getUserName() + " does not exist.");
@@ -83,7 +81,6 @@ public class UserController implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if ("login".equals(evt.getPropertyName())){
-            //loginBuffer.put((Message) evt.getNewValue());
             User user = (User) evt.getNewValue();
             ServerNetworkBoundary.ClientHandler client = (ServerNetworkBoundary.ClientHandler) evt.getOldValue();
             logIn(user, client);
@@ -102,10 +99,12 @@ public class UserController implements PropertyChangeListener {
             Message message = (Message) evt.getNewValue();
             User user = message.getSender();
             logOut(user);
+            
         }
     }
 
     private void logOut(User user) {
+        user.setOnline(false);
         for(User u : clients.keySet()) {
             if (u.getUserName().equals(user.getUserName())) {
                 clients.remove(u);
@@ -118,7 +117,6 @@ public class UserController implements PropertyChangeListener {
 
         if (userExists == false) {
             allUsers.add(user);
-        //    saveImage(user);
             addUsersToFile(userFileName);
             Message message = new Message(MessageType.registerSuccess);
             serverNetworkBoundary.sendMessage(message, client);
@@ -171,10 +169,10 @@ public class UserController implements PropertyChangeListener {
     }
 
     private void addUsersToFile(String filePath) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath, false))) {
-            oos.writeInt(allUsers.size());
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             for (User user : allUsers) {
-                oos.writeObject(user);
+                writer.write(user.getUserName()); // Write the username
+                writer.newLine(); // Add a new line
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -183,9 +181,58 @@ public class UserController implements PropertyChangeListener {
 
     private List<User> readUsersFromFile(String filePath) {
         List<User> userList = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String userName = line.trim();
+                User user = getUserByUsername(userName);
+                if (user != null) {
+                    userList.add(user);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return userList;
+    }
+
+    private User getUserByUsername(String userName) {
+        for (User user : allUsers) {
+            if (user.getUserName().equals(userName)) {
+                return user;
+            }
+        }
+        return null; // User not found
+    }
+
+    /*private void addUsersToFile(String filePath) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath, false))) {
+            oos.writeInt(allUsers.size());
+            for (User user : allUsers) {
+                oos.writeObject(user);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }*/
+
+   /* private void addUsersToFile(String filePath) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath, false))) {
+            bw.write(allUsers.size());
+            for (User user : allUsers) {
+                bw.write(user.getUserName());
+            }
+            bw.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }*/
+
+    /*private List<User> readUsersFromFile(String filePath) {
+        List<User> userList = new ArrayList<>();
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))) {
-            int size = ois.readInt();
-            for (int i = 0; i < size; i++) {
+            int size = ois.readInt() -1;
+            for (int i = 0; i < size ; i++) {
                 User user = (User) ois.readObject();
                 userList.add(user);
             }
@@ -193,9 +240,25 @@ public class UserController implements PropertyChangeListener {
             e.printStackTrace();
         }
         return userList;
-    }
+    }*/
 
-    private void addTestValues() {
+   /* private List<User> readUsersFromFile(String filePath) {
+        List<User> userList = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader (new FileReader(filePath)) {
+            int size = br.read() -1;
+            for (int i = 0; i < size; i++) {
+                String userName = br.readLine();
+            }
+        } catch (IOException | ClassNotFoundException ef) {
+            ef.printStackTrace();
+        return userList;
+    } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } */
+
+        private void addTestValues() {
         //testvärden för användare
         ImageIcon userImage1 = new ImageIcon("images/loubro.png");
         ImageIcon resizedImage1 = new ImageIcon(userImage1.getImage().getScaledInstance(150,150,Image.SCALE_DEFAULT));
@@ -209,6 +272,10 @@ public class UserController implements PropertyChangeListener {
         ImageIcon userImage4 = new ImageIcon("images/kenalt.png");
         ImageIcon resizedImage4 = new ImageIcon(userImage4.getImage().getScaledInstance(150,150,Image.SCALE_DEFAULT));
         User user4 = new User("kenalt", resizedImage4);
+        user1.setOnline(false);
+        user2.setOnline(false);
+        user3.setOnline(false);
+        user4.setOnline(false);
         allUsers.add(user1);
         allUsers.add(user2);
         allUsers.add(user3);

@@ -12,7 +12,6 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class ServerNetworkBoundary {
@@ -69,7 +68,6 @@ public class ServerNetworkBoundary {
             }
         }
     }
-
 
     public class ClientHandler extends Thread {
         private ObjectOutputStream oos;

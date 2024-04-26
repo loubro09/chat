@@ -79,5 +79,15 @@ public class MainFrame extends JFrame {
         disableStartButtons();
         mainPanel.getLeftPanel().getBtnlogIn().setEnabled(true);
         mainPanel.getLeftPanel().getBtnRegUser().setEnabled(true);
+        mainPanel.getLeftPanel().getBtnLogOut().setEnabled(false);
+        clearRightPanel();
+    }
+
+    public void clearRightPanel(){
+        mainPanel.getRightPanel().clearRightPanelList();
+    }
+
+    public void populateRightPanel(String[] informationArray){
+        mainPanel.getRightPanel().populateList(informationArray);
     }
 }

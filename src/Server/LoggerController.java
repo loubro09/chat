@@ -1,7 +1,6 @@
 package Server;
 
 import Entity.Message;
-
 import java.io.*;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -35,7 +34,6 @@ public class LoggerController {
                 stringArray[i] = data;
                 i++;
             }
-
             myReader.close();
             stringArray = Arrays.copyOf(stringArray, i);
 

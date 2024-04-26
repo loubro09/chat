@@ -1,6 +1,8 @@
 package Client.view;
 
 import javax.swing.*;
+import java.util.List;
+import java.util.Vector;
 
 public class RPanel extends JPanel {
     private MainFrame mainFrame;
@@ -25,7 +27,7 @@ public class RPanel extends JPanel {
     private void setUp() {
         lblTitle = new JLabel("USER LIST");
         lblTitle.setLocation(2, 0);
-        lblTitle.setSize((width / 2)-100, 20);
+        lblTitle.setSize((width / 2) - 100, 20);
         this.add(lblTitle);
 
 
@@ -51,7 +53,7 @@ public class RPanel extends JPanel {
         btnSelectContact = new JButton("Add friend");
         btnSelectContact.setEnabled(true);
         btnSelectContact.setSize(width / 5, 30);
-        btnSelectContact.setLocation((width/2), height - 75);
+        btnSelectContact.setLocation((width / 2), height - 75);
         btnSelectContact.addActionListener(l -> mainFrame.buttonPressed(ButtonType.Choose_Contact));
         this.add(btnSelectContact);
     }
@@ -72,5 +74,15 @@ public class RPanel extends JPanel {
         btnAllUsers.setEnabled(true);
         btnFriends.setEnabled(true);
     }
-}
 
+
+    protected void populateList(String[] users) {
+       rightPanelList.setListData(users);
+    }
+
+    protected void clearRightPanelList() {
+      String [] defaultString = new String[1];
+      defaultString[0] = "No users";
+      populateList(defaultString);
+    }
+}
