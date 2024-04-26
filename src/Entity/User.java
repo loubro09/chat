@@ -3,15 +3,30 @@ package Entity;
 import javax.swing.*;
 import java.io.Serializable;
 import java.util.*;
+
 public class User implements Serializable {
 
     private String userName;
     private Icon userPicture;
-    private List<User> friendList;
+    private boolean online;
+    private List<User> friendList = new ArrayList<>();
 
-    public User(String userName, Icon userPicture) {
+    public void setFriendList(List<User> friendList) {
+        this.friendList = friendList;
+    }
+
+    public User(String userName) {
         this.userName = userName;
         this.userPicture = userPicture;
+        this.online = false;
+    }
+
+    public void setOnline(boolean online) {
+        this.online = online;
+    }
+
+    public boolean getOnline() {
+        return online;
     }
 
     public int hashCode() {
@@ -22,28 +37,15 @@ public class User implements Serializable {
         return userName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
     public List<User> getFriendList() {
         return friendList;
     }
 
-    public Icon getImageIcon(){
+    public Icon getImageIcon() {
         return userPicture;
     }
 
-    public void setUserPicture(Icon userPicture) {
+    public void setImageIcon(Icon userPicture) {
         this.userPicture = userPicture;
-    }
-
-    public void setFriendList(List<User> friendList) {
-        this.friendList = friendList;
-    }
-
-    @Override
-    public String toString() {
-        return userName ;
     }
 }
