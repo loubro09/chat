@@ -1,4 +1,5 @@
 
 2024-04-26 14:39:24 - logIn - user: alacol
 2024-04-26 14:39:25 - logOut - user: alacol
-2024-04-26 15:55:27 - logIn - user: Entity.User@bc594ad5
+2024-04-26 16:06:17 - logIn - user: kenalt
+2024-04-26 16:06:19 - logOut - user: kenalt

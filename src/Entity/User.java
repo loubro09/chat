@@ -33,4 +33,6 @@ public class User implements Serializable {
     public List<User> getFriendList() {
         return friendList;
     }
+
+
 }

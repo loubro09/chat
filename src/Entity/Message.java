@@ -51,7 +51,7 @@ public class Message implements Serializable {
 
     @Override
     public String toString() {
-        return "" + messageType + " - user: " + sender;
+        return "" + messageType + " - user: " + sender.getUserName();
     }
     public List<User> getReceivers() {return receivers;}
 }
