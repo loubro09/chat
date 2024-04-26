@@ -57,13 +57,13 @@ public class MainFrame extends JFrame {
         mainPanel.getUserNameLabel2().setVisible(false);
     }
 
-    public void setLoggedIn(User user) {
+    public void setLoggedIn(User user, Icon icon) {
         mainPanel.getLeftPanel().setLoggedIn();
         mainPanel.getRightPanel().setLoggedIn();
         mainPanel.getUserNameLabel1().setVisible(true);
         mainPanel.getUserNameLabel1().setText(user.getUserName());
         mainPanel.getUserImageLabel1().setVisible(true);
-        mainPanel.getUserImageLabel1().setIcon(user.getImageIcon());
+        mainPanel.getUserImageLabel1().setIcon(icon);
         mainPanel.getRightPanel().getBtnSelectContact().setEnabled(true);
     }
 
