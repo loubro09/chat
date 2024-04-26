@@ -84,7 +84,7 @@ public class MainFrame extends JFrame {
     }
 
     public void setSelectContact() {
-        mainPanel.getRightPanel().getBtnSelectContact().setEnabled(true);
+        mainPanel.getRightPanel().getBtnSelectContact().setVisible(true);
     }
 
     public void clearRightPanel(){
@@ -93,5 +93,9 @@ public class MainFrame extends JFrame {
 
     public void populateRightPanel(String[] informationArray){
         mainPanel.getRightPanel().populateList(informationArray);
+    }
+
+    public int getSelectionRightPanel(){
+        return mainPanel.getRightPanel().getRightPanelList().getSelectedIndex();
     }
 }

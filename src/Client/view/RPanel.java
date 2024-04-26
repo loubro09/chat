@@ -6,6 +6,7 @@ import java.util.Vector;
 
 public class RPanel extends JPanel {
     private MainFrame mainFrame;
+
     private JList<Object> rightPanelList;
     private JButton btnFriends;
     private JButton btnAllUsers;
@@ -56,6 +57,10 @@ public class RPanel extends JPanel {
         btnSelectContact.setLocation((width / 2), height - 75);
         btnSelectContact.addActionListener(l -> mainFrame.buttonPressed(ButtonType.Choose_Contact));
         this.add(btnSelectContact);
+    }
+
+    public JList<Object> getRightPanelList() {
+        return rightPanelList;
     }
 
     protected JButton getBtnAllUsers() {
