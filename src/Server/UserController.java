@@ -185,24 +185,13 @@ public class UserController implements PropertyChangeListener {
             String line;
             while ((line = reader.readLine()) != null) {
                 String userName = line.trim();
-                User user = getUserByUsername(userName);
-                if (user != null) {
-                    userList.add(user);
-                }
+                User user = new User(userName);
+                userList.add(user);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return userList;
-    }
-
-    private User getUserByUsername(String userName) {
-        for (User user : allUsers) {
-            if (user.getUserName().equals(userName)) {
-                return user;
-            }
-        }
-        return null; // User not found
     }
 
     /*private void addUsersToFile(String filePath) {
@@ -262,16 +251,20 @@ public class UserController implements PropertyChangeListener {
         //testvärden för användare
         ImageIcon userImage1 = new ImageIcon("images/loubro.png");
         ImageIcon resizedImage1 = new ImageIcon(userImage1.getImage().getScaledInstance(150,150,Image.SCALE_DEFAULT));
-        User user1 = new User("loubro",resizedImage1);
+        User user1 = new User("loubro");
+        user1.setImageIcon(resizedImage1);
         ImageIcon userImage2 = new ImageIcon("images/alacol.png");
         ImageIcon resizedImage2 = new ImageIcon(userImage2.getImage().getScaledInstance(150,150,Image.SCALE_DEFAULT));
-        User user2 = new User("alacol", resizedImage2);
+        User user2 = new User("alacol");
+        user2.setImageIcon(resizedImage2);
         ImageIcon userImage3 = new ImageIcon("images/idanor.png");
         ImageIcon resizedImage3 = new ImageIcon(userImage3.getImage().getScaledInstance(150,150,Image.SCALE_DEFAULT));
-        User user3 = new User("idanor", resizedImage3);
+        User user3 = new User("idanor");
+        user3.setImageIcon(resizedImage3);
         ImageIcon userImage4 = new ImageIcon("images/kenalt.png");
         ImageIcon resizedImage4 = new ImageIcon(userImage4.getImage().getScaledInstance(150,150,Image.SCALE_DEFAULT));
-        User user4 = new User("kenalt", resizedImage4);
+        User user4 = new User("kenalt");
+        user4.setImageIcon(resizedImage4);
         user1.setOnline(false);
         user2.setOnline(false);
         user3.setOnline(false);

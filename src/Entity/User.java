@@ -11,7 +11,7 @@ public class User implements Serializable {
     private boolean online;
     private List<User> friendList;
 
-    public User(String userName, Icon userPicture) {
+    public User(String userName) {
         this.userName = userName;
         this.userPicture = userPicture;
         this.online = false;
@@ -39,5 +39,9 @@ public class User implements Serializable {
 
     public Icon getImageIcon() {
         return userPicture;
+    }
+
+    public void setImageIcon(Icon userPicture) {
+        this.userPicture = userPicture;
     }
 }

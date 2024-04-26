@@ -19,7 +19,7 @@ public class LogController implements PropertyChangeListener{
     }
 
     public void logIn(String userName) {
-        User user = new User(userName,null);
+        User user = new User(userName);
         cnb = new ClientNetworkBoundary("127.0.0.1", 1234);
         cnb.addPropertyChangeListener(this);
         Message message = new Message(MessageType.logIn, null, user, null, LocalDateTime.now(), null);
@@ -33,8 +33,8 @@ public class LogController implements PropertyChangeListener{
 
     }
 
-    public void addUser(String userName, Icon icon){
-        User user = new User(userName, icon);
+    public void addUser(String userName){
+        User user = new User(userName);
         cnb = new ClientNetworkBoundary("127.0.0.1", 1234);
         cnb.addPropertyChangeListener(this);
         Message message = new Message(MessageType.registerUser, null, user, null, LocalDateTime.now(), null);
