@@ -56,7 +56,13 @@ public class ClientViewController {
             case Add_to_chat:
                 String iu = contactController.addFriendToChat(mainFrame.getSelectionRightPanel());
                 mainFrame.getMainPanel().getLeftPanel().setInteractingUser(iu);
+                System.out.println("hej" + contactController.getChatWith());
+                break;
             case New_Chat:
+                System.out.println("TOM " + contactController.getChatWith());
+                contactController.emptyChatWith();
+                mainFrame.getMainPanel().getLeftPanel().deleteInteractingUser();
+                break;
 
         }
     }

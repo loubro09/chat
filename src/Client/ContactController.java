@@ -86,6 +86,10 @@ public class ContactController implements PropertyChangeListener {
         return null;
     }
 
+    public void emptyChatWith(){
+        chatWith.clear();
+    }
+
 
     private void updateOnline(Message message) {
         User loggedIn = message.getSender();
