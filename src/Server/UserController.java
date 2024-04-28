@@ -72,6 +72,11 @@ public class UserController implements PropertyChangeListener {
             savedUser.setOnline(true);
             Message message = new Message(MessageType.loginSuccess, savedUser, allUsers);
             serverNetworkBoundary.sendMessage(message, client);
+            Message message1 = new Message(MessageType.userLoggedIn, savedUser);
+            for (int i = 0; i < clients.size(); i++) {
+                ServerNetworkBoundary.ClientHandler reciever = clients.get(i);
+                serverNetworkBoundary.sendMessage(message1,reciever);
+            }
         } else {
             System.out.println("User " + user.getUserName() + " does not exist.");
             Message message = new Message(MessageType.loginFail);
@@ -115,6 +120,12 @@ public class UserController implements PropertyChangeListener {
             if (u.getUserName().equals(user.getUserName())) {
                 clients.remove(u);
             }
+        }
+
+        Message message1 = new Message(MessageType.userLoggedOut, user);
+        for (int i = 0; i < clients.size(); i++) {
+            ServerNetworkBoundary.ClientHandler reciever = clients.get(i);
+            serverNetworkBoundary.sendMessage(message1,reciever);
         }
     }
 

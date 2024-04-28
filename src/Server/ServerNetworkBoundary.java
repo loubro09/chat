@@ -73,6 +73,7 @@ public class ServerNetworkBoundary {
     public class ClientHandler extends Thread {
         private ObjectOutputStream oos;
         private ObjectInputStream ois;
+
         private Socket socket;
         private User user;
 

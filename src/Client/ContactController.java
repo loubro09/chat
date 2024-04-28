@@ -4,11 +4,13 @@ import Entity.Message;
 import Entity.MessageType;
 import Entity.User;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContactController {
+public class ContactController implements PropertyChangeListener {
     private List<User> allUsers = new ArrayList<>();
     private List<User> friends = new ArrayList<>();
     private ClientViewController controller;
@@ -46,6 +48,30 @@ public class ContactController {
     public void setFriendsListInServer() {
         Message message = new Message(MessageType.addFriends, null, controller.getLogController().getLoggedInUser(), friends, LocalDateTime.now(), null);
         controller.getLogController().getCnb().sendMessage(message);
+    }
+
+    private void updateOnline(Message message) {
+        controller.getLogController().getCnb().addPropertyChangeListener(this);
+        User loggedIn = message.getSender();
+        loggedIn.setOnline(true);
+        controller.allUsersToString(allUsers);
+    }
+
+    private void updateOffline(Message message) {
+        controller.getLogController().getCnb().addPropertyChangeListener(this);
+        User loggedOut = message.getSender();
+        loggedOut.setOnline(false);
+        controller.allUsersToString(allUsers);
+    }
+
+    public void propertyChange(PropertyChangeEvent evt){
+        if("user logged in".equals(evt.getPropertyName())){
+            Message message = (Message) evt.getOldValue();
+            updateOnline(message);
+        }else if("user logged out".equals(evt.getPropertyName())){
+            Message message = (Message) evt.getOldValue();
+            updateOffline(message);
+        }
     }
 
     //hämta alla kontakter från server

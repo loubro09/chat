@@ -11,7 +11,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class ClientNetworkBoundary {
+public class
+ClientNetworkBoundary {
     private Socket socket;
     private PropertyChangeSupport propertyChangeSupport;
     private ObjectInputStream ois;
@@ -60,6 +61,12 @@ public class ClientNetworkBoundary {
                             break;
                         case loginFail:
                             propertyChangeSupport.firePropertyChange("logFail",null,message);
+                            break;
+                        case userLoggedIn:
+                            propertyChangeSupport.firePropertyChange("user logged in", null, message);
+                            break;
+                        case userLoggedOut:
+                            propertyChangeSupport.firePropertyChange("user logged out", null, message);
                             break;
                     }
                 }

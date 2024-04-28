@@ -9,5 +9,7 @@ public enum MessageType {
     loginSuccess,
     registerFail,
     registerSuccess,
-    addFriends
+    addFriends,
+    userLoggedIn,
+    userLoggedOut
 }
