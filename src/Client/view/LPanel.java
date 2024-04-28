@@ -1,5 +1,6 @@
 package Client.view;
 
+
 import Entity.Message;
 
 import javax.imageio.ImageIO;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 
 public class LPanel extends JPanel  implements ActionListener {
     private JLabel userNameLabel;
-    private JLabel interactingUserLabel; // New label to display the user you are interacting with
+    private JLabel interactingUserLabel;
     private JLabel picture;
     private JList<Message> leftPanelList;
 
@@ -64,8 +65,11 @@ public class LPanel extends JPanel  implements ActionListener {
         btnLogOut.addActionListener(l -> mainFrame.buttonPressed(ButtonType.Log_Out));
         buttonPanel.add(btnLogOut);
 
+        add(buttonPanel, BorderLayout.SOUTH);
+
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.setPreferredSize(new Dimension(width, height - 100)); // Adjust the size
+
         textChatBox = new JTextArea();
         textChatBox.setLineWrap(true);
         textChatBox.setWrapStyleWord(true);
@@ -75,22 +79,12 @@ public class LPanel extends JPanel  implements ActionListener {
         topPanel.add(textFieldPanel, BorderLayout.CENTER);
 
         JPanel textAndButtonPanel = new JPanel(new BorderLayout()); // Create new panel
-        textChatBox = new JTextArea();
-        textChatBox.setLineWrap(true);
-        textChatBox.setWrapStyleWord(true);
-        textChatBox.setEditable(false);
         textAndButtonPanel.add(new JScrollPane(textChatBox), BorderLayout.CENTER); // Use JScrollPane for text area
-
-        choosePhoto = new JButton("Choose Photo");
-        choosePhoto.addActionListener(this);
-        textAndButtonPanel.add(choosePhoto, BorderLayout.EAST); // Align the button to the right
 
         textFieldPanel.add(textAndButtonPanel, BorderLayout.CENTER); // Add the nested panel to textFieldPanel
 
         picture = new JLabel();
         textFieldPanel.add(picture, BorderLayout.SOUTH);
-
-        topPanel.add(textFieldPanel, BorderLayout.CENTER);
 
         userNameLabel = new JLabel();
         userNameLabel.setFont(new Font("Serif", Font.BOLD, 14));
@@ -104,9 +98,14 @@ public class LPanel extends JPanel  implements ActionListener {
         bottomPanel.setPreferredSize(new Dimension(width, 50)); // Adjust the size
         messageTextField = new JTextField();
         bottomPanel.add(messageTextField, BorderLayout.CENTER);
-        add(bottomPanel, BorderLayout.CENTER);
 
-        add(buttonPanel, BorderLayout.SOUTH);
+        // Add the "Choose Photo" button to the bottomPanel
+        JPanel choosePhotoPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        choosePhoto = new JButton("Choose Photo");
+        choosePhoto.addActionListener(this);
+        choosePhotoPanel.add(choosePhoto);
+        bottomPanel.add(choosePhotoPanel, BorderLayout.EAST);
+        add(bottomPanel, BorderLayout.CENTER);
     }
 
     private void sendMessage() {
