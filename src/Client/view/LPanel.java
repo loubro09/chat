@@ -2,22 +2,32 @@ package Client.view;
 
 import Entity.Message;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
-public class LPanel extends JPanel {
+public class LPanel extends JPanel  implements ActionListener {
     private JLabel userNameLabel;
     private JLabel interactingUserLabel; // New label to display the user you are interacting with
+    private JLabel picture;
     private JList<Message> leftPanelList;
+
+    private ImageIcon messageIcon;
     private JTextArea textChatBox;
     private JTextField messageTextField;
     private JButton btnlogIn;
     private JButton btnRegUser;
     private JButton btnLogOut;
     private JButton btnSend;
+    private JButton choosePhoto;
     private int width;
     private int height;
+    private File file;
     private MainFrame mainFrame;
 
     public LPanel(int width, int height, MainFrame mainFrame) {
@@ -32,7 +42,7 @@ public class LPanel extends JPanel {
 
     private void setUp() {
         JPanel buttonPanel = new JPanel(new FlowLayout());
-        buttonPanel.setSize(width,height);
+        buttonPanel.setSize(width, height);
 
         btnlogIn = new JButton("Log In");
         btnlogIn.setEnabled(true);
@@ -55,26 +65,34 @@ public class LPanel extends JPanel {
         buttonPanel.add(btnLogOut);
 
         JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.setPreferredSize(new Dimension(width, height - 100)); // Anpassa storleken
+        topPanel.setPreferredSize(new Dimension(width, height - 100)); // Adjust the size
         textChatBox = new JTextArea();
         textChatBox.setLineWrap(true);
         textChatBox.setWrapStyleWord(true);
         textChatBox.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(textChatBox);
-        topPanel.add(scrollPane, BorderLayout.CENTER);
+
+        // Create a panel for holding the text field and choosePhoto button
+        JPanel textFieldPanel = new JPanel(new BorderLayout());
+        textFieldPanel.add(textChatBox, BorderLayout.CENTER);
+
+        choosePhoto = new JButton("Choose Photo");
+        choosePhoto.addActionListener(this);
+        textFieldPanel.add(choosePhoto, BorderLayout.SOUTH);
+
+        topPanel.add(textFieldPanel, BorderLayout.CENTER);
 
         userNameLabel = new JLabel();
         userNameLabel.setFont(new Font("Serif", Font.BOLD, 14));
         topPanel.add(userNameLabel, BorderLayout.NORTH);
 
-        interactingUserLabel = new JLabel("Interacting with: "); // Initializing label
-        topPanel.add(interactingUserLabel, BorderLayout.SOUTH); // Adding label to topPanel
+        interactingUserLabel = new JLabel("Interacting with: ");
+        topPanel.add(interactingUserLabel, BorderLayout.SOUTH);
         add(topPanel, BorderLayout.NORTH);
 
-        JPanel bottomPanel = new JPanel(new BorderLayout()); // Skapa ett nytt panel för att innehålla messageTextField och knappen
-        bottomPanel.setPreferredSize(new Dimension(width, 50)); // Anpassa storleken
-        messageTextField = new JTextField(); // Skapa textfältet för att skriva meddelanden
-        bottomPanel.add(messageTextField, BorderLayout.CENTER); // Lägg till textfältet i bottomPanel
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.setPreferredSize(new Dimension(width, 50)); // Adjust the size
+        messageTextField = new JTextField();
+        bottomPanel.add(messageTextField, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.CENTER);
 
         add(buttonPanel, BorderLayout.SOUTH);
@@ -144,5 +162,26 @@ public class LPanel extends JPanel {
         btnRegUser.setEnabled(false);
         btnSend.setEnabled(true);
         btnLogOut.setEnabled(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == choosePhoto) { // Check if "Choose Photo" button is clicked
+            JFileChooser fileChooser = new JFileChooser();
+            int result = fileChooser.showOpenDialog(this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                file = fileChooser.getSelectedFile();
+                picture.setText(file.getAbsolutePath());
+                Image img = null;
+                try {
+                    img = ImageIO.read(file);
+                    Image scaledImg = img.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+                    messageIcon = new ImageIcon(scaledImg); // Store the selected picture in userIcon
+                    picture.setIcon(messageIcon); // Set the ImageIcon directly to the picture label
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        }
     }
 }

@@ -25,3 +25,5 @@
 2024-04-28 14:42:36 - logIn - user: loubro
 2024-04-28 14:42:48 - logIn - user: idanor
 2024-04-28 14:42:56 - logOut - user: loubro
+2024-04-28 15:11:48 - logIn - user: idanor
+2024-04-28 15:12:30 - logIn - user: idanor
