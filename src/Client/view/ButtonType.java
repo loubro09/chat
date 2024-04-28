@@ -8,6 +8,8 @@ public enum ButtonType {
     send,
     friends,
     allUsers,
+    Add_to_chat,
+    New_Chat,
 
 }
 

@@ -1,10 +1,12 @@
 package Client.view;
 
+import Client.ContactController;
 import Entity.Message;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class LPanel extends JPanel {
     private JLabel userNameLabel;
@@ -19,6 +21,7 @@ public class LPanel extends JPanel {
     private int width;
     private int height;
     private MainFrame mainFrame;
+    private ContactController contactController;
 
     public LPanel(int width, int height, MainFrame mainFrame) {
         this.mainFrame = mainFrame;
@@ -67,6 +70,7 @@ public class LPanel extends JPanel {
         userNameLabel.setFont(new Font("Serif", Font.BOLD, 14));
         topPanel.add(userNameLabel, BorderLayout.NORTH);
 
+
         interactingUserLabel = new JLabel("Interacting with: "); // Initializing label
         topPanel.add(interactingUserLabel, BorderLayout.SOUTH); // Adding label to topPanel
         add(topPanel, BorderLayout.NORTH);
@@ -99,9 +103,11 @@ public class LPanel extends JPanel {
     }
 
     // Function to set the interacting user label
-    protected void setInteractingUser(String userName) {
-        interactingUserLabel.setText("Interacting with: " + userName);
+    public void setInteractingUser(String interactingUser) {
+        String currentText = interactingUserLabel.getText();
+        interactingUserLabel.setText(currentText + interactingUser +", ");
     }
+
 
     public void populateList(ArrayList<Message> messages) {
         DefaultListModel<Message> listModel = new DefaultListModel<>();
