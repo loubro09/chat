@@ -1,11 +1,8 @@
 package Client.view;
 
-<<<<<<< Updated upstream
-import Entity.Message;
-=======
->>>>>>> Stashed changes
 
 import Entity.Message;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
