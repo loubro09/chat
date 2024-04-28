@@ -61,6 +61,7 @@ public class ClientViewController {
             case New_Chat:
                 System.out.println("TOM " + contactController.getChatWith());
                 contactController.emptyChatWith();
+                System.out.println("TOM " + contactController.getChatWith());
                 mainFrame.getMainPanel().getLeftPanel().deleteInteractingUser();
                 break;
 
