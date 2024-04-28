@@ -9,6 +9,7 @@ public class Message implements Serializable {
     private String text;
     private User sender;
     private List<User> receivers;
+    private User receiver;
     private LocalDateTime timeDelivered;
     private LocalDateTime timeReceived;
 
@@ -33,6 +34,23 @@ public class Message implements Serializable {
         this.timeReceived = timeReceived;
     }
 
+    public Message(MessageType messageType, String text, User sender, User user, LocalDateTime timeDelivered, LocalDateTime timeReceived) {
+        this.messageType = messageType;
+        this.text = text;
+        this.sender = sender;
+        this.receiver = receiver;
+        this.timeDelivered = timeDelivered;
+        this.timeReceived = timeReceived;
+    }
+
+    public LocalDateTime getTimeDelivered() {
+        return timeDelivered;
+    }
+
+    public LocalDateTime getTimeReceived() {
+        return timeReceived;
+    }
+
     public String getText(){
         return text;
     }
@@ -43,10 +61,6 @@ public class Message implements Serializable {
 
     public MessageType getMessageType() {
         return messageType;
-    }
-
-    public void setMessageType(MessageType messageType) {
-        this.messageType = messageType;
     }
 
     @Override

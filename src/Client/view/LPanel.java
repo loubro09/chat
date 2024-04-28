@@ -204,8 +204,10 @@ public class LPanel extends JPanel  implements ActionListener {
 
     // Function to set the interacting user label
     public void setInteractingUser(String interactingUser) {
-        String currentText = interactingUserLabel.getText();
-        interactingUserLabel.setText(currentText + interactingUser + ", ");
+        if (interactingUser != null) {
+            String currentText = interactingUserLabel.getText();
+            interactingUserLabel.setText(currentText + interactingUser + ", ");
+        }
     }
 
     public void deleteInteractingUser() {
