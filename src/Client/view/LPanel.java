@@ -71,13 +71,24 @@ public class LPanel extends JPanel  implements ActionListener {
         textChatBox.setWrapStyleWord(true);
         textChatBox.setEditable(false);
 
-        // Create a panel for holding the text field and choosePhoto button
-        JPanel textFieldPanel = new JPanel(new BorderLayout());
-        textFieldPanel.add(textChatBox, BorderLayout.CENTER);
+        JPanel textFieldPanel = new JPanel(new BorderLayout()); // Use BorderLayout
+        topPanel.add(textFieldPanel, BorderLayout.CENTER);
+
+        JPanel textAndButtonPanel = new JPanel(new BorderLayout()); // Create new panel
+        textChatBox = new JTextArea();
+        textChatBox.setLineWrap(true);
+        textChatBox.setWrapStyleWord(true);
+        textChatBox.setEditable(false);
+        textAndButtonPanel.add(new JScrollPane(textChatBox), BorderLayout.CENTER); // Use JScrollPane for text area
 
         choosePhoto = new JButton("Choose Photo");
         choosePhoto.addActionListener(this);
-        textFieldPanel.add(choosePhoto, BorderLayout.SOUTH);
+        textAndButtonPanel.add(choosePhoto, BorderLayout.EAST); // Align the button to the right
+
+        textFieldPanel.add(textAndButtonPanel, BorderLayout.CENTER); // Add the nested panel to textFieldPanel
+
+        picture = new JLabel();
+        textFieldPanel.add(picture, BorderLayout.SOUTH);
 
         topPanel.add(textFieldPanel, BorderLayout.CENTER);
 
@@ -166,18 +177,17 @@ public class LPanel extends JPanel  implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == choosePhoto) { // Check if "Choose Photo" button is clicked
+        if (e.getSource() == choosePhoto) { 
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showOpenDialog(this);
             if (result == JFileChooser.APPROVE_OPTION) {
                 file = fileChooser.getSelectedFile();
-                picture.setText(file.getAbsolutePath());
                 Image img = null;
                 try {
                     img = ImageIO.read(file);
                     Image scaledImg = img.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-                    messageIcon = new ImageIcon(scaledImg); // Store the selected picture in userIcon
-                    picture.setIcon(messageIcon); // Set the ImageIcon directly to the picture label
+                    messageIcon = new ImageIcon(scaledImg);
+                    picture.setIcon(messageIcon);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
