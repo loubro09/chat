@@ -1,6 +1,6 @@
 package Client.view;
 
-import Client.ContactController;
+
 import Entity.Message;
 
 import javax.imageio.ImageIO;
@@ -11,11 +11,10 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class LPanel extends JPanel  implements ActionListener {
     private JLabel userNameLabel;
-    private JLabel interactingUserLabel; // New label to display the user you are interacting with
+    private JLabel interactingUserLabel;
     private JLabel picture;
     private JList<Message> leftPanelList;
 
@@ -31,7 +30,6 @@ public class LPanel extends JPanel  implements ActionListener {
     private int height;
     private File file;
     private MainFrame mainFrame;
-    private ContactController contactController;
 
     public LPanel(int width, int height, MainFrame mainFrame) {
         this.mainFrame = mainFrame;
@@ -92,14 +90,8 @@ public class LPanel extends JPanel  implements ActionListener {
         userNameLabel.setFont(new Font("Serif", Font.BOLD, 14));
         topPanel.add(userNameLabel, BorderLayout.NORTH);
 
-
         interactingUserLabel = new JLabel("Interacting with: ");
         topPanel.add(interactingUserLabel, BorderLayout.SOUTH);
-
-
-        interactingUserLabel = new JLabel("Interacting with: "); // Initializing label
-        topPanel.add(interactingUserLabel, BorderLayout.SOUTH); // Adding label to topPanel
-
         add(topPanel, BorderLayout.NORTH);
 
         JPanel bottomPanel = new JPanel(new BorderLayout());
@@ -113,14 +105,13 @@ public class LPanel extends JPanel  implements ActionListener {
         choosePhoto.addActionListener(this);
         choosePhotoPanel.add(choosePhoto);
         bottomPanel.add(choosePhotoPanel, BorderLayout.EAST);
-
         add(bottomPanel, BorderLayout.CENTER);
     }
 
-    public void sendMessage() {
+    private void sendMessage() {
         String messageText = messageTextField.getText().trim();
         if (!messageText.isEmpty()) {
-            appendMessage("You: " + messageText);
+            // Här kan du skicka meddelandet till servern eller uppdatera gränssnittet
             messageTextField.setText(""); // Rensa textfältet efter att meddelandet har skickats
         }
     }
@@ -136,11 +127,9 @@ public class LPanel extends JPanel  implements ActionListener {
     }
 
     // Function to set the interacting user label
-    public void setInteractingUser(String interactingUser) {
-        String currentText = interactingUserLabel.getText();
-        interactingUserLabel.setText(currentText + interactingUser +", ");
+    protected void setInteractingUser(String userName) {
+        interactingUserLabel.setText("Interacting with: " + userName);
     }
-
 
     public void populateList(ArrayList<Message> messages) {
         DefaultListModel<Message> listModel = new DefaultListModel<>();

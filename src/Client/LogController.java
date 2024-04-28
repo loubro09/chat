@@ -3,6 +3,8 @@ package Client;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.time.LocalDateTime;
+import java.util.List;
+
 import Entity.Message;
 import Entity.MessageType;
 import Entity.User;
@@ -31,12 +33,12 @@ public class LogController implements PropertyChangeListener{
         //cnb = new ClientNetworkBoundary("192.168.1.114", 1234);
         cnb.addPropertyChangeListener(this);
         cnb.addPropertyChangeListener(cvc.getContactController());
-        Message message = new Message(MessageType.logIn, null, user, null, LocalDateTime.now(), null);
+        Message message = new Message(MessageType.logIn, null, user, (List<User>) null, LocalDateTime.now(), null);
         cnb.sendMessage(message);
     }
 
     public void logOut(){
-        Message message = new Message(MessageType.logOut, null, loggedInUser, null, LocalDateTime.now(),null);
+        Message message = new Message(MessageType.logOut, null, loggedInUser, (List<User>) null, LocalDateTime.now(),null);
         cnb.sendMessage(message);
         cvc.getMainFrame().setLoggedOut();
 
@@ -46,7 +48,7 @@ public class LogController implements PropertyChangeListener{
         User user = new User(userName);
         cnb = new ClientNetworkBoundary("127.0.0.1", 1234);
         cnb.addPropertyChangeListener(this);
-        Message message = new Message(MessageType.registerUser, null, user, null, LocalDateTime.now(), null);
+        Message message = new Message(MessageType.registerUser, null, user, (List<User>) null, LocalDateTime.now(), null);
         cnb.sendMessage(message);
     }
 
