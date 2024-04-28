@@ -11,6 +11,7 @@ public class RPanel extends JPanel {
     private JButton btnFriends;
     private JButton btnAllUsers;
     private JButton btnSelectContact;
+    private JButton btnAddToChat;
     private JLabel lblTitle;
     private int width;
     private int height;
@@ -47,17 +48,28 @@ public class RPanel extends JPanel {
         btnAllUsers = new JButton("All Users");
         btnAllUsers.setEnabled(true);
         btnAllUsers.setSize(width / 5, 30);
-        btnAllUsers.setLocation(width / 5, height - 75);
+        btnAllUsers.setLocation(width / 4, height - 75);
         btnAllUsers.addActionListener(l -> mainFrame.buttonPressed(ButtonType.allUsers));
         this.add(btnAllUsers);
 
         btnSelectContact = new JButton("Add friend");
         btnSelectContact.setEnabled(true);
         btnSelectContact.setSize(width / 5, 30);
-        btnSelectContact.setLocation((width / 2), height - 75);
+        btnSelectContact.setLocation(width / 2, height - 75);
         btnSelectContact.addActionListener(l -> mainFrame.buttonPressed(ButtonType.Choose_Contact));
         this.add(btnSelectContact);
+
+        btnAddToChat = new JButton("Add to chat");
+        btnAddToChat .setEnabled(true);
+        btnAddToChat .setSize(width / 5, 30);
+        btnAddToChat.setLocation((3 * width) / 4, height - 75);
+        btnAddToChat .addActionListener(l -> mainFrame.buttonPressed(ButtonType.Add_to_chat));
+
+        this.add(btnAddToChat );
+
     }
+
+
 
     public JList<Object> getRightPanelList() {
         return rightPanelList;
@@ -75,10 +87,16 @@ public class RPanel extends JPanel {
         return btnSelectContact;
     }
 
+    public JButton getBtnAddToChat() {
+        return btnAddToChat;
+    }
+
     protected void setLoggedIn() {
         btnAllUsers.setEnabled(true);
         btnFriends.setEnabled(true);
     }
+
+
 
 
     protected void populateList(String[] users) {

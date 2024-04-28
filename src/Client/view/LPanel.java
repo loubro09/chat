@@ -1,5 +1,6 @@
 package Client.view;
 
+import Client.ContactController;
 import Entity.Message;
 
 import javax.imageio.ImageIO;
@@ -10,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class LPanel extends JPanel  implements ActionListener {
     private JLabel userNameLabel;
@@ -29,6 +31,7 @@ public class LPanel extends JPanel  implements ActionListener {
     private int height;
     private File file;
     private MainFrame mainFrame;
+    private ContactController contactController;
 
     public LPanel(int width, int height, MainFrame mainFrame) {
         this.mainFrame = mainFrame;
@@ -96,8 +99,14 @@ public class LPanel extends JPanel  implements ActionListener {
         userNameLabel.setFont(new Font("Serif", Font.BOLD, 14));
         topPanel.add(userNameLabel, BorderLayout.NORTH);
 
+
         interactingUserLabel = new JLabel("Interacting with: ");
         topPanel.add(interactingUserLabel, BorderLayout.SOUTH);
+
+
+        interactingUserLabel = new JLabel("Interacting with: "); // Initializing label
+        topPanel.add(interactingUserLabel, BorderLayout.SOUTH); // Adding label to topPanel
+
         add(topPanel, BorderLayout.NORTH);
 
         JPanel bottomPanel = new JPanel(new BorderLayout());
@@ -128,9 +137,11 @@ public class LPanel extends JPanel  implements ActionListener {
     }
 
     // Function to set the interacting user label
-    protected void setInteractingUser(String userName) {
-        interactingUserLabel.setText("Interacting with: " + userName);
+    public void setInteractingUser(String interactingUser) {
+        String currentText = interactingUserLabel.getText();
+        interactingUserLabel.setText(currentText + interactingUser +", ");
     }
+
 
     public void populateList(ArrayList<Message> messages) {
         DefaultListModel<Message> listModel = new DefaultListModel<>();

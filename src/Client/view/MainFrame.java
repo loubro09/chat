@@ -42,6 +42,9 @@ public class MainFrame extends JFrame {
     public void disableAndHideAddFriendButton() {
         mainPanel.getRightPanel().getBtnSelectContact().setEnabled(false);
         mainPanel.getRightPanel().getBtnSelectContact().setVisible(false);
+        mainPanel.getRightPanel().getBtnAddToChat().setEnabled(false);
+        mainPanel.getRightPanel().getBtnAddToChat().setVisible(false);
+
     }
 
     public void disableStartButtons() {
@@ -51,27 +54,35 @@ public class MainFrame extends JFrame {
         mainPanel.getRightPanel().getBtnAllUsers().setEnabled(false);
         mainPanel.getRightPanel().getBtnSelectContact().setEnabled(false);
         mainPanel.getRightPanel().getBtnSelectContact().setVisible(false);
+        mainPanel.getRightPanel().getBtnAddToChat().setEnabled(false);
+        mainPanel.getRightPanel().getBtnAddToChat().setVisible(false);
         mainPanel.getUserImageLabel1().setVisible(false);
         mainPanel.getUserNameLabel1().setVisible(false);
-        mainPanel.getUserImageLabel2().setVisible(false);
-        mainPanel.getUserNameLabel2().setVisible(false);
+        mainPanel.getBtnNewChat().setEnabled(false);
+        mainPanel.getBtnNewChat().setEnabled(false);
     }
 
     public void setLoggedIn(User user, Icon icon) {
         mainPanel.getLeftPanel().setLoggedIn();
         mainPanel.getRightPanel().setLoggedIn();
+        mainPanel.setLoggedIn(); // Aktivera knappen "New chat"
         mainPanel.getUserNameLabel1().setVisible(true);
         mainPanel.getUserNameLabel1().setText(user.getUserName());
         mainPanel.getUserImageLabel1().setVisible(true);
         mainPanel.getUserImageLabel1().setIcon(icon);
         mainPanel.getRightPanel().getBtnSelectContact().setEnabled(true);
+        mainPanel.getRightPanel().getBtnAddToChat().setEnabled(true);
+        mainPanel.getBtnNewChat().setVisible(true);
+        mainPanel.getBtnNewChat().setEnabled(true);
     }
+
 
     public void enableAllButtons() {
         mainPanel.getLeftPanel().getBtnlogIn().setEnabled(true);
         mainPanel.getLeftPanel().getBtnLogOut().setEnabled(true);
         mainPanel.getLeftPanel().getBtnRegUser().setEnabled(true);
         mainPanel.getLeftPanel().getBtnSend().setEnabled(true);
+
     }
 
     public void buttonPressed(ButtonType pressedButton) {
@@ -84,10 +95,13 @@ public class MainFrame extends JFrame {
         mainPanel.getLeftPanel().getBtnRegUser().setEnabled(true);
         mainPanel.getLeftPanel().getBtnLogOut().setEnabled(false);
         clearRightPanel();
+      //  mainPanel.getBtnNewChat().setEnabled(false); // Inaktivera knappen "New chat" vid utloggning
     }
 
     public void setSelectContact() {
         mainPanel.getRightPanel().getBtnSelectContact().setVisible(true);
+        mainPanel.getRightPanel().getBtnAddToChat().setVisible(true);
+        mainPanel.getBtnNewChat().setVisible(true);
     }
 
     public void clearRightPanel(){

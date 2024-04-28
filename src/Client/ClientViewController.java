@@ -45,12 +45,19 @@ public class ClientViewController {
                 break;
             case friends:
                 mainFrame.clearRightPanel();
+                contactController.setTypeOfList(false);
                 allUsersToString(contactController.getFriends());
                 break;
             case allUsers:
+                contactController.setTypeOfList(true);
                 allUsersToString(contactController.getAllUsers());
                 mainFrame.setSelectContact();
                 break;
+            case Add_to_chat:
+                String iu = contactController.addFriendToChat(mainFrame.getSelectionRightPanel());
+                mainFrame.getMainPanel().getLeftPanel().setInteractingUser(iu);
+            case New_Chat:
+
         }
     }
 
