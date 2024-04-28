@@ -1,6 +1,7 @@
 package Client.view;
 
 import Client.ContactController;
+
 import Entity.Message;
 
 import javax.imageio.ImageIO;
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class LPanel extends JPanel  implements ActionListener {
     private JLabel userNameLabel;
-    private JLabel interactingUserLabel; // New label to display the user you are interacting with
+    private JLabel interactingUserLabel;
     private JLabel picture;
     private JList<Message> leftPanelList;
 
@@ -113,7 +114,6 @@ public class LPanel extends JPanel  implements ActionListener {
         choosePhoto.addActionListener(this);
         choosePhotoPanel.add(choosePhoto);
         bottomPanel.add(choosePhotoPanel, BorderLayout.EAST);
-
         add(bottomPanel, BorderLayout.CENTER);
     }
 
