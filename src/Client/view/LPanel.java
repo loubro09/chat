@@ -1,5 +1,6 @@
 package Client.view;
 
+import Client.ContactController;
 import Entity.Message;
 
 import javax.imageio.ImageIO;
@@ -28,6 +29,8 @@ public class LPanel extends JPanel  implements ActionListener {
     private int height;
     private File file;
     private MainFrame mainFrame;
+    private ContactController contactController;
+
 
     public LPanel(int width, int height, MainFrame mainFrame) {
         this.mainFrame = mainFrame;
@@ -84,6 +87,8 @@ public class LPanel extends JPanel  implements ActionListener {
         bottomPanel.add(choosePhoto, BorderLayout.EAST);
         add(bottomPanel, BorderLayout.CENTER);
 
+        interactingUserLabel = new JLabel("Interacting with: ");
+        topPanel.add(interactingUserLabel, BorderLayout.SOUTH);
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
@@ -101,10 +106,6 @@ public class LPanel extends JPanel  implements ActionListener {
         }
     }
 
-
-
-
-
     // Funktion för att lägga till meddelanden i chattfönstret
     private void appendMessage(String message) {
         JLabel messageLabel = new JLabel(message);
@@ -112,7 +113,6 @@ public class LPanel extends JPanel  implements ActionListener {
         revalidate(); // Refresh the layout after adding a component
         repaint();
     }
-
     // Method to append pictures to the chat box
     private void appendPicture(File file) {
         try {
@@ -144,18 +144,22 @@ public class LPanel extends JPanel  implements ActionListener {
         }
     }
 
-
-
     // Funktion för att ställa in användarnamnet
     protected void setUserName(String userName) {
         userNameLabel.setText("User: " + userName);
     }
 
     // Function to set the interacting user label
-    public void setInteractingUser(String userName) {
-        interactingUserLabel.setText("Interacting with: " + userName);
+    public void setInteractingUser(String interactingUser) {
+        if (interactingUser != null) {
+            String currentText = interactingUserLabel.getText();
+            interactingUserLabel.setText(currentText + interactingUser + ", ");
+        }
     }
-
+    public void deleteInteractingUser() {
+        String currentText = "Interacting with: ";
+        interactingUserLabel.setText(currentText);
+    }
     public void populateList(ArrayList<Message> messages) {
         DefaultListModel<Message> listModel = new DefaultListModel<>();
         for (Message message : messages) {
