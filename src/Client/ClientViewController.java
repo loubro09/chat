@@ -67,6 +67,7 @@ public class ClientViewController {
                 System.out.println("TOM " + contactController.getChatWith());
                 mainFrame.getMainPanel().getLeftPanel().deleteInteractingUser();
                 break;
+                //HJÄLP
 
         }
     }
