@@ -109,10 +109,10 @@ public class LPanel extends JPanel  implements ActionListener {
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    private void sendMessage() {
+    public void sendMessage() {
         String messageText = messageTextField.getText().trim();
         if (!messageText.isEmpty()) {
-            // Här kan du skicka meddelandet till servern eller uppdatera gränssnittet
+            appendMessage("You: " + messageText);
             messageTextField.setText(""); // Rensa textfältet efter att meddelandet har skickats
         }
     }
