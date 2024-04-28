@@ -38,6 +38,7 @@ public class ClientViewController {
                 registerUserFrame = new RegisterUserFrame(this);
                 break;
             case send:
+                mainFrame.getMainPanel().getLeftPanel().sendMessage();
                 break;
             case Choose_Contact:
                 contactController.addNewFriend(mainFrame.getSelectionRightPanel());
