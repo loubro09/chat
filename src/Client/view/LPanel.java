@@ -94,8 +94,8 @@ public class LPanel extends JPanel  implements ActionListener {
         topPanel.add(userNameLabel, BorderLayout.NORTH);
 
 
-        interactingUserLabel = new JLabel("Interacting with: ");
-        topPanel.add(interactingUserLabel, BorderLayout.SOUTH);
+       // interactingUserLabel = new JLabel("Interacting with: ");
+       // topPanel.add(interactingUserLabel, BorderLayout.SOUTH);
 
 
         interactingUserLabel = new JLabel("Interacting with: "); // Initializing label
@@ -138,8 +138,15 @@ public class LPanel extends JPanel  implements ActionListener {
     // Function to set the interacting user label
     public void setInteractingUser(String interactingUser) {
         String currentText = interactingUserLabel.getText();
-        interactingUserLabel.setText(currentText + interactingUser +", ");
+        interactingUserLabel.setText(currentText + interactingUser + ", ");
     }
+
+    public void deleteInteractingUser() {
+        String currentText = "Interacting with: ";
+       interactingUserLabel.setText(currentText);
+    }
+
+
 
 
     public void populateList(ArrayList<Message> messages) {
