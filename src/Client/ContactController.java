@@ -51,7 +51,6 @@ public class ContactController implements PropertyChangeListener {
     }
 
     private void updateOnline(Message message) {
-        controller.getLogController().getCnb().addPropertyChangeListener(this);
         User loggedIn = message.getSender();
         for (User u : allUsers) {
             if (loggedIn.getUserName().equals(u.getUserName())) {
@@ -59,10 +58,10 @@ public class ContactController implements PropertyChangeListener {
             }
         }
         controller.allUsersToString(allUsers);
+        System.out.println(loggedIn);
     }
 
     private void updateOffline(Message message) {
-        controller.getLogController().getCnb().addPropertyChangeListener(this);
         User loggedOut = message.getSender();
         for (User u : allUsers) {
             if (loggedOut.getUserName().equals(u.getUserName())) {
@@ -70,14 +69,16 @@ public class ContactController implements PropertyChangeListener {
             }
         }
         controller.allUsersToString(allUsers);
+        System.out.println(loggedOut);
     }
 
+    @Override
     public void propertyChange(PropertyChangeEvent evt){
-        if("user logged in".equals(evt.getPropertyName())){
-            Message message = (Message) evt.getOldValue();
+        if("userLoggedIn".equals(evt.getPropertyName())){
+            Message message = (Message) evt.getNewValue();
             updateOnline(message);
-        }else if("user logged out".equals(evt.getPropertyName())){
-            Message message = (Message) evt.getOldValue();
+        }else if("userLoggedOut".equals(evt.getPropertyName())){
+            Message message = (Message) evt.getNewValue();
             updateOffline(message);
         }
     }

@@ -63,10 +63,12 @@ ClientNetworkBoundary {
                             propertyChangeSupport.firePropertyChange("logFail",null,message);
                             break;
                         case userLoggedIn:
-                            propertyChangeSupport.firePropertyChange("user logged in", null, message);
+                            System.out.println("hej");
+                            propertyChangeSupport.firePropertyChange("userLoggedIn", null, message);
                             break;
                         case userLoggedOut:
-                            propertyChangeSupport.firePropertyChange("user logged out", null, message);
+                            System.out.println("hejdå");
+                            propertyChangeSupport.firePropertyChange("userLoggedOut", null, message);
                             break;
                     }
                 }
