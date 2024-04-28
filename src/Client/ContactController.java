@@ -66,19 +66,22 @@ public class ContactController implements PropertyChangeListener {
 
     public String addFriendToChat(int index) {
         if (index != -1) {
+            User userToAdd = null;
+
             if (typeOfList) {
-                for (int i = 0; i < allUsers.size(); i++) {
-                    if (i == index) {
-                        chatWith.add(allUsers.get(i));
-                        return allUsers.get(i).getUserName();
+                if (index < allUsers.size()) {
+                    userToAdd = allUsers.get(index);
+                    if (!chatWith.contains(userToAdd)) {
+                        chatWith.add(userToAdd);
+                        return userToAdd.getUserName();
                     }
                 }
-            } else if (!typeOfList) {
-                for (int i = 0; i < friends.size(); i++) {
-                    if (i == index) {
-                        chatWith.add(friends.get(i));
-                        return friends.get(i).getUserName();
-
+            } else {
+                if (index < friends.size()) {
+                    userToAdd = friends.get(index);
+                    if (!chatWith.contains(userToAdd)) {
+                        chatWith.add(userToAdd);
+                        return userToAdd.getUserName();
                     }
                 }
             }
@@ -86,7 +89,8 @@ public class ContactController implements PropertyChangeListener {
         return null;
     }
 
-    public void emptyChatWith(){
+
+    public void emptyChatWith() {
         chatWith.clear();
     }
 
@@ -114,11 +118,11 @@ public class ContactController implements PropertyChangeListener {
     }
 
     @Override
-    public void propertyChange(PropertyChangeEvent evt){
-        if("userLoggedIn".equals(evt.getPropertyName())){
+    public void propertyChange(PropertyChangeEvent evt) {
+        if ("userLoggedIn".equals(evt.getPropertyName())) {
             Message message = (Message) evt.getNewValue();
             updateOnline(message);
-        }else if("userLoggedOut".equals(evt.getPropertyName())){
+        } else if ("userLoggedOut".equals(evt.getPropertyName())) {
             Message message = (Message) evt.getNewValue();
             updateOffline(message);
         }
@@ -128,14 +132,14 @@ public class ContactController implements PropertyChangeListener {
     //hämta alla vänner från users kontaktlista
 
 
-            public void setFriendsListInServer () {
-                Message message = new Message(MessageType.addFriends, null, controller.getLogController().getLoggedInUser(), friends, LocalDateTime.now(), null);
-                controller.getLogController().getCnb().sendMessage(message);
-            }
+    public void setFriendsListInServer() {
+        Message message = new Message(MessageType.addFriends, null, controller.getLogController().getLoggedInUser(), friends, LocalDateTime.now(), null);
+        controller.getLogController().getCnb().sendMessage(message);
+    }
 
 
-            //hämta alla kontakter från server
-            //hämta alla vänner från users kontaktlista
+    //hämta alla kontakter från server
+    //hämta alla vänner från users kontaktlista
 
 
-        }
+}
