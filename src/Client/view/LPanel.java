@@ -1,6 +1,5 @@
 package Client.view;
 
-import Client.ContactController;
 import Entity.Message;
 
 import javax.imageio.ImageIO;
@@ -11,7 +10,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class LPanel extends JPanel  implements ActionListener {
     private JLabel userNameLabel;
@@ -30,7 +28,6 @@ public class LPanel extends JPanel  implements ActionListener {
     private int height;
     private File file;
     private MainFrame mainFrame;
-    private ContactController contactController;
 
     public LPanel(int width, int height, MainFrame mainFrame) {
         this.mainFrame = mainFrame;
@@ -66,47 +63,7 @@ public class LPanel extends JPanel  implements ActionListener {
         btnLogOut.addActionListener(l -> mainFrame.buttonPressed(ButtonType.Log_Out));
         buttonPanel.add(btnLogOut);
 
-        add(buttonPanel, BorderLayout.SOUTH);
-
         JPanel topPanel = new JPanel(new BorderLayout());
-<<<<<<< HEAD
-        topPanel.setPreferredSize(new Dimension(width, height - 100)); // Adjust the size
-
-        textChatBox = new JTextArea();
-        textChatBox.setLineWrap(true);
-        textChatBox.setWrapStyleWord(true);
-        textChatBox.setEditable(false);
-
-        JPanel textFieldPanel = new JPanel(new BorderLayout()); // Use BorderLayout
-        topPanel.add(textFieldPanel, BorderLayout.CENTER);
-
-        JPanel textAndButtonPanel = new JPanel(new BorderLayout()); // Create new panel
-        textAndButtonPanel.add(new JScrollPane(textChatBox), BorderLayout.CENTER); // Use JScrollPane for text area
-
-        textFieldPanel.add(textAndButtonPanel, BorderLayout.CENTER); // Add the nested panel to textFieldPanel
-
-        picture = new JLabel();
-        textFieldPanel.add(picture, BorderLayout.SOUTH);
-
-        userNameLabel = new JLabel();
-        userNameLabel.setFont(new Font("Serif", Font.BOLD, 14));
-        topPanel.add(userNameLabel, BorderLayout.NORTH);
-
-
-       // interactingUserLabel = new JLabel("Interacting with: ");
-       // topPanel.add(interactingUserLabel, BorderLayout.SOUTH);
-
-
-        interactingUserLabel = new JLabel("Interacting with: "); // Initializing label
-        topPanel.add(interactingUserLabel, BorderLayout.SOUTH); // Adding label to topPanel
-
-        add(topPanel, BorderLayout.NORTH);
-
-        JPanel bottomPanel = new JPanel(new BorderLayout());
-        bottomPanel.setPreferredSize(new Dimension(width, 50)); // Adjust the size
-        messageTextField = new JTextField();
-        bottomPanel.add(messageTextField, BorderLayout.CENTER);
-=======
         topPanel.setPreferredSize(new Dimension(width, height - 100));
         textChatBox = new JPanel(); // Change to JPanel for displaying text and pictures
         textChatBox.setLayout(new BoxLayout(textChatBox, BoxLayout.Y_AXIS)); // Set layout to vertical
@@ -126,16 +83,8 @@ public class LPanel extends JPanel  implements ActionListener {
         choosePhoto.addActionListener(this);
         bottomPanel.add(choosePhoto, BorderLayout.EAST);
         add(bottomPanel, BorderLayout.CENTER);
->>>>>>> SendTxt
 
-        // Add the "Choose Photo" button to the bottomPanel
-        JPanel choosePhotoPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        choosePhoto = new JButton("Choose Photo");
-        choosePhoto.addActionListener(this);
-        choosePhotoPanel.add(choosePhoto);
-        bottomPanel.add(choosePhotoPanel, BorderLayout.EAST);
-
-        add(bottomPanel, BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.SOUTH);
     }
 
     public void sendMessage(ActionEvent e) {
@@ -203,20 +152,9 @@ public class LPanel extends JPanel  implements ActionListener {
     }
 
     // Function to set the interacting user label
-    public void setInteractingUser(String interactingUser) {
-        if (interactingUser != null) {
-            String currentText = interactingUserLabel.getText();
-            interactingUserLabel.setText(currentText + interactingUser + ", ");
-        }
+    public void setInteractingUser(String userName) {
+        interactingUserLabel.setText("Interacting with: " + userName);
     }
-
-    public void deleteInteractingUser() {
-        String currentText = "Interacting with: ";
-       interactingUserLabel.setText(currentText);
-    }
-
-
-
 
     public void populateList(ArrayList<Message> messages) {
         DefaultListModel<Message> listModel = new DefaultListModel<>();
