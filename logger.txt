@@ -28,3 +28,9 @@
 2024-04-28 15:11:48 - logIn - user: idanor
 2024-04-28 15:12:30 - logIn - user: idanor
 2024-04-28 16:09:08 - logIn - user: kenalt
+2024-04-28 16:31:26 - logIn - user: kenatl
+2024-04-28 16:31:32 - logIn - user: kenalt
+2024-04-28 16:34:59 - logIn - user: kenalt
+2024-04-28 16:37:35 - logIn - user: kenalt
+2024-04-28 16:39:19 - logIn - user: kenalt
+2024-04-28 16:40:59 - logIn - user: kenalt

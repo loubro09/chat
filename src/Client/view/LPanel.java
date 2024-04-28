@@ -14,11 +14,10 @@ import java.util.ArrayList;
 public class LPanel extends JPanel  implements ActionListener {
     private JLabel userNameLabel;
     private JLabel interactingUserLabel; // New label to display the user you are interacting with
-    private JLabel picture;
     private JList<Message> leftPanelList;
 
     private ImageIcon messageIcon;
-    private JTextArea textChatBox;
+    private JPanel textChatBox;
     private JTextField messageTextField;
     private JButton btnlogIn;
     private JButton btnRegUser;
@@ -65,62 +64,87 @@ public class LPanel extends JPanel  implements ActionListener {
         buttonPanel.add(btnLogOut);
 
         JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.setPreferredSize(new Dimension(width, height - 100)); // Adjust the size
-        textChatBox = new JTextArea();
-        textChatBox.setLineWrap(true);
-        textChatBox.setWrapStyleWord(true);
-        textChatBox.setEditable(false);
+        topPanel.setPreferredSize(new Dimension(width, height - 100));
+        textChatBox = new JPanel(); // Change to JPanel for displaying text and pictures
+        textChatBox.setLayout(new BoxLayout(textChatBox, BoxLayout.Y_AXIS)); // Set layout to vertical
 
-        JPanel textFieldPanel = new JPanel(new BorderLayout()); // Use BorderLayout
-        topPanel.add(textFieldPanel, BorderLayout.CENTER);
+        JScrollPane scrollPane = new JScrollPane(textChatBox);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        topPanel.add(scrollPane, BorderLayout.CENTER);
 
-        JPanel textAndButtonPanel = new JPanel(new BorderLayout()); // Create new panel
-        textChatBox = new JTextArea();
-        textChatBox.setLineWrap(true);
-        textChatBox.setWrapStyleWord(true);
-        textChatBox.setEditable(false);
-        textAndButtonPanel.add(new JScrollPane(textChatBox), BorderLayout.CENTER); // Use JScrollPane for text area
-
+        add(topPanel, BorderLayout.NORTH);
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.setPreferredSize(new Dimension(width, 50));
+        messageTextField = new JTextField();
+        messageTextField.addActionListener(this::sendMessage); // Send message on Enter key press
+        bottomPanel.add(messageTextField, BorderLayout.CENTER);
         choosePhoto = new JButton("Choose Photo");
         choosePhoto.addActionListener(this);
-        textAndButtonPanel.add(choosePhoto, BorderLayout.EAST); // Align the button to the right
-
-        textFieldPanel.add(textAndButtonPanel, BorderLayout.CENTER); // Add the nested panel to textFieldPanel
-
-        picture = new JLabel();
-        textFieldPanel.add(picture, BorderLayout.SOUTH);
-
-        topPanel.add(textFieldPanel, BorderLayout.CENTER);
-
-        userNameLabel = new JLabel();
-        userNameLabel.setFont(new Font("Serif", Font.BOLD, 14));
-        topPanel.add(userNameLabel, BorderLayout.NORTH);
-
-        interactingUserLabel = new JLabel("Interacting with: ");
-        topPanel.add(interactingUserLabel, BorderLayout.SOUTH);
-        add(topPanel, BorderLayout.NORTH);
-
-        JPanel bottomPanel = new JPanel(new BorderLayout());
-        bottomPanel.setPreferredSize(new Dimension(width, 50)); // Adjust the size
-        messageTextField = new JTextField();
-        bottomPanel.add(messageTextField, BorderLayout.CENTER);
+        bottomPanel.add(choosePhoto, BorderLayout.EAST);
         add(bottomPanel, BorderLayout.CENTER);
 
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    public void sendMessage() {
-        String messageText = messageTextField.getText().trim();
-        if (!messageText.isEmpty()) {
-            appendMessage("You: " + messageText);
-            messageTextField.setText(""); // Rensa textfältet efter att meddelandet har skickats
+    public void sendMessage(ActionEvent e) {
+        if (e.getSource() == messageTextField && !messageTextField.getText().isEmpty()) {
+            appendMessage("You: " + messageTextField.getText());
+            messageTextField.setText("");
+        } else if (e.getSource() == btnSend || e.getActionCommand().equals("send")) {
+            if (file != null) {
+                appendMessage("You: "); // Add "You: " label before the picture
+                appendPicture(file); // Append the picture
+                file = null;
+                btnSend.setEnabled(false); // Disable send button after sending picture
+            }
         }
     }
 
+
+
+
+
     // Funktion för att lägga till meddelanden i chattfönstret
-    public void appendMessage(String message) {
-        textChatBox.append(message + "\n");
+    private void appendMessage(String message) {
+        JLabel messageLabel = new JLabel(message);
+        textChatBox.add(messageLabel);
+        revalidate(); // Refresh the layout after adding a component
+        repaint();
     }
+
+    // Method to append pictures to the chat box
+    private void appendPicture(File file) {
+        try {
+            ImageIcon imageIcon = new ImageIcon(ImageIO.read(file));
+            Image image = imageIcon.getImage();
+            int width = textChatBox.getWidth(); // Get the width of the chat box
+            int height = textChatBox.getHeight(); // Get the height of the chat box
+
+            // Calculate the scaled width and height while maintaining the aspect ratio
+            int scaledWidth, scaledHeight;
+            double aspectRatio = (double) image.getWidth(null) / image.getHeight(null);
+            if (width / aspectRatio <= height) {
+                scaledWidth = width;
+                scaledHeight = (int) (width / aspectRatio);
+            } else {
+                scaledWidth = (int) (height * aspectRatio);
+                scaledHeight = height;
+            }
+
+            // Scale the image to fit the chat box
+            Image scaledImage = image.getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH);
+            ImageIcon scaledIcon = new ImageIcon(scaledImage);
+            JLabel pictureLabel = new JLabel(scaledIcon);
+            textChatBox.add(pictureLabel);
+            revalidate();
+            repaint();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
 
     // Funktion för att ställa in användarnamnet
     protected void setUserName(String userName) {
@@ -144,7 +168,7 @@ public class LPanel extends JPanel  implements ActionListener {
     }
 
     // Funktion för att få åtkomst till textchattrutan (om det behövs från en annan klass)
-    protected JTextArea getTextChatBox() {
+    protected JPanel getTextChatBox() {
         return textChatBox;
     }
 
@@ -177,19 +201,14 @@ public class LPanel extends JPanel  implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == choosePhoto) { 
+        if (e.getSource() == choosePhoto) {
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showOpenDialog(this);
             if (result == JFileChooser.APPROVE_OPTION) {
                 file = fileChooser.getSelectedFile();
-                Image img = null;
-                try {
-                    img = ImageIO.read(file);
-                    Image scaledImg = img.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-                    messageIcon = new ImageIcon(scaledImg);
-                    picture.setIcon(messageIcon);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
+                if (file != null) {
+                    appendPicture(file);
+                    btnSend.setEnabled(true); // Enable send button after selecting picture
                 }
             }
         }
