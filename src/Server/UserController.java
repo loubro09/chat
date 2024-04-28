@@ -73,10 +73,9 @@ public class UserController implements PropertyChangeListener {
             Message message = new Message(MessageType.loginSuccess, savedUser, allUsers);
             serverNetworkBoundary.sendMessage(message, client);
             Message message1 = new Message(MessageType.userLoggedIn, savedUser);
-            for (int i = 0; i < clients.size(); i++) {
-                ServerNetworkBoundary.ClientHandler reciever = clients.get(i);
-                if (reciever != null) {
-                    serverNetworkBoundary.sendMessage(message1, reciever);
+            for (ServerNetworkBoundary.ClientHandler receiver : clients.values()) {
+                if (receiver != null) {
+                    serverNetworkBoundary.sendMessage(message1, receiver);
                 }
             }
         } else {
@@ -125,9 +124,10 @@ public class UserController implements PropertyChangeListener {
         }
 
         Message message1 = new Message(MessageType.userLoggedOut, user);
-        for (int i = 0; i < clients.size(); i++) {
-            ServerNetworkBoundary.ClientHandler reciever = clients.get(i);
-            serverNetworkBoundary.sendMessage(message1,reciever);
+        for (ServerNetworkBoundary.ClientHandler receiver : clients.values()) {
+            if (receiver != null) {
+                serverNetworkBoundary.sendMessage(message1, receiver);
+            }
         }
     }
 
