@@ -75,7 +75,9 @@ public class UserController implements PropertyChangeListener {
             Message message1 = new Message(MessageType.userLoggedIn, savedUser);
             for (int i = 0; i < clients.size(); i++) {
                 ServerNetworkBoundary.ClientHandler reciever = clients.get(i);
-                serverNetworkBoundary.sendMessage(message1,reciever);
+                if (reciever != null) {
+                    serverNetworkBoundary.sendMessage(message1, reciever);
+                }
             }
         } else {
             System.out.println("User " + user.getUserName() + " does not exist.");

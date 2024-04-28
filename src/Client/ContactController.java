@@ -53,14 +53,22 @@ public class ContactController implements PropertyChangeListener {
     private void updateOnline(Message message) {
         controller.getLogController().getCnb().addPropertyChangeListener(this);
         User loggedIn = message.getSender();
-        loggedIn.setOnline(true);
+        for (User u : allUsers) {
+            if (loggedIn.getUserName().equals(u.getUserName())) {
+                u.setOnline(true);
+            }
+        }
         controller.allUsersToString(allUsers);
     }
 
     private void updateOffline(Message message) {
         controller.getLogController().getCnb().addPropertyChangeListener(this);
         User loggedOut = message.getSender();
-        loggedOut.setOnline(false);
+        for (User u : allUsers) {
+            if (loggedOut.getUserName().equals(u.getUserName())) {
+                u.setOnline(false);
+            }
+        }
         controller.allUsersToString(allUsers);
     }
 
