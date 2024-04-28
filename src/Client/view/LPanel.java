@@ -1,7 +1,11 @@
 package Client.view;
 
+<<<<<<< Updated upstream
 import Entity.Message;
+=======
+>>>>>>> Stashed changes
 
+import Entity.Message;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +17,7 @@ import java.util.ArrayList;
 
 public class LPanel extends JPanel  implements ActionListener {
     private JLabel userNameLabel;
-    private JLabel interactingUserLabel; // New label to display the user you are interacting with
+    private JLabel interactingUserLabel;
     private JLabel picture;
     private JList<Message> leftPanelList;
 
@@ -104,7 +108,6 @@ public class LPanel extends JPanel  implements ActionListener {
         choosePhoto.addActionListener(this);
         choosePhotoPanel.add(choosePhoto);
         bottomPanel.add(choosePhotoPanel, BorderLayout.EAST);
-
         add(bottomPanel, BorderLayout.CENTER);
     }
 
