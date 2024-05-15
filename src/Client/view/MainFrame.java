@@ -76,6 +76,7 @@ public class MainFrame extends JFrame {
         mainPanel.getLeftPanel().getBtnLogOut().setEnabled(false);
         mainPanel.getBtnNewChat().setVisible(false);
         mainPanel.getBtnNewChat().setEnabled(false);
+        mainPanel.getLeftPanel().clearTextBox();
         clearRightPanel();
     }
 
