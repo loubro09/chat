@@ -41,6 +41,7 @@ public class ClientViewController {
                 break;
 
             case send:
+                mainFrame.getMainPanel().getRightPanel().getBtnAddToChat().setEnabled(false);
                 String text = mainFrame.getMainPanel().getLeftPanel().sendMessage();
                 System.out.println("message sent");
                 System.out.println(text);
@@ -77,6 +78,8 @@ public class ClientViewController {
             case New_Chat:
                 contactController.emptyChatWith();
                 mainFrame.disableSendMessageButtons();
+                mainFrame.getMainPanel().getRightPanel().getBtnAddToChat().setEnabled(true);
+                mainFrame.getMainPanel().getLeftPanel().clearTextBox();
                 mainFrame.getMainPanel().getLeftPanel().deleteInteractingUser();
                 System.out.println("new chat " + contactController.getChatWith());
                 break;

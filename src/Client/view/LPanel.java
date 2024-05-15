@@ -122,6 +122,12 @@ public class LPanel extends JPanel  implements ActionListener {
         appendMessage(username + ": " + message);
     }
 
+    public void clearTextBox() {
+        textChatBox.removeAll();
+        revalidate();
+        repaint();
+    }
+
 
     // Funktion för att lägga till meddelanden i chattfönstret
     private void appendMessage(String message) {
