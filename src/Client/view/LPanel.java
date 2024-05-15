@@ -93,18 +93,21 @@ public class LPanel extends JPanel  implements ActionListener {
     }
 
     public void sendMessage(ActionEvent e) {
-        if (e.getSource() == messageTextField && !messageTextField.getText().isEmpty()) {
-            appendMessage("You: " + messageTextField.getText());
-            messageTextField.setText("");
-        } else if (e.getSource() == btnSend || e.getActionCommand().equals("send")) {
-            if (file != null) {
-                appendMessage("You: "); // Add "You: " label before the picture
-                appendPicture(file); // Append the picture
-                file = null;
-                btnSend.setEnabled(false); // Disable send button after sending picture
+        if (e.getSource() == messageTextField || e.getSource() == btnSend) {
+            if (e.getSource() == messageTextField && !messageTextField.getText().isEmpty()) {
+                appendMessage("You: " + messageTextField.getText());
+                messageTextField.setText("");
+            } else if (e.getSource() == btnSend) {
+                if (file != null) {
+                    appendMessage("You: "); // Add "You: " label before the picture
+                    appendPicture(file); // Append the picture
+                    file = null;
+                    btnSend.setEnabled(false); // Disable send button after sending picture
+                }
             }
         }
     }
+
 
     // Funktion för att lägga till meddelanden i chattfönstret
     private void appendMessage(String message) {
