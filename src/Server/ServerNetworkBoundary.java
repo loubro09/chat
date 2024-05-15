@@ -104,7 +104,8 @@ public class ServerNetworkBoundary {
                     MessageType messageType = message.getMessageType();
                     switch (messageType) {
                         case message:
-                            messageBuffer.put(message);
+                            //messageBuffer.put(message);
+                            propertyChangeSupport.firePropertyChange("message", null, message);
                             activityController.LogFile(message);
                             break;
                         case logIn:
