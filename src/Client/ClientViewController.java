@@ -76,6 +76,7 @@ public class ClientViewController {
 
             case New_Chat:
                 contactController.emptyChatWith();
+                mainFrame.disableSendMessageButtons();
                 mainFrame.getMainPanel().getLeftPanel().deleteInteractingUser();
                 System.out.println("new chat " + contactController.getChatWith());
                 break;

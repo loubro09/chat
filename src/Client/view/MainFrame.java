@@ -97,4 +97,10 @@ public class MainFrame extends JFrame {
         mainPanel.getLeftPanel().getChoosePhoto().setEnabled(true);
         mainPanel.getLeftPanel().getBtnSend().setEnabled(true);
     }
+
+    public void disableSendMessageButtons() {
+        mainPanel.getLeftPanel().getMessageTextField().setEditable(false);
+        mainPanel.getLeftPanel().getChoosePhoto().setEnabled(false);
+        mainPanel.getLeftPanel().getBtnSend().setEnabled(false);
+    }
 }
