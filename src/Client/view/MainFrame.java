@@ -51,6 +51,9 @@ public class MainFrame extends JFrame {
         mainPanel.getUserNameLabel().setVisible(false);
         mainPanel.getBtnNewChat().setEnabled(false);
         mainPanel.getBtnNewChat().setEnabled(false);
+        mainPanel.getLeftPanel().getBtnSend().setEnabled(false);
+        mainPanel.getLeftPanel().getChoosePhoto().setEnabled(false);
+        mainPanel.getLeftPanel().getMessageTextField().setEditable(false);
     }
 
     public void setLoggedIn(User user, Icon icon) {
@@ -80,12 +83,18 @@ public class MainFrame extends JFrame {
         mainPanel.getLeftPanel().getBtnlogIn().setEnabled(true);
         mainPanel.getLeftPanel().getBtnLogOut().setEnabled(true);
         mainPanel.getLeftPanel().getBtnRegUser().setEnabled(true);
-        mainPanel.getLeftPanel().getBtnSend().setEnabled(true);
+        //mainPanel.getLeftPanel().getBtnSend().setEnabled(true);
     }
 
     public void setSelectContact() {
         mainPanel.getRightPanel().getBtnSelectContact().setVisible(true);
         mainPanel.getRightPanel().getBtnAddToChat().setVisible(true);
         mainPanel.getBtnNewChat().setVisible(true);
+    }
+
+    public void enableSendMessageButtons() {
+        mainPanel.getLeftPanel().getMessageTextField().setEditable(true);
+        mainPanel.getLeftPanel().getChoosePhoto().setEnabled(true);
+        mainPanel.getLeftPanel().getBtnSend().setEnabled(true);
     }
 }

@@ -102,6 +102,12 @@ public class LPanel extends JPanel  implements ActionListener {
         return btnRegUser;
     }
 
+    protected JButton getChoosePhoto() {
+        return choosePhoto;
+    }
+
+    protected JTextField getMessageTextField() { return messageTextField;}
+
     public String sendMessage() {
         if (!messageTextField.getText().isEmpty()) {
             String message = messageTextField.getText();
@@ -179,7 +185,7 @@ public class LPanel extends JPanel  implements ActionListener {
     protected void setLoggedIn() {
         btnlogIn.setEnabled(false);
         btnRegUser.setEnabled(false);
-        btnSend.setEnabled(true);
+        //btnSend.setEnabled(true);
         btnLogOut.setEnabled(true);
     }
 

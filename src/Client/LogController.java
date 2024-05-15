@@ -25,11 +25,10 @@ public class LogController implements PropertyChangeListener{
 
     public void logIn(String userName) {
         User user = new User(userName);
-       // cnb = new ClientNetworkBoundary("127.0.0.1", 1234);
-        cnb = new ClientNetworkBoundary("192.168.0.130", 1234);
+        cnb = new ClientNetworkBoundary("127.0.0.1", 1234);
+        //cnb = new ClientNetworkBoundary("192.168.0.130", 1234);
         //cnb = new ClientNetworkBoundary("127.0.0.1", 1234);
         //cnb = new ClientNetworkBoundary("192.168.1.114", 1234);
-        cnb = new ClientNetworkBoundary("192.168.0.130", 1234);
         cnb.addPropertyChangeListener(this);
         cnb.addPropertyChangeListener(cvc.getContactController());
         Message message = new Message(MessageType.logIn, null, user, (List<User>) null, LocalDateTime.now(), null);

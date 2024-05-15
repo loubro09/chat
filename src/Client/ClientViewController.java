@@ -67,6 +67,9 @@ public class ClientViewController {
 
             case Add_to_chat:
                 String iu = contactController.addFriendToChat(mainFrame.getSelectionRightPanel());
+                if (iu != null) {
+                    mainFrame.enableSendMessageButtons();
+                }
                 mainFrame.getMainPanel().getLeftPanel().setInteractingUser(iu);
                 System.out.println("Contact added to chat" + contactController.getChatWith());
                 break;
