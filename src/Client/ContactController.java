@@ -12,7 +12,7 @@ import java.util.List;
 public class ContactController implements PropertyChangeListener {
     private List<User> allUsers = new ArrayList<>();
     private List<User> friends = new ArrayList<>();
-    private List<User> chatWith = new ArrayList<>();
+    private List<User> chatWith;
     private ClientViewController controller;
     private boolean typeOfList = true; //When true = all users & when false = Friends
 
@@ -42,6 +42,10 @@ public class ContactController implements PropertyChangeListener {
     }
 
     public String addFriendToChat(int index) {
+        if (chatWith == null) {
+            chatWith = new ArrayList<>();
+        }
+        
         if (index != -1) {
             User userToAdd = null;
 
@@ -68,6 +72,7 @@ public class ContactController implements PropertyChangeListener {
 
     public void emptyChatWith() {
         chatWith.clear();
+        chatWith = new ArrayList<>();
     }
 
     private void updateOnline(Message message) {

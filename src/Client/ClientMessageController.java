@@ -2,9 +2,12 @@ package Client;
 
 import Entity.Message;
 import Entity.MessageType;
+import Entity.User;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ClientMessageController implements PropertyChangeListener{
     private ClientViewController clientViewController;
@@ -24,7 +27,8 @@ public class ClientMessageController implements PropertyChangeListener{
     }
 
     public void sendMessage(String text) {
-        Message message = new Message(MessageType.message, text, clientViewController.getLogController().getLoggedInUser(), clientViewController.getContactController().getChatWith(),
+        List<User> recievers = clientViewController.getContactController().getChatWith();
+        Message message = new Message(MessageType.message, text, clientViewController.getLogController().getLoggedInUser(), recievers,
                 LocalDateTime.now(), LocalDateTime.now());
         clientViewController.getLogController().getCnb().sendMessage(message);
     }

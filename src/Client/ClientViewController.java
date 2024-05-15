@@ -81,7 +81,7 @@ public class ClientViewController {
                 mainFrame.getMainPanel().getRightPanel().getBtnAddToChat().setEnabled(true);
                 mainFrame.getMainPanel().getLeftPanel().clearTextBox();
                 mainFrame.getMainPanel().getLeftPanel().deleteInteractingUser();
-                System.out.println("new chat " + contactController.getChatWith());
+                System.out.println("new chat");
                 break;
         }
     }
