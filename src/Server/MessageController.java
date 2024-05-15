@@ -62,6 +62,5 @@ public class MessageController implements PropertyChangeListener {
                     break; // Stop searching after finding the matching user
                 }
             }
-        }
     }
 }

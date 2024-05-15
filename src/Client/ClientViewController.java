@@ -41,7 +41,6 @@ public class ClientViewController {
                 break;
 
             case send:
-                clientMessageController = new ClientMessageController(this);
                 String text = mainFrame.getMainPanel().getLeftPanel().sendMessage();
                 System.out.println("message sent");
                 System.out.println(text);
@@ -102,6 +101,10 @@ public class ClientViewController {
 
     public MainFrame getMainFrame() {
         return mainFrame;
+    }
+
+    public void setClientMessageController(ClientMessageController clientMessageController) {
+        this.clientMessageController = clientMessageController;
     }
 
     public void allUsersToString(List<User> allUsers) {
