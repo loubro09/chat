@@ -80,7 +80,6 @@ public class LPanel extends JPanel  implements ActionListener {
         JPanel bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.setPreferredSize(new Dimension(width, 50));
         messageTextField = new JTextField();
-        messageTextField.addActionListener(this::sendMessage); // Send message on Enter key press
         bottomPanel.add(messageTextField, BorderLayout.CENTER);
         choosePhoto = new JButton("Choose Photo");
         choosePhoto.addActionListener(this);
@@ -92,19 +91,36 @@ public class LPanel extends JPanel  implements ActionListener {
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    public void sendMessage(ActionEvent e) {
-        if (e.getSource() == messageTextField && !messageTextField.getText().isEmpty()) {
-            appendMessage("You: " + messageTextField.getText());
-            messageTextField.setText("");
-        } else if (e.getSource() == btnSend || e.getActionCommand().equals("send")) {
-            if (file != null) {
-                appendMessage("You: "); // Add "You: " label before the picture
-                appendPicture(file); // Append the picture
-                file = null;
-                btnSend.setEnabled(false); // Disable send button after sending picture
+    /*public void sendMessage(ActionEvent e) {
+        if (e.getSource() == messageTextField || e.getSource() == btnSend) {
+            if (e.getSource() == messageTextField && !messageTextField.getText().isEmpty()) {
+                appendMessage("You: " + messageTextField.getText());
+                messageTextField.setText("");
+            } else if (e.getSource() == btnSend) {
+                if (file != null) {
+                    appendMessage("You: "); // Add "You: " label before the picture
+                    appendPicture(file); // Append the picture
+                    file = null;
+                    btnSend.setEnabled(false); // Disable send button after sending picture
+                }
             }
         }
+    }*/
+
+    public String sendMessage() {
+        if (!messageTextField.getText().isEmpty()) {
+            String message = messageTextField.getText();
+            appendMessage("You: " + message);
+            messageTextField.setText("");
+            return message;
+        }
+        return null;
     }
+
+    public void receivedMessage(String username, String message) {
+        appendMessage(username + ": " + message);
+    }
+
 
     // Funktion för att lägga till meddelanden i chattfönstret
     private void appendMessage(String message) {

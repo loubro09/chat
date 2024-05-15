@@ -3,7 +3,6 @@ package Client;
 import Entity.Message;
 import Entity.MessageType;
 import Entity.User;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.time.LocalDateTime;
@@ -131,15 +130,8 @@ public class ContactController implements PropertyChangeListener {
     //hämta alla kontakter från server
     //hämta alla vänner från users kontaktlista
 
-
     public void setFriendsListInServer() {
         Message message = new Message(MessageType.addFriends, null, controller.getLogController().getLoggedInUser(), friends, LocalDateTime.now(), null);
         controller.getLogController().getCnb().sendMessage(message);
     }
-
-
-    //hämta alla kontakter från server
-    //hämta alla vänner från users kontaktlista
-
-
 }

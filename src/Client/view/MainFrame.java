@@ -55,7 +55,7 @@ public class MainFrame extends JFrame {
         mainPanel.getRightPanel().getBtnSelectContact().setEnabled(false);
         mainPanel.getRightPanel().getBtnSelectContact().setVisible(false);
         mainPanel.getRightPanel().getBtnAddToChat().setEnabled(false);
-        mainPanel.getRightPanel().getBtnAddToChat().setVisible(false);
+        mainPanel.getRightPanel().getBtnAddToChat().setVisible(true);
         mainPanel.getUserImageLabel1().setVisible(false);
         mainPanel.getUserNameLabel1().setVisible(false);
         mainPanel.getBtnNewChat().setEnabled(false);

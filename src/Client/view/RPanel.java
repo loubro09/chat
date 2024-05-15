@@ -79,7 +79,7 @@ public class RPanel extends JPanel {
         return btnAllUsers;
     }
 
-    protected JButton getBtnFriends() {
+    public JButton getBtnFriends() {
         return btnFriends;
     }
 
@@ -94,6 +94,7 @@ public class RPanel extends JPanel {
     protected void setLoggedIn() {
         btnAllUsers.setEnabled(true);
         btnFriends.setEnabled(true);
+        btnAddToChat.setEnabled(true);
     }
 
 

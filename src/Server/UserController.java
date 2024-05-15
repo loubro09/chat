@@ -3,10 +3,6 @@ package Server;
 import Entity.Message;
 import Entity.MessageType;
 import Entity.User;
-
-import javax.annotation.processing.Filer;
-import javax.swing.*;
-import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.*;
@@ -126,9 +122,21 @@ public class UserController implements PropertyChangeListener {
 
     private void logOut(User user) {
         user.setOnline(false);
-        for(User u : clients.keySet()) {
+
+        User userToRemove = null;
+        for (User u : clients.keySet()) {
             if (u.getUserName().equals(user.getUserName())) {
-                clients.remove(u);
+                userToRemove = u;
+                break;
+            }
+        }
+        if (userToRemove != null) {
+            clients.remove(userToRemove);
+        }
+        for (User u : allUsers) {
+            if (u.getUserName().equals(user.getUserName())) {
+                u.setOnline(false);
+                break;
             }
         }
 
@@ -139,6 +147,7 @@ public class UserController implements PropertyChangeListener {
             }
         }
     }
+
 
     private void addUser(User user, ServerNetworkBoundary.ClientHandler client) throws IOException {
         boolean userExists = checkIfUsersExists(user);
@@ -271,22 +280,17 @@ public class UserController implements PropertyChangeListener {
     }
 
     public void updateFriendsListFromFile(User loggedInUser) {
-        System.out.println("help");
         String userFilePath = loggedInUser.getUserName() + ".txt";
         File userFile = new File(userFilePath);
         try (BufferedReader reader = new BufferedReader(new FileReader(userFile))) {
             String line;
-            System.out.println("242");
             if ((line = reader.readLine()) != null) {
-                System.out.println("244");
                 String userName = line.trim(); // Read the first username from the file
-                System.out.println("§" + userName +"§");
                 User user = getUserByUsername(userName); // Find the corresponding user object
                 if (user != null) {
                     List<User> friends = new ArrayList<>();
                     while ((line = reader.readLine()) != null) {
                         String friendUserName = line.trim();
-                        System.out.println("§" +friendUserName +"§");
                         User friend = getUserByUsername(friendUserName); // Find the corresponding friend user object
                         if (friend != null) {
                             friends.add(friend); // Add the friend to the list
@@ -306,7 +310,7 @@ public class UserController implements PropertyChangeListener {
                 return user;
             }
         }
-        return null; // User not found
+        return null;
     }
 
         private void addTestValues() {

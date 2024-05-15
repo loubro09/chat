@@ -34,7 +34,7 @@ public class Message implements Serializable {
         this.timeReceived = timeReceived;
     }
 
-    public Message(MessageType messageType, String text, User sender, User user, LocalDateTime timeDelivered, LocalDateTime timeReceived) {
+    public Message(MessageType messageType, String text, User sender, User receiver, LocalDateTime timeDelivered, LocalDateTime timeReceived) {
         this.messageType = messageType;
         this.text = text;
         this.sender = sender;
@@ -68,4 +68,5 @@ public class Message implements Serializable {
         return "" + messageType + " - user: " + sender.getUserName();
     }
     public List<User> getReceivers() {return receivers;}
+    public User getReceiver() {return receiver;}
 }

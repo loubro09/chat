@@ -2,7 +2,6 @@
 package Server.View;
 
 import Server.ActivityController;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
