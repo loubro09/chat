@@ -27,7 +27,6 @@ public class ClientViewController {
         switch (button) {
             case Log_In:
                 logInFrame = new LogInFrame(this);
-                clientMessageController = new ClientMessageController(this);
                 break;
 
             case Log_Out:
@@ -42,6 +41,7 @@ public class ClientViewController {
                 break;
 
             case send:
+                clientMessageController = new ClientMessageController(this);
                 String text = mainFrame.getMainPanel().getLeftPanel().sendMessage();
                 System.out.println("message sent");
                 clientMessageController.sendMessage(text);
