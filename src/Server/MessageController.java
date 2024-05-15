@@ -30,16 +30,16 @@ public class MessageController implements PropertyChangeListener {
             for (Map.Entry<User, ServerNetworkBoundary.ClientHandler> entry : uc.getClients().entrySet()) {
                 User userInClientsMap = entry.getKey();
                 if (userInClientsMap.getUserName().equals(receiver.getUserName())) {
-                    // Get the client handler associated with the user
+                    //Get the client handler associated with the user
                     ServerNetworkBoundary.ClientHandler clientHandler = entry.getValue();
                     if (clientHandler != null) {
-                        // Send the message to the client handler
+                        //Send the message to the client handler
                         Message message1 = new Message(MessageType.message, message.getText(), message.getSender(), receiver, message.getTimeDelivered(), message.getTimeReceived());
                         uc.getServerNetworkBoundary().sendMessage(message1, clientHandler);
                     } else {
                         uc.getServerNetworkBoundary().getUnsentMessages().put(receiver, message);
                     }
-                    break; // Stop searching after finding the matching user
+                    break; //Stop searching after finding the matching user
                 }
             }
         }

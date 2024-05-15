@@ -38,7 +38,7 @@ public class ActivityController {
             e.printStackTrace();
         }
 
-        Collections.sort(logMessages); // Sort the log messages by timestamp
+        Collections.sort(logMessages); //Sort the log messages by timestamp
         return logMessages;
     }
 

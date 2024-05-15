@@ -29,3 +29,8 @@
 2024-04-28 15:12:30 - logIn - user: idanor
 2024-04-28 16:03:35 - logIn - user: alacol
 2024-04-28 16:03:43 - logOut - user: alacol
+2024-05-15 15:11:23 - logIn - user: loubro
+2024-05-15 15:11:33 - logIn - user: kenalt
+2024-05-15 15:11:47 - logIn - user: idanor
+2024-05-15 15:12:06 - message - user: idanor
+2024-05-15 15:12:17 - message - user: loubro

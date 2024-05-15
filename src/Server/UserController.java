@@ -25,37 +25,34 @@ public class UserController implements PropertyChangeListener {
         allUsers = readUsersFromFile(userFileName);
     }
 
-    public ServerNetworkBoundary getServerNetworkBoundary() {
-        return serverNetworkBoundary;
-    }
-
-    public HashMap<User, ServerNetworkBoundary.ClientHandler> getClients() {
-        return clients;
-    }
-
-    public boolean checkIfUsersExists(User user) {
-        boolean b = false;
-        for (User u : allUsers) {
-            if (u.getUserName().equals(user.getUserName())) {
-                return true;
-            } else {
-                System.out.println("Can't find user");
-                b = false;
-            }
-        }return b;
-    }
-
-    public boolean checkHashmapList(User user){
-        boolean b = false;
-        for(User u : clients.keySet()) {
-            if (u.getUserName().equals(user.getUserName())){
-                b = true;
-            }
-            else {
-                b = false;
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if ("login".equals(evt.getPropertyName())){
+            User user = (User) evt.getNewValue();
+            ServerNetworkBoundary.ClientHandler client = (ServerNetworkBoundary.ClientHandler) evt.getOldValue();
+            logIn(user, client);
+        }
+        else if("register".equals(evt.getPropertyName())) {
+            Message message = (Message) evt.getOldValue();
+            User user = message.getSender();
+            ServerNetworkBoundary.ClientHandler client = (ServerNetworkBoundary.ClientHandler) evt.getNewValue();
+            try {
+                addUser(user, client);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
-        return b;
+        else if ("logout".equals(evt.getPropertyName())) {
+            Message message = (Message) evt.getNewValue();
+            User user = message.getSender();
+            logOut(user);
+        }
+        else if ("updateFriendsList".equals(evt.getPropertyName())) {
+            Message message = (Message) evt.getOldValue();
+            String userName = message.getSender().getUserName();
+            List<User> friends = message.getReceivers();
+            appendUsersToFile(userName, friends);
+        }
     }
 
     public void logIn(User user, ServerNetworkBoundary.ClientHandler client) {
@@ -90,36 +87,6 @@ public class UserController implements PropertyChangeListener {
         }
     }
 
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        if ("login".equals(evt.getPropertyName())){
-            User user = (User) evt.getNewValue();
-            ServerNetworkBoundary.ClientHandler client = (ServerNetworkBoundary.ClientHandler) evt.getOldValue();
-            logIn(user, client);
-        }
-        else if("register".equals(evt.getPropertyName())) {
-            Message message = (Message) evt.getOldValue();
-            User user = message.getSender();
-            ServerNetworkBoundary.ClientHandler client = (ServerNetworkBoundary.ClientHandler) evt.getNewValue();
-            try {
-                addUser(user, client);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        else if ("logout".equals(evt.getPropertyName())) {
-            Message message = (Message) evt.getNewValue();
-            User user = message.getSender();
-            logOut(user);
-        }
-        else if ("updateFriendsList".equals(evt.getPropertyName())) {
-            Message message = (Message) evt.getOldValue();
-            String userName = message.getSender().getUserName();
-            List<User> friends = message.getReceivers();
-            appendUsersToFile(userName, friends);
-        }
-    }
-
     private void logOut(User user) {
         user.setOnline(false);
 
@@ -147,7 +114,6 @@ public class UserController implements PropertyChangeListener {
             }
         }
     }
-
 
     private void addUser(User user, ServerNetworkBoundary.ClientHandler client) throws IOException {
         boolean userExists = checkIfUsersExists(user);
@@ -190,6 +156,31 @@ public class UserController implements PropertyChangeListener {
             ImageIO.write(bufferedImage, "png", imageFile);
             user.setPathNamePicture("images/"+user.getUserName()+".png");
     }*/
+
+    public boolean checkIfUsersExists(User user) {
+        boolean b = false;
+        for (User u : allUsers) {
+            if (u.getUserName().equals(user.getUserName())) {
+                return true;
+            } else {
+                System.out.println("Can't find user");
+                b = false;
+            }
+        }return b;
+    }
+
+    public boolean checkHashmapList(User user){
+        boolean b = false;
+        for(User u : clients.keySet()) {
+            if (u.getUserName().equals(user.getUserName())){
+                b = true;
+            }
+            else {
+                b = false;
+            }
+        }
+        return b;
+    }
 
     private void createFile(String filePath) {
         File file = new File(filePath);
@@ -304,15 +295,6 @@ public class UserController implements PropertyChangeListener {
         }
     }
 
-    private User getUserByUsername(String userName) {
-        for (User user : allUsers) {
-            if (user.getUserName().equals(userName)) {
-                return user;
-            }
-        }
-        return null;
-    }
-
         private void addTestValues() {
             User user1 = new User("loubro");
             User user2 = new User("alacol");
@@ -326,5 +308,22 @@ public class UserController implements PropertyChangeListener {
         allUsers.add(user2);
         allUsers.add(user3);
         allUsers.add(user4);
+    }
+
+    private User getUserByUsername(String userName) {
+        for (User user : allUsers) {
+            if (user.getUserName().equals(userName)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    public ServerNetworkBoundary getServerNetworkBoundary() {
+        return serverNetworkBoundary;
+    }
+
+    public HashMap<User, ServerNetworkBoundary.ClientHandler> getClients() {
+        return clients;
     }
 }

@@ -79,8 +79,22 @@ public class ClientViewController {
         }
     }
 
-    public static void main(String[] args) {
-        ClientViewController viewController = new ClientViewController();
+    public void allUsersToString(List<User> allUsers) {
+        String[] userNames = new String[allUsers.size()];
+        for (int i = 0; i <allUsers.size(); i++) {
+            userNames[i] = allUsers.get(i).getUserName();
+            if(allUsers.get(i).getOnline()) {
+                userNames[i] = " 🟢 " + userNames[i];
+            }else{
+                userNames[i] = " 🔴 " + userNames[i];
+                System.out.println("user offline");
+            }
+        }
+        mainFrame.populateRightPanel(userNames);
+    }
+
+    public void setClientMessageController(ClientMessageController clientMessageController) {
+        this.clientMessageController = clientMessageController;
     }
 
     public LogController getLogController() {
@@ -103,21 +117,7 @@ public class ClientViewController {
         return mainFrame;
     }
 
-    public void setClientMessageController(ClientMessageController clientMessageController) {
-        this.clientMessageController = clientMessageController;
-    }
-
-    public void allUsersToString(List<User> allUsers) {
-        String[] userNames = new String[allUsers.size()];
-        for (int i = 0; i <allUsers.size(); i++) {
-            userNames[i] = allUsers.get(i).getUserName();
-            if(allUsers.get(i).getOnline()) {
-                userNames[i] = " 🟢 " + userNames[i];
-            }else{
-                userNames[i] = " 🔴 " + userNames[i];
-                System.out.println("user offline");
-            }
-        }
-        mainFrame.populateRightPanel(userNames);
+    public static void main(String[] args) {
+        new ClientViewController();
     }
 }
