@@ -19,19 +19,16 @@ public class Mainframe extends JFrame {
     private JButton viewTrafficButton;
 
     public Mainframe() {
-        // Settings for the window
         setTitle("Server Log Viewer");
         setSize(600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Create interface elements
         logTextArea = new JTextArea();
         JScrollPane scrollPane = new JScrollPane(logTextArea);
         startDateSpinner = new JSpinner(new SpinnerDateModel());
         endDateSpinner = new JSpinner(new SpinnerDateModel());
         viewTrafficButton = new JButton("View Traffic");
 
-        // Add event listener for the view traffic button
         viewTrafficButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -39,7 +36,6 @@ public class Mainframe extends JFrame {
             }
         });
 
-        // Create layout using BorderLayout
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         topPanel.add(new JLabel("Start Time:"));
         topPanel.add(startDateSpinner);
@@ -47,18 +43,14 @@ public class Mainframe extends JFrame {
         topPanel.add(endDateSpinner);
         topPanel.add(viewTrafficButton);
 
-        // Add components to the main panel
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.add(topPanel, BorderLayout.NORTH);
         mainPanel.add(scrollPane, BorderLayout.CENTER);
 
-        // Add the main panel to the window
         add(mainPanel);
 
-        // Display the window
         setVisible(true);
 
-        // Call readLogFile method to populate logTextArea initially
         List<String> logMessages = ActivityController.readLogFile();
         updateLogTextArea(logMessages);
     }
@@ -67,13 +59,13 @@ public class Mainframe extends JFrame {
         Date startDate = (Date) startDateSpinner.getValue();
         Date endDate = (Date) endDateSpinner.getValue();
 
-        // Read log messages from file
+        //Read log messages from file
         List<String> logMessages = ActivityController.readLogFile();
 
-        // Filter log messages between selected time points
+        //Filter log messages between selected time points
         List<String> filteredMessages = filterMessagesBetweenTimePoints(logMessages, startDate, endDate);
 
-        // Display filtered messages in the logTextArea
+        //Display filtered messages in the logTextArea
         updateLogTextArea(filteredMessages);
     }
 
@@ -99,16 +91,15 @@ public class Mainframe extends JFrame {
     }
 
     private void updateLogTextArea(List<String> logMessages) {
-        // Clear logTextArea
+        //Clear logTextArea
         logTextArea.setText("");
-        // Append log messages to logTextArea
+        //Append log messages to logTextArea
         for (String message : logMessages) {
             logTextArea.append(message + "\n");
         }
     }
 
     public static void main(String[] args) {
-        // Create an instance of Mainframe
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {

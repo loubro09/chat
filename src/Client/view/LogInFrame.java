@@ -17,7 +17,6 @@ public class LogInFrame extends JFrame implements ActionListener {
     private JButton login;
     private JButton choosePhoto;
     private ImageIcon userIcon;
-
     private ClientViewController controller;
     private JLabel error;
     private File file;
@@ -102,8 +101,6 @@ public class LogInFrame extends JFrame implements ActionListener {
             controller.getLogController().logIn(enterUserName.getText());
         }
     }
-
-
 
     public void setSuccess() {
         this.dispose();

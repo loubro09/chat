@@ -13,11 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class LPanel extends JPanel  implements ActionListener {
-    private JLabel userNameLabel;
-    private JLabel interactingUserLabel; // New label to display the user you are interacting with
-    private JList<Message> leftPanelList;
-
-    private ImageIcon messageIcon;
+    private JLabel interactingUserLabel;
     private JPanel textChatBox;
     private JTextField messageTextField;
     private JButton btnlogIn;
@@ -29,7 +25,6 @@ public class LPanel extends JPanel  implements ActionListener {
     private int height;
     private File file;
     private MainFrame mainFrame;
-    private ContactController contactController;
 
 
     public LPanel(int width, int height, MainFrame mainFrame) {
@@ -91,21 +86,21 @@ public class LPanel extends JPanel  implements ActionListener {
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    /*public void sendMessage(ActionEvent e) {
-        if (e.getSource() == messageTextField || e.getSource() == btnSend) {
-            if (e.getSource() == messageTextField && !messageTextField.getText().isEmpty()) {
-                appendMessage("You: " + messageTextField.getText());
-                messageTextField.setText("");
-            } else if (e.getSource() == btnSend) {
-                if (file != null) {
-                    appendMessage("You: "); // Add "You: " label before the picture
-                    appendPicture(file); // Append the picture
-                    file = null;
-                    btnSend.setEnabled(false); // Disable send button after sending picture
-                }
-            }
-        }
-    }*/
+    protected JButton getBtnSend() {
+        return btnSend;
+    }
+
+    protected JButton getBtnLogOut() {
+        return btnLogOut;
+    }
+
+    protected JButton getBtnlogIn() {
+        return btnlogIn;
+    }
+
+    protected JButton getBtnRegUser() {
+        return btnRegUser;
+    }
 
     public String sendMessage() {
         if (!messageTextField.getText().isEmpty()) {
@@ -160,11 +155,6 @@ public class LPanel extends JPanel  implements ActionListener {
         }
     }
 
-    // Funktion för att ställa in användarnamnet
-    protected void setUserName(String userName) {
-        userNameLabel.setText("User: " + userName);
-    }
-
     // Function to set the interacting user label
     public void setInteractingUser(String interactingUser) {
         if (interactingUser != null) {
@@ -186,32 +176,6 @@ public class LPanel extends JPanel  implements ActionListener {
         }
         // leftPanelList.setModel(listModel);
     }
-
-    // Funktion för att få åtkomst till textchattrutan (om det behövs från en annan klass)
-    protected JPanel getTextChatBox() {
-        return textChatBox;
-    }
-
-    protected JList<Message> getLeftPanelList() {
-        return leftPanelList;
-    }
-
-    protected JButton getBtnSend() {
-        return btnSend;
-    }
-
-    protected JButton getBtnLogOut() {
-        return btnLogOut;
-    }
-
-    protected JButton getBtnlogIn() {
-        return btnlogIn;
-    }
-
-    protected JButton getBtnRegUser() {
-        return btnRegUser;
-    }
-
     protected void setLoggedIn() {
         btnlogIn.setEnabled(false);
         btnRegUser.setEnabled(false);
@@ -228,7 +192,7 @@ public class LPanel extends JPanel  implements ActionListener {
                 file = fileChooser.getSelectedFile();
                 if (file != null) {
                     appendPicture(file);
-                    btnSend.setEnabled(true); // Enable send button after selecting picture
+                    btnSend.setEnabled(true);
                 }
             }
         }

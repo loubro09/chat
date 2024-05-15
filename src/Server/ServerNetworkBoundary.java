@@ -15,17 +15,9 @@ import java.util.List;
 public class ServerNetworkBoundary {
     private ServerSocket serverSocket;
     private PropertyChangeSupport propertyChangeSupport;
-    private Buffer<Message> messageBuffer = new Buffer<>();
-    private Buffer<Message> logoutBuffer = new Buffer<>();
     private List<ClientHandler> clientsList;
-    private ActivityController activityController;
-
-    public UnsentMessages getUnsentMessages() {
-        return unsentMessages;
-    }
-
     private UnsentMessages unsentMessages;
-
+    private ActivityController activityController;
 
     public ServerNetworkBoundary(int port) {
         this.propertyChangeSupport = new PropertyChangeSupport(this);
@@ -49,6 +41,10 @@ public class ServerNetworkBoundary {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public UnsentMessages getUnsentMessages() {
+        return unsentMessages;
     }
 
     private class Connection extends Thread {
@@ -78,7 +74,6 @@ public class ServerNetworkBoundary {
     public class ClientHandler extends Thread {
         private ObjectOutputStream oos;
         private ObjectInputStream ois;
-
         private Socket socket;
         private User user;
 
@@ -104,7 +99,6 @@ public class ServerNetworkBoundary {
                     MessageType messageType = message.getMessageType();
                     switch (messageType) {
                         case message:
-                            //messageBuffer.put(message);
                             propertyChangeSupport.firePropertyChange("message", null, message);
                             activityController.LogFile(message);
                             break;
@@ -114,7 +108,6 @@ public class ServerNetworkBoundary {
                             activityController.LogFile(message);
                             break;
                         case logOut:
-                            //logoutBuffer.put(message);
                             propertyChangeSupport.firePropertyChange("logout",null,message);
                             activityController.LogFile(message);
                             break;
