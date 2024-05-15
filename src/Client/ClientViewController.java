@@ -56,6 +56,7 @@ public class ClientViewController {
             case friends:
                 mainFrame.clearRightPanel();
                 contactController.setTypeOfList(false);
+                mainFrame.getMainPanel().getRightPanel().getBtnSelectContact().setEnabled(false);
                 allUsersToString(contactController.getFriends());
                 break;
 

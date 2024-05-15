@@ -68,4 +68,5 @@ public class Message implements Serializable {
         return "" + messageType + " - user: " + sender.getUserName();
     }
     public List<User> getReceivers() {return receivers;}
+    public User getReceiver() {return receiver;}
 }
