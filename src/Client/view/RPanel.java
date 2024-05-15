@@ -69,7 +69,21 @@ public class RPanel extends JPanel {
 
     }
 
+    protected void setLoggedIn() {
+        btnAllUsers.setEnabled(true);
+        btnFriends.setEnabled(true);
+        btnAddToChat.setEnabled(true);
+    }
 
+    protected void populateList(String[] users) {
+       rightPanelList.setListData(users);
+    }
+
+    protected void clearRightPanelList() {
+      String [] defaultString = new String[1];
+      defaultString[0] = "No users";
+      populateList(defaultString);
+    }
 
     public JList<Object> getRightPanelList() {
         return rightPanelList;
@@ -89,24 +103,5 @@ public class RPanel extends JPanel {
 
     public JButton getBtnAddToChat() {
         return btnAddToChat;
-    }
-
-    protected void setLoggedIn() {
-        btnAllUsers.setEnabled(true);
-        btnFriends.setEnabled(true);
-        btnAddToChat.setEnabled(true);
-    }
-
-
-
-
-    protected void populateList(String[] users) {
-       rightPanelList.setListData(users);
-    }
-
-    protected void clearRightPanelList() {
-      String [] defaultString = new String[1];
-      defaultString[0] = "No users";
-      populateList(defaultString);
     }
 }
