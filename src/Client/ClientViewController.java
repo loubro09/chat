@@ -35,6 +35,9 @@ public class ClientViewController {
                 break;
             case Log_Out:
                 logController.logOut();
+                contactController.emptyChatWith();
+                System.out.println("TOM " + contactController.getChatWith());
+                mainFrame.getMainPanel().getLeftPanel().deleteInteractingUser();
                 break;
             case Register_new_user:
                 registerUserFrame = new RegisterUserFrame(this);
