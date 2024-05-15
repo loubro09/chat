@@ -3,7 +3,6 @@ package Server;
 import Entity.Message;
 import Entity.MessageType;
 import Entity.User;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
@@ -21,11 +20,11 @@ public class MessageController implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         if ("message".equals(evt.getPropertyName())){
             Message message = (Message) evt.getNewValue();
-            recieveMessage(message);
+            receiveMessage(message);
         }
     }
 
-    private void recieveMessage(Message message) {
+    private void receiveMessage(Message message) {
         List<User> receivers = message.getReceivers();
         for (User receiver : receivers) {
             for (Map.Entry<User, ServerNetworkBoundary.ClientHandler> entry : uc.getClients().entrySet()) {

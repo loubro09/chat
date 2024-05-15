@@ -2,31 +2,36 @@ package Client;
 
 import Client.view.MainFrame;
 import Entity.Message;
+import Entity.MessageType;
 import Entity.User;
+import java.beans.PropertyChangeListener;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ClientMessageController {
     private ClientNetworkBoundary networkBoundary;
-    private MainFrame mainFrame;
+    private ClientViewController clientViewController;
     private UnsendMessages unsendMessages;
 
-    public ClientMessageController(String ip, int port, MainFrame mainFrame) {
+    public ClientMessageController(ClientViewController clientViewController) {
         //this.networkBoundary = new ClientNetworkBoundary(ip, port);
-        this.mainFrame = mainFrame;
-        this.unsendMessages=new UnsendMessages();
+        //this.mainFrame = mainFrame;
+        //this.unsendMessages=new UnsendMessages();
         /*this.networkBoundary.addPropertyChangeListener(e -> {
             if ("Message received".equals(e.getPropertyName())) {
                 Message message = (Message) e.getNewValue();
                 receiveMessage(message);
             }
         });*/
+        this.clientViewController = clientViewController;
     }
 
-    /*public void sendMessage(String text) {
-        Message message = new Message(MessageType.message, null, null, null, null); // Skapa meddelandeobjekt med den aktuella texten
+    public void sendMessage(String text) {
+        Message message = new Message(MessageType.message, text, con, new User("loubro"),
+                LocalDateTime.now(), LocalDateTime.now()); // Skapa meddelandeobjekt med den aktuella texten
         networkBoundary.sendMessage(message);
-    }*/
+    }
 
     private void receiveMessage(Message message) {
         String senderName = message.getSender() != null ? message.getSender().getUserName() : "Unknown";
@@ -48,6 +53,5 @@ public class ClientMessageController {
         public synchronized ArrayList<Message> get(User user) {
             return unsend.get(user);
         }
-
     }
 }

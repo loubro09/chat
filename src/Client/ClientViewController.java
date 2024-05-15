@@ -5,8 +5,6 @@ import Client.view.LogInFrame;
 import Client.view.MainFrame;
 import Client.view.RegisterUserFrame;
 import Entity.User;
-
-import java.awt.event.ActionEvent;
 import java.util.List;
 
 public class ClientViewController {
@@ -15,17 +13,16 @@ public class ClientViewController {
     private ContactController contactController;
     private RegisterUserFrame registerUserFrame;
     private LogInFrame logInFrame;
+    private ClientMessageController clientMessageController;
 
     public ClientViewController() {
         logController = new LogController(this);
         contactController = new ContactController(this);
         mainFrame = new MainFrame(1000, 500, this);
         mainFrame.enableAllButtons();
-        /*mainFrame.disableLogOutButton();
-        mainFrame.disableFriendsButton();
-        mainFrame.disableSendMessageButton();
-        mainFrame.disableAndHideAddFriendButton();*/
         mainFrame.disableStartButtons();
+        clientMessageController = new ClientMessageController(this);
+
     }
 
     public void buttonPressed(ButtonType button) {
@@ -33,45 +30,52 @@ public class ClientViewController {
             case Log_In:
                 logInFrame = new LogInFrame(this);
                 break;
+
             case Log_Out:
                 logController.logOut();
                 contactController.emptyChatWith();
-                System.out.println("TOM " + contactController.getChatWith());
+                System.out.println("logged out, chat emptied " + contactController.getChatWith());
                 mainFrame.getMainPanel().getLeftPanel().deleteInteractingUser();
                 break;
+
             case Register_new_user:
                 registerUserFrame = new RegisterUserFrame(this);
                 break;
+
             case send:
-                mainFrame.getMainPanel().getLeftPanel().sendMessage(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "send"));
+                String text = mainFrame.getMainPanel().getLeftPanel().sendMessage();
+                System.out.println("message sent");
+                clientMessageController.sendMessage(text);
                 break;
+
             case Choose_Contact:
                 contactController.addNewFriend(mainFrame.getSelectionRightPanel());
                 contactController.setFriendsListInServer();
                 break;
+
             case friends:
                 mainFrame.clearRightPanel();
                 contactController.setTypeOfList(false);
                 allUsersToString(contactController.getFriends());
                 break;
+
             case allUsers:
                 contactController.setTypeOfList(true);
                 allUsersToString(contactController.getAllUsers());
                 mainFrame.setSelectContact();
                 break;
+
             case Add_to_chat:
                 String iu = contactController.addFriendToChat(mainFrame.getSelectionRightPanel());
                 mainFrame.getMainPanel().getLeftPanel().setInteractingUser(iu);
-                System.out.println("hej" + contactController.getChatWith());
+                System.out.println("Contact added to chat" + contactController.getChatWith());
                 break;
-            case New_Chat:
-                System.out.println("TOM " + contactController.getChatWith());
-                contactController.emptyChatWith();
-                System.out.println("TOM " + contactController.getChatWith());
-                mainFrame.getMainPanel().getLeftPanel().deleteInteractingUser();
-                break;
-                //HJÄLP
 
+            case New_Chat:
+                contactController.emptyChatWith();
+                mainFrame.getMainPanel().getLeftPanel().deleteInteractingUser();
+                System.out.println("new chat " + contactController.getChatWith());
+                break;
         }
     }
 
@@ -107,6 +111,7 @@ public class ClientViewController {
                 userNames[i] = " 🟢 " + userNames[i];
             }else{
                 userNames[i] = " 🔴 " + userNames[i];
+                System.out.println("user offline");
             }
         }
         mainFrame.populateRightPanel(userNames);

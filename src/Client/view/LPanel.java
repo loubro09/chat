@@ -80,7 +80,6 @@ public class LPanel extends JPanel  implements ActionListener {
         JPanel bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.setPreferredSize(new Dimension(width, 50));
         messageTextField = new JTextField();
-        messageTextField.addActionListener(this::sendMessage); // Send message on Enter key press
         bottomPanel.add(messageTextField, BorderLayout.CENTER);
         choosePhoto = new JButton("Choose Photo");
         choosePhoto.addActionListener(this);
@@ -92,7 +91,7 @@ public class LPanel extends JPanel  implements ActionListener {
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    public void sendMessage(ActionEvent e) {
+    /*public void sendMessage(ActionEvent e) {
         if (e.getSource() == messageTextField || e.getSource() == btnSend) {
             if (e.getSource() == messageTextField && !messageTextField.getText().isEmpty()) {
                 appendMessage("You: " + messageTextField.getText());
@@ -106,6 +105,15 @@ public class LPanel extends JPanel  implements ActionListener {
                 }
             }
         }
+    }*/
+
+    public String sendMessage() {
+        if (!messageTextField.getText().isEmpty()) {
+            appendMessage("You: " + messageTextField.getText());
+            messageTextField.setText("");
+            return messageTextField.getText();
+        }
+        return null;
     }
 
 
