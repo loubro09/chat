@@ -126,12 +126,22 @@ public class UserController implements PropertyChangeListener {
 
     private void logOut(User user) {
         user.setOnline(false);
-        for(User u : clients.keySet()) {
+
+        // To avoid ConcurrentModificationException, collect keys to remove first
+        User userToRemove = null;
+        for (User u : clients.keySet()) {
             if (u.getUserName().equals(user.getUserName())) {
-                clients.remove(u);
+                userToRemove = u;
+                break; // Assuming there is only one unique user with a given userName
             }
         }
 
+        // Remove the user from clients if found
+        if (userToRemove != null) {
+            clients.remove(userToRemove);
+        }
+
+        // Notify other clients that the user has logged out
         Message message1 = new Message(MessageType.userLoggedOut, user);
         for (ServerNetworkBoundary.ClientHandler receiver : clients.values()) {
             if (receiver != null) {
@@ -139,6 +149,7 @@ public class UserController implements PropertyChangeListener {
             }
         }
     }
+
 
     private void addUser(User user, ServerNetworkBoundary.ClientHandler client) throws IOException {
         boolean userExists = checkIfUsersExists(user);
