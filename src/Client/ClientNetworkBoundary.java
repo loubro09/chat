@@ -70,6 +70,10 @@ ClientNetworkBoundary {
                             System.out.println("hejdå");
                             propertyChangeSupport.firePropertyChange("userLoggedOut", null, message);
                             break;
+                        case message:
+                            System.out.println("meddelande mottaget");
+                            propertyChangeSupport.firePropertyChange("messageReceived", null, message);
+                            break;
                     }
                 }
             } catch (IOException | ClassNotFoundException e) {

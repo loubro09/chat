@@ -116,6 +116,10 @@ public class LPanel extends JPanel  implements ActionListener {
         return null;
     }
 
+    public void receivedMessage(String username, String message) {
+        appendMessage(username + ": " + message);
+    }
+
 
     // Funktion för att lägga till meddelanden i chattfönstret
     private void appendMessage(String message) {
