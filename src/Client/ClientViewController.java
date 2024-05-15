@@ -21,14 +21,13 @@ public class ClientViewController {
         mainFrame = new MainFrame(1000, 500, this);
         mainFrame.enableAllButtons();
         mainFrame.disableStartButtons();
-        clientMessageController = new ClientMessageController(this);
-
     }
 
     public void buttonPressed(ButtonType button) {
         switch (button) {
             case Log_In:
                 logInFrame = new LogInFrame(this);
+                clientMessageController = new ClientMessageController(this);
                 break;
 
             case Log_Out:
