@@ -64,4 +64,4 @@ public class MessageController implements PropertyChangeListener {
             }
         }
     }
-}
+

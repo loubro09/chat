@@ -280,22 +280,17 @@ public class UserController implements PropertyChangeListener {
     }
 
     public void updateFriendsListFromFile(User loggedInUser) {
-        System.out.println("help");
         String userFilePath = loggedInUser.getUserName() + ".txt";
         File userFile = new File(userFilePath);
         try (BufferedReader reader = new BufferedReader(new FileReader(userFile))) {
             String line;
-            System.out.println("242");
             if ((line = reader.readLine()) != null) {
-                System.out.println("244");
                 String userName = line.trim(); // Read the first username from the file
-                System.out.println("§" + userName +"§");
                 User user = getUserByUsername(userName); // Find the corresponding user object
                 if (user != null) {
                     List<User> friends = new ArrayList<>();
                     while ((line = reader.readLine()) != null) {
                         String friendUserName = line.trim();
-                        System.out.println("§" +friendUserName +"§");
                         User friend = getUserByUsername(friendUserName); // Find the corresponding friend user object
                         if (friend != null) {
                             friends.add(friend); // Add the friend to the list
