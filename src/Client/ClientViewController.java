@@ -82,12 +82,14 @@ public class ClientViewController {
     public void allUsersToString(List<User> allUsers) {
         String[] userNames = new String[allUsers.size()];
         for (int i = 0; i <allUsers.size(); i++) {
-            userNames[i] = allUsers.get(i).getUserName();
-            if(allUsers.get(i).getOnline()) {
-                userNames[i] = " 🟢 " + userNames[i];
-            }else{
-                userNames[i] = " 🔴 " + userNames[i];
-                System.out.println("user offline");
+            if (!allUsers.get(i).getUserName().equals(logController.getLoggedInUser().getUserName())) {
+                userNames[i] = allUsers.get(i).getUserName();
+                if (allUsers.get(i).getOnline()) {
+                    userNames[i] = " 🟢 " + userNames[i];
+                } else {
+                    userNames[i] = " 🔴 " + userNames[i];
+                    System.out.println("user offline");
+                }
             }
         }
         mainFrame.populateRightPanel(userNames);
