@@ -38,7 +38,7 @@ public class ClientMessageController implements PropertyChangeListener{
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if ("message".equals(evt.getPropertyName())) {
+        if ("messageReceived".equals(evt.getPropertyName())) {
             Message message = (Message) evt.getNewValue();
             receiveMessage(message);
         }
