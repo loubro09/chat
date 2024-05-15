@@ -18,13 +18,13 @@ public class MessageController implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if ("message".equals(evt.getPropertyName())){
+        if ("message".equals(evt.getPropertyName())) {
             Message message = (Message) evt.getNewValue();
             receiveMessage(message);
         }
     }
 
-    /*private void receiveMessage(Message message) {
+    private void receiveMessage(Message message) {
         List<User> receivers = message.getReceivers();
         for (User receiver : receivers) {
             for (Map.Entry<User, ServerNetworkBoundary.ClientHandler> entry : uc.getClients().entrySet()) {
@@ -43,24 +43,25 @@ public class MessageController implements PropertyChangeListener {
                 }
             }
         }
-    }*/
-
-    private void receiveMessage(Message message) {
-        User receiver = message.getReceiver();
-            for (Map.Entry<User, ServerNetworkBoundary.ClientHandler> entry : uc.getClients().entrySet()) {
-                User userInClientsMap = entry.getKey();
-                if (userInClientsMap.getUserName().equals(receiver.getUserName())) {
-                    // Get the client handler associated with the user
-                    ServerNetworkBoundary.ClientHandler clientHandler = entry.getValue();
-                    if (clientHandler != null) {
-                        // Send the message to the client handler
-                        Message message1 = new Message(MessageType.message, message.getText(), message.getSender(), receiver, message.getTimeDelivered(), message.getTimeReceived());
-                        uc.getServerNetworkBoundary().sendMessage(message1, clientHandler);
-                    } else {
-                        uc.getServerNetworkBoundary().getUnsentMessages().put(receiver, message);
-                    }
-                    break; // Stop searching after finding the matching user
-                }
-            }
     }
+
+    /*private void receiveMessage(Message message) {
+        User receiver = message.getReceiver();
+        for (Map.Entry<User, ServerNetworkBoundary.ClientHandler> entry : uc.getClients().entrySet()) {
+            User userInClientsMap = entry.getKey();
+            if (userInClientsMap.getUserName().equals(receiver.getUserName())) {
+                // Get the client handler associated with the user
+                ServerNetworkBoundary.ClientHandler clientHandler = entry.getValue();
+                if (clientHandler != null) {
+                    // Send the message to the client handler
+                    Message message1 = new Message(MessageType.message, message.getText(), message.getSender(), receiver, message.getTimeDelivered(), message.getTimeReceived());
+                    uc.getServerNetworkBoundary().sendMessage(message1, clientHandler);
+                } else {
+                    uc.getServerNetworkBoundary().getUnsentMessages().put(receiver, message);
+                }
+                break; // Stop searching after finding the matching user
+            }
+        }
+    }*/
+}
 
