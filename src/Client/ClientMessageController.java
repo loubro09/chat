@@ -1,15 +1,10 @@
 package Client;
 
-import Client.view.MainFrame;
 import Entity.Message;
 import Entity.MessageType;
-import Entity.User;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class ClientMessageController implements PropertyChangeListener{
     private ClientViewController clientViewController;
