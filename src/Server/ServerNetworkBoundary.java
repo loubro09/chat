@@ -1,9 +1,7 @@
 package Server;
 
-import Entity.Buffer;
-import Entity.Message;
-import Entity.MessageType;
-import Entity.User;
+import Entity.*;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.IOException;
@@ -22,9 +20,16 @@ public class ServerNetworkBoundary {
     private List<ClientHandler> clientsList;
     private ActivityController activityController;
 
+    public UnsentMessages getUnsentMessages() {
+        return unsentMessages;
+    }
+
+    private UnsentMessages unsentMessages;
+
 
     public ServerNetworkBoundary(int port) {
         this.propertyChangeSupport = new PropertyChangeSupport(this);
+        this.unsentMessages = new UnsentMessages();
         clientsList = new ArrayList<>();
         try {
             this.serverSocket = new ServerSocket(port);
@@ -99,7 +104,8 @@ public class ServerNetworkBoundary {
                     MessageType messageType = message.getMessageType();
                     switch (messageType) {
                         case message:
-                            messageBuffer.put(message);
+                            //messageBuffer.put(message);
+                            propertyChangeSupport.firePropertyChange("message", null, message);
                             activityController.LogFile(message);
                             break;
                         case logIn:

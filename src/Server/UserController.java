@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class UserController implements PropertyChangeListener {
+
     private ServerNetworkBoundary serverNetworkBoundary;
     private HashMap<User, ServerNetworkBoundary.ClientHandler> clients = new HashMap<>();
     private List<User> allUsers;
@@ -26,6 +27,14 @@ public class UserController implements PropertyChangeListener {
         allUsers = new ArrayList<>();
         createFile(userFileName);
         allUsers = readUsersFromFile(userFileName);
+    }
+
+    public ServerNetworkBoundary getServerNetworkBoundary() {
+        return serverNetworkBoundary;
+    }
+
+    public HashMap<User, ServerNetworkBoundary.ClientHandler> getClients() {
+        return clients;
     }
 
     public boolean checkIfUsersExists(User user) {

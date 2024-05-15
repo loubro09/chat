@@ -5,6 +5,8 @@ import Client.view.LogInFrame;
 import Client.view.MainFrame;
 import Client.view.RegisterUserFrame;
 import Entity.User;
+
+import java.awt.event.ActionEvent;
 import java.util.List;
 
 public class ClientViewController {
@@ -38,7 +40,7 @@ public class ClientViewController {
                 registerUserFrame = new RegisterUserFrame(this);
                 break;
             case send:
-                mainFrame.getMainPanel().getLeftPanel().sendMessage();
+                mainFrame.getMainPanel().getLeftPanel().sendMessage(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "send"));
                 break;
             case Choose_Contact:
                 contactController.addNewFriend(mainFrame.getSelectionRightPanel());
@@ -62,8 +64,10 @@ public class ClientViewController {
             case New_Chat:
                 System.out.println("TOM " + contactController.getChatWith());
                 contactController.emptyChatWith();
+                System.out.println("TOM " + contactController.getChatWith());
                 mainFrame.getMainPanel().getLeftPanel().deleteInteractingUser();
                 break;
+                //HJÄLP
 
         }
     }
