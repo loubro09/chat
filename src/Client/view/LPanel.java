@@ -109,9 +109,10 @@ public class LPanel extends JPanel  implements ActionListener {
 
     public String sendMessage() {
         if (!messageTextField.getText().isEmpty()) {
-            appendMessage("You: " + messageTextField.getText());
+            String message = messageTextField.getText();
+            appendMessage("You: " + message);
             messageTextField.setText("");
-            return messageTextField.getText();
+            return message;
         }
         return null;
     }

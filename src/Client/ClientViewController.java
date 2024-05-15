@@ -44,6 +44,7 @@ public class ClientViewController {
                 clientMessageController = new ClientMessageController(this);
                 String text = mainFrame.getMainPanel().getLeftPanel().sendMessage();
                 System.out.println("message sent");
+                System.out.println(text);
                 clientMessageController.sendMessage(text);
                 break;
 
