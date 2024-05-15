@@ -133,6 +133,12 @@ public class UserController implements PropertyChangeListener {
         if (userToRemove != null) {
             clients.remove(userToRemove);
         }
+        for (User u : allUsers) {
+            if (u.getUserName().equals(user.getUserName())) {
+                u.setOnline(false);
+                break;
+            }
+        }
 
         Message message1 = new Message(MessageType.userLoggedOut, user);
         for (ServerNetworkBoundary.ClientHandler receiver : clients.values()) {
