@@ -61,9 +61,12 @@ public class UnreceivedMessages implements Serializable {
         try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))){
             messages = (HashMap<User, ArrayList<Message>>) ois.readObject();
 
-        } catch ( IOException | ClassNotFoundException e ) {
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found. Creating a new file: " + fileName);
+            saveToFile(fileName);
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
-            System.out.println("Unreceived message : loadFromFile Catch1");
+            System.out.println("Unreceived message : loadFromFile Catch");
         }
     }
 }
