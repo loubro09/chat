@@ -93,24 +93,27 @@ public class UserController implements PropertyChangeListener {
             savedUser.setOnline(true); //sets the logged in user to online
             Message loginSuccessMessage = new Message(MessageType.loginSuccess, savedUser, allUsers); //creates login success message
             serverNetworkBoundary.sendMessage(loginSuccessMessage, client); //sends message
-            sendUnreceivedMessages(savedUser,client);
+            System.out.println("saved user" + savedUser.getUserName());
             Message userLoggedInMessage = new Message(MessageType.userLoggedIn, savedUser); //creates user logged in message
             for (ServerNetworkBoundary.ClientHandler receiver : clients.values()) { //sends message to all users
                 if (receiver != null) {
                     serverNetworkBoundary.sendMessage(userLoggedInMessage, receiver);
                 }
             }
+            sendUnreceivedMessages(savedUser,client);
         } else { //if the user has not made an account already the login fails
             System.out.println("User " + user.getUserName() + " does not exist.");
             Message loginFailMessage = new Message(MessageType.loginFail); //creates login fail message
             serverNetworkBoundary.sendMessage(loginFailMessage, client); //sends login fail message back to client
         }
     }
-    private void sendUnreceivedMessages(User user, ServerNetworkBoundary.ClientHandler clien) {
+    private void sendUnreceivedMessages(User user, ServerNetworkBoundary.ClientHandler client) {
+        System.out.println(user.getUserName() + "senducoweif");
         ArrayList<Message> unreceivedMessages = serverNetworkBoundary.getUnreceivedMessage().retrieveMessages(user);
         if (unreceivedMessages != null && !unreceivedMessages.isEmpty()) {
             for (Message msg : unreceivedMessages) {
-                serverNetworkBoundary.sendMessage(msg, clien);
+                System.out.println(msg.getText() + " is sending");
+                serverNetworkBoundary.sendMessage(msg, client);
             }
         }
         else {

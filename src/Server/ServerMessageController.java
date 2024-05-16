@@ -44,27 +44,32 @@ public class ServerMessageController implements PropertyChangeListener {
         List<User> receivers = message.getReceivers(); //list of all receivers in the message
         //iterates through each user in the list
         for (User receiver : receivers) {
+            System.out.println(receiver.getUserName());
             //iterates through each entry in the clients list from the UserController
-            for (Map.Entry<User, ServerNetworkBoundary.ClientHandler> entry : uc.getClients().entrySet()) {
+            //for (Map.Entry<User, ServerNetworkBoundary.ClientHandler> entry : uc.getClients().entrySet()) {
                 //gets the user associated with the current entry
-                User userInClientsMap = entry.getKey();
+                //User userInClientsMap = entry.getKey();
                 //checks if the username of the user in the clients map is the same as the username of the receiver
-                if (userInClientsMap.getUserName().equals(receiver.getUserName())) {
+                //if (userInClientsMap.getUserName().equals(receiver.getUserName())) {
                     //gets the client handler associated with the user
-                    ServerNetworkBoundary.ClientHandler clientHandler = entry.getValue();
+                    //ServerNetworkBoundary.ClientHandler clientHandler = entry.getValue();
+                    //System.out.println(clientHandler.getUser().getUserName() + " is logged in");
+                     ServerNetworkBoundary.ClientHandler clientHandler = uc.getClients().get(receiver);
                     if (clientHandler != null) { //if the receiver is logged in
                         //creates the message for the receiver
+                        System.out.println(clientHandler.getUser().getUserName() + " is logged in");
                         Message messageToReceiver = new Message(MessageType.message, message.getText(), message.getSender(),
                                 receiver, message.getTimeDelivered(), message.getTimeReceived());
                         //sends the message to the receiver
                         uc.getServerNetworkBoundary().sendMessage(messageToReceiver, clientHandler);
                     } else { //if the receiver is not logged in the message is stored in buffer
+                        System.out.println("not online receiver");
                         uc.getServerNetworkBoundary().getUnreceivedMessage().put(receiver, message);
                     }
                     break;
                 }
             }
-        }
-    }
+        //}
+    //}
 }
 

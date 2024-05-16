@@ -3,6 +3,8 @@ package Entity;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Class used to save the message that we're sent to offline users.
@@ -27,21 +29,26 @@ public class UnreceivedMessages implements Serializable {
     public synchronized void put(User user, Message message) {
         ArrayList<Message> userMessages = messages.getOrDefault(user, new ArrayList<>());
         userMessages.add(message);
+        System.out.println(message.getText());
         messages.put(user, userMessages);
         saveToFile(fileName);
     }
     public synchronized ArrayList<Message> retrieveMessages(User user) {
-        // Loop through the hashmap to find the matching user
-        for (User u : messages.keySet()) {
-            if (u.getUserName().equals(user.getUserName())) {
-                ArrayList<Message> userMessages = messages.get(u);
-                messages.remove(u); // Remove the user from the hashmap
+        ArrayList<Message> userMessages = new ArrayList<>();
+        Iterator<Map.Entry<User, ArrayList<Message>>> iterator = messages.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<User, ArrayList<Message>> entry = iterator.next();
+            if (entry.getKey().getUserName().equals(user.getUserName())) {
+                System.out.println(user.getUserName() + " oijnq3g");
+                userMessages = entry.getValue();
+                for (Message message : userMessages) {
+                    System.out.println("Message for user " + user.getUserName() + ": " + message.getText());
+                }
+                iterator.remove(); // Remove the entry from the hashmap using iterator's remove() method
                 saveToFile(fileName); // Save changes after removing messages
-                return userMessages; // Return the messages for the user
             }
         }
-        // If the user is not found, return null
-        return null;
+        return userMessages;
     }
 
     

@@ -118,6 +118,10 @@ public class ServerNetworkBoundary {
             }
         }
 
+        public User getUser() {
+            return user;
+        }
+
         /**
          * Returns the object output stream of this client.
          * @return
