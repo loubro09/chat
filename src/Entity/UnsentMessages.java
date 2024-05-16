@@ -23,14 +23,5 @@ public class UnsentMessages {
         messages.put(user, userMessages);
     }
 
-    /**
-     * Getter for the ArrayList for a specific user.
-     * @param user the user object.
-     * @return returns the ArrayList for the user object.
-     */
-    public synchronized ArrayList<Message> get(User user) {
-        return messages.get(user);
-    }
 
-// fler synchronized-metoder som behövs
 }

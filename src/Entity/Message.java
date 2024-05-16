@@ -146,5 +146,5 @@ public class Message implements Serializable {
      * Getter for the receiver user object.
      * @return receiver User object.
      */
-    public User getReceiver() {return receiver;}
+
 }
