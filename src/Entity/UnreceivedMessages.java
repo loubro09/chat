@@ -1,5 +1,6 @@
 package Entity;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -7,7 +8,8 @@ import java.util.HashMap;
  * Class used to save the message that we're sent to offline users.
  * Saving the messages using a HashMap until the receiver user gets online.
  */
-public class UnreceivedMessages {
+public class UnreceivedMessages implements Serializable {
+    //private static final long serialVersionUID = 1L;
     private HashMap<User, ArrayList<Message>> messages = new HashMap<>();
 
     /**
@@ -25,5 +27,23 @@ public class UnreceivedMessages {
     
     public synchronized ArrayList<Message> get(User user){
         return messages.get(user);
+    }
+
+    public synchronized void saveToFile(String fileName) {
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
+            oos.writeObject(messages);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Unreceived messages : saveToFile ");
+        }
+    }
+    public synchronized void loadFromFile(String fileName) {
+        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))){
+            messages = (HashMap<User, ArrayList<Message>>) ois.readObject();
+
+        } catch ( IOException | ClassNotFoundException e ) {
+            e.printStackTrace();
+            System.out.println("Unreceived message : loadFromFile Catch1");
+        }
     }
 }
