@@ -11,7 +11,7 @@ import java.util.HashMap;
 public class UnreceivedMessages implements Serializable {
     //private static final long serialVersionUID = 1L;
     private HashMap<User, ArrayList<Message>> messages = new HashMap<>();
-    private String fileName = "unreceivedmessages.dot";
+    private String fileName = "unreceivedmessages.dat";
 
     public UnreceivedMessages() {
         loadFromFile(fileName);
