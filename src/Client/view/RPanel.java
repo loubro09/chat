@@ -1,12 +1,13 @@
 package Client.view;
 
 import javax.swing.*;
-import java.util.List;
-import java.util.Vector;
+
+/**
+ * This class represents the Right hand side panel in the chat program.
+ */
 
 public class RPanel extends JPanel {
     private MainFrame mainFrame;
-
     private JList<Object> rightPanelList;
     private JButton btnFriends;
     private JButton btnAllUsers;
@@ -15,6 +16,13 @@ public class RPanel extends JPanel {
     private JLabel lblTitle;
     private int width;
     private int height;
+
+    /**
+     * Constructs a new right panel
+     * @param width of the panel
+     * @param height of the panel
+     * @param mainFrame of the application.
+     */
 
     public RPanel(int width, int height, MainFrame mainFrame) {
         this.mainFrame = mainFrame;
@@ -26,6 +34,9 @@ public class RPanel extends JPanel {
         setUp();
     }
 
+    /**
+     * Sets up the panels components.
+     */
     private void setUp() {
         lblTitle = new JLabel("USER LIST");
         lblTitle.setLocation(2, 0);
@@ -64,26 +75,37 @@ public class RPanel extends JPanel {
         btnAddToChat .setSize(width / 5, 30);
         btnAddToChat.setLocation((3 * width) / 4, height - 75);
         btnAddToChat .addActionListener(l -> mainFrame.buttonPressed(ButtonType.Add_to_chat));
-
         this.add(btnAddToChat );
-
     }
 
+    /**
+     * enables all the buttons for when a user is logged in.
+     */
     protected void setLoggedIn() {
         btnAllUsers.setEnabled(true);
         btnFriends.setEnabled(true);
         btnAddToChat.setEnabled(true);
     }
 
+    /**
+     * Populates the user list with the given array of usernames.
+     *
+     * @param users the array of usernames to populate the list with.
+     */
+
     protected void populateList(String[] users) {
        rightPanelList.setListData(users);
     }
 
+    /**
+     * Clears the right panel of any information about users
+     */
     protected void clearRightPanelList() {
       String [] defaultString = new String[1];
       defaultString[0] = "No users";
       populateList(defaultString);
     }
+
 
     public JList<Object> getRightPanelList() {
         return rightPanelList;

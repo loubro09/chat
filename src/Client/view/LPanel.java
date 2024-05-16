@@ -1,8 +1,5 @@
 package Client.view;
 
-import Client.ContactController;
-import Entity.Message;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -10,9 +7,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
-public class LPanel extends JPanel  implements ActionListener {
+
+/**
+ * This class represents the Left hand side panel in the chat program.
+ * This class lets users log in, register, send messages and upload picturees .
+ */
+public class LPanel extends JPanel implements ActionListener {
     private JLabel interactingUserLabel;
     private JPanel textChatBox;
     private JTextField messageTextField;
@@ -26,6 +27,12 @@ public class LPanel extends JPanel  implements ActionListener {
     private File file;
     private MainFrame mainFrame;
 
+    /**
+     * Constructor for LPanel
+     * @param width of the panel.
+     * @param height of the panel.
+     * @param mainFrame of the application.
+     */
 
     public LPanel(int width, int height, MainFrame mainFrame) {
         this.mainFrame = mainFrame;
@@ -37,6 +44,9 @@ public class LPanel extends JPanel  implements ActionListener {
         setUp();
     }
 
+    /**
+     * Sets up the panels components.
+     */
     private void setUp() {
         JPanel buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.setSize(width, height);
@@ -63,8 +73,8 @@ public class LPanel extends JPanel  implements ActionListener {
 
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.setPreferredSize(new Dimension(width, height - 100));
-        textChatBox = new JPanel(); // Change to JPanel for displaying text and pictures
-        textChatBox.setLayout(new BoxLayout(textChatBox, BoxLayout.Y_AXIS)); // Set layout to vertical
+        textChatBox = new JPanel();
+        textChatBox.setLayout(new BoxLayout(textChatBox, BoxLayout.Y_AXIS));
 
         JScrollPane scrollPane = new JScrollPane(textChatBox);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -86,6 +96,119 @@ public class LPanel extends JPanel  implements ActionListener {
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
+    /**
+     * Handles actions in the event of a button click.
+     * @param e the event to be processed
+     */
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == choosePhoto) {
+            JFileChooser fileChooser = new JFileChooser();
+            int result = fileChooser.showOpenDialog(this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                file = fileChooser.getSelectedFile();
+                if (file != null) {
+                    appendPicture(file);
+                    btnSend.setEnabled(true);
+                }
+            }
+        }
+    }
+
+    /**
+     * Method for sending a message in the chat box.
+     * @return if the message is not empty, return the text message.
+     */
+    public String sendMessage() {
+        if (!messageTextField.getText().isEmpty()) {
+            String message = messageTextField.getText();
+            appendMessage("You: " + message);
+            messageTextField.setText("");
+            return message;
+        }
+        return null;
+    }
+
+    /**
+     * Display of received message in the chat box
+     * @param username of the sender
+     * @param message text from the sender
+     */
+    public void receivedMessage(String username, String message) {
+        appendMessage(username + ": " + message);
+    }
+
+    /**
+     * clear the chat box of any messages
+     */
+    public void clearTextBox() {
+        textChatBox.removeAll();
+        revalidate();
+        repaint();
+    }
+
+    /**
+     *Appens a text message.
+     * @param message to append to the chat box.
+     */
+
+    private void appendMessage(String message) {
+        JLabel messageLabel = new JLabel(message);
+        textChatBox.add(messageLabel);
+        revalidate(); //Refresh the layout after adding a component
+        repaint();
+    }
+
+    /**
+     * Appends an image.
+     * @param file image to the chat box.
+     */
+    private void appendPicture(File file) {
+        try {
+            ImageIcon imageIcon = new ImageIcon(ImageIO.read(file));
+            Image image = imageIcon.getImage();
+            int width = textChatBox.getWidth();
+            int height = textChatBox.getHeight();
+
+            int scaledWidth, scaledHeight;
+            double aspectRatio = (double) image.getWidth(null) / image.getHeight(null);
+            if (width / aspectRatio <= height) {
+                scaledWidth = width;
+                scaledHeight = (int) (width / aspectRatio);
+            } else {
+                scaledWidth = (int) (height * aspectRatio);
+                scaledHeight = height;
+            }
+
+            Image scaledImage = image.getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH);
+            ImageIcon scaledIcon = new ImageIcon(scaledImage);
+            JLabel pictureLabel = new JLabel(scaledIcon);
+            textChatBox.add(pictureLabel);
+            revalidate();
+            repaint();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * sets the label for who the user is interacting/chattin g with
+     * @param interactingUser the username of the other user
+     */
+    public void setInteractingUser(String interactingUser) {
+        if (interactingUser != null) {
+            String currentText = interactingUserLabel.getText();
+            interactingUserLabel.setText(currentText + interactingUser + ", ");
+        }
+    }
+
+    /**
+     * Empties the "interacting with" label
+     */
+    public void deleteInteractingUser() {
+        String currentText = "Interacting with: ";
+        interactingUserLabel.setText(currentText);
+    }
     protected JButton getBtnSend() {
         return btnSend;
     }
@@ -106,107 +229,18 @@ public class LPanel extends JPanel  implements ActionListener {
         return choosePhoto;
     }
 
-    protected JTextField getMessageTextField() { return messageTextField;}
-
-    public String sendMessage() {
-        if (!messageTextField.getText().isEmpty()) {
-            String message = messageTextField.getText();
-            appendMessage("You: " + message);
-            messageTextField.setText("");
-            return message;
-        }
-        return null;
+    protected JTextField getMessageTextField() {
+        return messageTextField;
     }
 
-    public void receivedMessage(String username, String message) {
-        appendMessage(username + ": " + message);
-    }
-
-    public void clearTextBox() {
-        textChatBox.removeAll();
-        revalidate();
-        repaint();
-    }
-
-
-    // Funktion för att lägga till meddelanden i chattfönstret
-    private void appendMessage(String message) {
-        JLabel messageLabel = new JLabel(message);
-        textChatBox.add(messageLabel);
-        revalidate(); // Refresh the layout after adding a component
-        repaint();
-    }
-    // Method to append pictures to the chat box
-    private void appendPicture(File file) {
-        try {
-            ImageIcon imageIcon = new ImageIcon(ImageIO.read(file));
-            Image image = imageIcon.getImage();
-            int width = textChatBox.getWidth(); // Get the width of the chat box
-            int height = textChatBox.getHeight(); // Get the height of the chat box
-
-            // Calculate the scaled width and height while maintaining the aspect ratio
-            int scaledWidth, scaledHeight;
-            double aspectRatio = (double) image.getWidth(null) / image.getHeight(null);
-            if (width / aspectRatio <= height) {
-                scaledWidth = width;
-                scaledHeight = (int) (width / aspectRatio);
-            } else {
-                scaledWidth = (int) (height * aspectRatio);
-                scaledHeight = height;
-            }
-
-            // Scale the image to fit the chat box
-            Image scaledImage = image.getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH);
-            ImageIcon scaledIcon = new ImageIcon(scaledImage);
-            JLabel pictureLabel = new JLabel(scaledIcon);
-            textChatBox.add(pictureLabel);
-            revalidate();
-            repaint();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    // Function to set the interacting user label
-    public void setInteractingUser(String interactingUser) {
-        if (interactingUser != null) {
-            String currentText = interactingUserLabel.getText();
-            interactingUserLabel.setText(currentText + interactingUser + ", ");
-        }
-    }
-    public void deleteInteractingUser() {
-        String currentText = "Interacting with: ";
-        interactingUserLabel.setText(currentText);
-    }
-    public void populateList(ArrayList<Message> messages) {
-        DefaultListModel<Message> listModel = new DefaultListModel<>();
-        for (Message message : messages) {
-            if (message.getSender() != null) {
-                // Lägg till logik för att fylla listan med meddelanden
-            }
-            listModel.addElement(message);
-        }
-        // leftPanelList.setModel(listModel);
-    }
+    /**
+     * Handles what buttons the user can use when logged in.
+     * Enable/disables the buttons
+     */
     protected void setLoggedIn() {
         btnlogIn.setEnabled(false);
         btnRegUser.setEnabled(false);
-        //btnSend.setEnabled(true);
         btnLogOut.setEnabled(true);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == choosePhoto) {
-            JFileChooser fileChooser = new JFileChooser();
-            int result = fileChooser.showOpenDialog(this);
-            if (result == JFileChooser.APPROVE_OPTION) {
-                file = fileChooser.getSelectedFile();
-                if (file != null) {
-                    appendPicture(file);
-                    btnSend.setEnabled(true);
-                }
-            }
-        }
-    }
 }

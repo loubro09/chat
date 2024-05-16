@@ -1,5 +1,4 @@
 package Client.view;
-
 public enum ButtonType {
     Log_In,
     Register_new_user,

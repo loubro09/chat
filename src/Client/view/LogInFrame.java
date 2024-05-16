@@ -1,7 +1,6 @@
 package Client.view;
 
 import Client.ClientViewController;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -10,6 +9,11 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
+
+/**
+ * This class represents the login frame for the chat application.
+ * It issues a gui for the user to enter a username and if they want, a profile picture.
+ */
 public class LogInFrame extends JFrame implements ActionListener {
     private JPanel mainPanel;
     private JTextField enterUserName;
@@ -21,6 +25,10 @@ public class LogInFrame extends JFrame implements ActionListener {
     private JLabel error;
     private File file;
 
+    /**
+     * Constructor for LogInFrame
+     * @param controller to manage client view interactions.
+     */
     public LogInFrame(ClientViewController controller) {
         this.controller = controller;
         setTitle("Log in");
@@ -33,6 +41,9 @@ public class LogInFrame extends JFrame implements ActionListener {
         setVisible(true);
     }
 
+    /**
+     * The main panel with its components for the log in gui page.
+     */
     public void setupPanel() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
@@ -61,7 +72,6 @@ public class LogInFrame extends JFrame implements ActionListener {
         inputPanel.add(choosePhoto);
 
         mainPanel.add(inputPanel, BorderLayout.NORTH);
-
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
 
@@ -79,9 +89,13 @@ public class LogInFrame extends JFrame implements ActionListener {
         getContentPane().add(mainPanel);
     }
 
+    /**
+     * actionPerformed handles the actions in the event of a pressed button
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == choosePhoto) { // Check if "Choose Photo" button is clicked
+        if (e.getSource() == choosePhoto) { //Check if "Choose Photo" button is clicked
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showOpenDialog(this);
             if (result == JFileChooser.APPROVE_OPTION) {
@@ -91,24 +105,36 @@ public class LogInFrame extends JFrame implements ActionListener {
                 try {
                     img = ImageIO.read(file);
                     Image scaledImg = img.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-                    userIcon = new ImageIcon(scaledImg); // Store the selected picture in userIcon
-                    picture.setIcon(userIcon); // Set the ImageIcon directly to the picture label
+                    userIcon = new ImageIcon(scaledImg); //Store the selected picture in userIcon
+                    picture.setIcon(userIcon); //Set the ImageIcon directly to the picture label
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
             }
-        } else if (e.getSource() == login) { // Check if "Log in" button is clicked
+        } else if (e.getSource() == login) { //Check if "Log in" button is clicked
             controller.getLogController().logIn(enterUserName.getText());
         }
     }
 
+    /**
+     * If the user successfully logged in the frame closes.
+     */
     public void setSuccess() {
         this.dispose();
     }
 
+    /**
+     * Profile picture selected by the user
+     * @return profile picture
+     */
     public ImageIcon getUserIcon() {
         return userIcon;
     }
+
+    /**
+     * If the user is not able to log in, an error message is shown.
+     * @param errorMessage
+     */
 
     public void setError(String errorMessage) {
         error.setVisible(true);

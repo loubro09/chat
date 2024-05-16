@@ -1,7 +1,6 @@
 package Client.view;
 
 import Client.ClientViewController;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -9,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+
 
 public class RegisterUserFrame extends JFrame implements ActionListener {
     private JPanel mainPanel;
@@ -39,7 +39,6 @@ public class RegisterUserFrame extends JFrame implements ActionListener {
 
         JPanel inputPanel = new JPanel();
         inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
-
         JLabel lblUserName = new JLabel("Enter username: ");
         inputPanel.add(lblUserName);
 
@@ -47,6 +46,7 @@ public class RegisterUserFrame extends JFrame implements ActionListener {
         enterUserName.setAlignmentX(Component.LEFT_ALIGNMENT);
         enterUserName.setPreferredSize(new Dimension(100,25));
         inputPanel.add(enterUserName);
+
         mainPanel.add(inputPanel, BorderLayout.NORTH);
 
         JPanel buttonPanel = new JPanel();
@@ -60,7 +60,6 @@ public class RegisterUserFrame extends JFrame implements ActionListener {
         picture.setAlignmentX(Component.LEFT_ALIGNMENT);
         buttonPanel.add(picture);
 
-
         registerbtn= new JButton("Register");
         registerbtn.setAlignmentX(Component.LEFT_ALIGNMENT);
         registerbtn.addActionListener(this);
@@ -73,7 +72,6 @@ public class RegisterUserFrame extends JFrame implements ActionListener {
 
         mainPanel.add(buttonPanel, BorderLayout.CENTER);
         getContentPane().add(mainPanel);
-
     }
 
     @Override
@@ -87,7 +85,7 @@ public class RegisterUserFrame extends JFrame implements ActionListener {
                 Image img = null;
                 try {
                     img = ImageIO.read(file);
-                    Image scaledImg = img.getScaledInstance(100, 100, Image.SCALE_SMOOTH); // Adjust size if needed
+                    Image scaledImg = img.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
                     picture.setIcon(new ImageIcon(scaledImg));
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);

@@ -83,6 +83,8 @@ public class ClientViewController {
                 mainFrame.getMainPanel().getLeftPanel().deleteInteractingUser();
                 System.out.println("new chat");
                 break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + button);
         }
     }
 
