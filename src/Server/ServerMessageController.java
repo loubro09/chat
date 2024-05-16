@@ -59,7 +59,7 @@ public class ServerMessageController implements PropertyChangeListener {
                         //sends the message to the receiver
                         uc.getServerNetworkBoundary().sendMessage(messageToReceiver, clientHandler);
                     } else { //if the receiver is not logged in the message is stored in buffer
-                        uc.getServerNetworkBoundary().getUnsentMessages().put(receiver, message);
+                        uc.getServerNetworkBoundary().getUnreceivedMessage().put(receiver, message);
                     }
                     break;
                 }

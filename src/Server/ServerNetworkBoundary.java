@@ -18,7 +18,7 @@ public class ServerNetworkBoundary {
     private ServerSocket serverSocket;
     private PropertyChangeSupport propertyChangeSupport;
     private List<ClientHandler> clientsList;
-    private UnsentMessages unsentMessages;
+    private UnreceivedMessages unreceivedMessages;
     private ActivityController activityController;
 
     /**
@@ -27,7 +27,7 @@ public class ServerNetworkBoundary {
      */
     public ServerNetworkBoundary(int port) {
         this.propertyChangeSupport = new PropertyChangeSupport(this);
-        this.unsentMessages = new UnsentMessages();
+        this.unreceivedMessages = new UnreceivedMessages();
         activityController = new ActivityController();
         clientsList = new ArrayList<>();
         try {
@@ -42,8 +42,8 @@ public class ServerNetworkBoundary {
      * Returns an instance of the UnsentMessages class.
      * @return the instance of the UnsentMessages class.
      */
-    public UnsentMessages getUnsentMessages() {
-        return unsentMessages;
+    public UnreceivedMessages getUnreceivedMessage() {
+        return unreceivedMessages;
     }
 
     /**

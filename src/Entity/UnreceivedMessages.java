@@ -7,7 +7,7 @@ import java.util.HashMap;
  * Class used to save the message that we're sent to offline users.
  * Saving the messages using a HashMap until the receiver user gets online.
  */
-public class UnsentMessages {
+public class UnreceivedMessages {
     private HashMap<User, ArrayList<Message>> messages = new HashMap<>();
 
     /**
