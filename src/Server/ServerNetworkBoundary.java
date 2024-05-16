@@ -30,6 +30,7 @@ public class ServerNetworkBoundary {
         this.unreceivedMessages = new UnreceivedMessages();
         activityController = new ActivityController();
         clientsList = new ArrayList<>();
+
         try {
             this.serverSocket = new ServerSocket(port); //creates a server socket for clients to connect to
         } catch (IOException e) {

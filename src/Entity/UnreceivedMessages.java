@@ -11,6 +11,11 @@ import java.util.HashMap;
 public class UnreceivedMessages implements Serializable {
     //private static final long serialVersionUID = 1L;
     private HashMap<User, ArrayList<Message>> messages = new HashMap<>();
+    private String fileName = "unreceivedmessages.dot";
+
+    public UnreceivedMessages() {
+        loadFromFile(fileName);
+    }
 
     /**
      * A method to retrieve the ArrayList for the user, or create a new one if it doesn't exist.
@@ -23,7 +28,22 @@ public class UnreceivedMessages implements Serializable {
         ArrayList<Message> userMessages = messages.getOrDefault(user, new ArrayList<>());
         userMessages.add(message);
         messages.put(user, userMessages);
+        saveToFile(fileName);
     }
+    public synchronized ArrayList<Message> retrieveMessages(User user) {
+        // Loop through the hashmap to find the matching user
+        for (User u : messages.keySet()) {
+            if (u.getUserName().equals(user.getUserName())) {
+                ArrayList<Message> userMessages = messages.get(u);
+                messages.remove(u); // Remove the user from the hashmap
+                saveToFile(fileName); // Save changes after removing messages
+                return userMessages; // Return the messages for the user
+            }
+        }
+        // If the user is not found, return null
+        return null;
+    }
+
     
     public synchronized ArrayList<Message> get(User user){
         return messages.get(user);
