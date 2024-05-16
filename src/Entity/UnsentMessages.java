@@ -22,6 +22,8 @@ public class UnsentMessages {
         userMessages.add(message);
         messages.put(user, userMessages);
     }
-
-
+    
+    public synchronized ArrayList<Message> get(User user){
+        return messages.get(user);
+    }
 }
