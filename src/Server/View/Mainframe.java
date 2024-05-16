@@ -1,4 +1,3 @@
-// Mainframe.java
 package Server.View;
 
 import Server.ActivityController;
@@ -12,12 +11,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * The MainFrame class runs and sets up the Server GUI.
+ */
 public class Mainframe extends JFrame {
     private JTextArea logTextArea;
     private JSpinner startDateSpinner;
     private JSpinner endDateSpinner;
     private JButton viewTrafficButton;
 
+    /**
+     * Constructor for the MainFrame class.
+     */
     public Mainframe() {
         setTitle("Server Log Viewer");
         setSize(600, 400);
@@ -29,6 +34,7 @@ public class Mainframe extends JFrame {
         endDateSpinner = new JSpinner(new SpinnerDateModel());
         viewTrafficButton = new JButton("View Traffic");
 
+        //if View Traffic button is clicked the log messages between the chosen times are printed
         viewTrafficButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -55,11 +61,14 @@ public class Mainframe extends JFrame {
         updateLogTextArea(logMessages);
     }
 
+    /**
+     * This method gets the chosen start and end time, filters the log messages and prints them.
+     */
     private void viewTrafficBetweenTimePoints() {
-        Date startDate = (Date) startDateSpinner.getValue();
-        Date endDate = (Date) endDateSpinner.getValue();
+        Date startDate = (Date) startDateSpinner.getValue(); //gets the chosen starting date and time
+        Date endDate = (Date) endDateSpinner.getValue(); //gets the chosen ending date and time
 
-        //Read log messages from file
+        //Read all log messages from file
         List<String> logMessages = ActivityController.readLogFile();
 
         //Filter log messages between selected time points
@@ -69,6 +78,13 @@ public class Mainframe extends JFrame {
         updateLogTextArea(filteredMessages);
     }
 
+    /**
+     * Returns a list of log messages between the chosen start and end times.
+     * @param logMessages list of all log messages
+     * @param startDate start time chosen
+     * @param endDate end time chosen
+     * @return list of all log messages between the start and end time
+     */
     private List<String> filterMessagesBetweenTimePoints(List<String> logMessages, Date startDate, Date endDate) {
         List<String> filteredMessages = new ArrayList<>();
 
@@ -78,18 +94,22 @@ public class Mainframe extends JFrame {
             if (parts.length == 2) {
                 try {
                     Date messageDate = dateFormat.parse(parts[0]);
+                    //checks if a log occurred within the chosen time
                     if (messageDate.after(startDate) && messageDate.before(endDate)) {
-                        filteredMessages.add(message);
+                        filteredMessages.add(message); //adds to list if true
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
             }
         }
-
         return filteredMessages;
     }
 
+    /**
+     * Prints the log messages to the GUI.
+     * @param logMessages the messages to be printed.
+     */
     private void updateLogTextArea(List<String> logMessages) {
         //Clear logTextArea
         logTextArea.setText("");
@@ -99,6 +119,10 @@ public class Mainframe extends JFrame {
         }
     }
 
+    /**
+     * Starts the Server GUI.
+     * @param args
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override

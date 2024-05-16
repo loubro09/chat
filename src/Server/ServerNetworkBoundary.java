@@ -1,7 +1,6 @@
 package Server;
 
 import Entity.*;
-
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.IOException;
@@ -12,6 +11,9 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The ServerNetworkBoundary class handles the connections between the server and the clients.
+ */
 public class ServerNetworkBoundary {
     private ServerSocket serverSocket;
     private PropertyChangeSupport propertyChangeSupport;
@@ -19,47 +21,68 @@ public class ServerNetworkBoundary {
     private UnsentMessages unsentMessages;
     private ActivityController activityController;
 
+    /**
+     * Constructor of the ServerNetworkBoundary class.
+     * @param port the port number that server listens to.
+     */
     public ServerNetworkBoundary(int port) {
         this.propertyChangeSupport = new PropertyChangeSupport(this);
         this.unsentMessages = new UnsentMessages();
+        activityController = new ActivityController();
         clientsList = new ArrayList<>();
         try {
-            this.serverSocket = new ServerSocket(port);
+            this.serverSocket = new ServerSocket(port); //creates a server socket for clients to connect to
         } catch (IOException e) {
             e.printStackTrace();
         }
         new Connection().start();
     }
 
+    /**
+     * Returns an instance of the UnsentMessages class.
+     * @return the instance of the UnsentMessages class.
+     */
+    public UnsentMessages getUnsentMessages() {
+        return unsentMessages;
+    }
+
+    /**
+     * Adds listeners to events created by this class.
+     * @param pcl a listener
+     */
     public void addPropertyChangeListener (PropertyChangeListener pcl) {
         propertyChangeSupport.addPropertyChangeListener(pcl);
     }
 
+    /**
+     * Sends messages to a client.
+     * @param message the message being sent
+     * @param client the receiver client
+     */
     public void sendMessage(Message message, ClientHandler client) {
         try {
-            client.getOos().writeObject(message);
+            client.getOos().writeObject(message); //writes messages to the object output stream
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public UnsentMessages getUnsentMessages() {
-        return unsentMessages;
-    }
-
+    /**
+     * Inner class that is a thread and handles the connection between the server and the clients.
+     */
     private class Connection extends Thread {
         @Override
         public void run() {
             Socket socket = null;
             try {
-                while (true) {
+                while (true) { //continually listens for clients
                     try {
-                        socket = serverSocket.accept();
+                        socket = serverSocket.accept(); //accepts a new client
+                        //creates a new ClientHandler representing the new client
                         ClientHandler clientHandler = new ClientHandler(socket);
-                        clientsList.add(clientHandler);
-                        clientHandler.start();
-                    }
-                    catch (IOException e) {
+                        clientsList.add(clientHandler); //adds the new client to a list
+                        clientHandler.start(); //starts listening to messages from the client
+                    } catch (IOException e) {
                         e.printStackTrace();
                         if (socket!= null)
                             socket.close();
@@ -71,12 +94,19 @@ public class ServerNetworkBoundary {
         }
     }
 
+    /**
+     * Inner class that is a thread and handles a specific client.
+     */
     public class ClientHandler extends Thread {
         private ObjectOutputStream oos;
         private ObjectInputStream ois;
         private Socket socket;
         private User user;
 
+        /**
+         * Constructor of the ClientHandler class. Creates output and input streams.
+         * @param socket
+         */
         public ClientHandler(Socket socket) {
             this.socket = socket;
             try {
@@ -87,35 +117,42 @@ public class ServerNetworkBoundary {
             }
         }
 
+        /**
+         * Returns the object output stream of this client.
+         * @return
+         */
         public ObjectOutputStream getOos() {
             return oos;
         }
 
+        /**
+         * Method that runs when the thread is started.
+         */
         @Override
         public void run() {
             try {
                 while (true) {
-                    Message message = (Message) ois.readObject();
-                    MessageType messageType = message.getMessageType();
-                    switch (messageType) {
-                        case message:
+                    Message message = (Message) ois.readObject(); //message being read from the input stream
+                    MessageType messageType = message.getMessageType(); //gets the message type
+                    switch (messageType) { //checks which type of message has been received
+                        case message: //if a user has sent a message to another user
                             propertyChangeSupport.firePropertyChange("message", null, message);
-                            activityController.LogFile(message);
+                            activityController.writeToLogFile(message); //adds message to log file
                             break;
-                        case logIn:
+                        case logIn: //if a user has logged in
                             user = message.getSender();
                             propertyChangeSupport.firePropertyChange("login", this, user);
-                            activityController.LogFile(message);
+                            activityController.writeToLogFile(message); //adds message to log file
                             break;
-                        case logOut:
+                        case logOut: //if a user has logged out
                             propertyChangeSupport.firePropertyChange("logout",null,message);
-                            activityController.LogFile(message);
+                            activityController.writeToLogFile(message); //adds message to log file
                             break;
-                        case registerUser:
+                        case registerUser: //if a new user has been registered
                             propertyChangeSupport.firePropertyChange("register", message, this);
-                            activityController.LogFile(message);
+                            activityController.writeToLogFile(message); //adds message to log file
                             break;
-                        case addFriends:
+                        case addFriends: //if a user has added a new friend to their contacts list
                             propertyChangeSupport.firePropertyChange("updateFriendsList", message, this);
                     }
                 }

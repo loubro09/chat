@@ -1,15 +1,20 @@
-// ActivityController.java
 package Server;
 
 import Entity.Message;
-
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * The ActivityController class controls the writing and reading to the log file.
+ */
 public class ActivityController {
 
-    public static void LogFile(Message message) {
+    /**
+     * Writing to the log file.
+     * @param message contains the activity which has occurred
+     */
+    public static void writeToLogFile(Message message) {
         try (FileWriter fileWriter = new FileWriter("logger.txt", true);
              BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
 
@@ -26,6 +31,10 @@ public class ActivityController {
 
     }
 
+    /**
+     * Reads from the log file.
+     * @return the list of messages to be printed.
+     */
     public static List<String> readLogFile() {
         List<String> logMessages = new ArrayList<>();
 
