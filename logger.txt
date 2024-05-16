@@ -34,3 +34,5 @@
 2024-05-15 15:11:47 - logIn - user: idanor
 2024-05-15 15:12:06 - message - user: idanor
 2024-05-15 15:12:17 - message - user: loubro
+2024-05-16 12:50:34 - logIn - user: kenalt
+2024-05-16 13:36:31 - logIn - user: kenalt

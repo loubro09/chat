@@ -60,6 +60,7 @@ public class UnreceivedMessages implements Serializable {
     public synchronized void loadFromFile(String fileName) {
         try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))){
             messages = (HashMap<User, ArrayList<Message>>) ois.readObject();
+            test();
 
         } catch (FileNotFoundException e) {
             System.out.println("File not found. Creating a new file: " + fileName);
@@ -67,6 +68,16 @@ public class UnreceivedMessages implements Serializable {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             System.out.println("Unreceived message : loadFromFile Catch");
+        }
+    }
+
+    private void test(){
+        for (User user : messages.keySet()) {
+            System.out.println("Messages for user: " + user.getUserName());
+            ArrayList<Message> userMessages = messages.get(user);
+            for (Message message : userMessages) {
+                System.out.println("Message: " + message.getText());
+            }
         }
     }
 }
