@@ -91,8 +91,11 @@ public class ContactController implements PropertyChangeListener {
      * Clears the chat list
      */
     public void emptyChatWith() {
-        chatWith.clear();
-        chatWith = new ArrayList<>();
+        if(chatWith != null){
+        chatWith.clear();}
+        else {
+            chatWith = new ArrayList<>();
+        }
     }
 
     /**
