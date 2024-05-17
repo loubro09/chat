@@ -17,7 +17,7 @@ import java.util.List;
 public class ContactController implements PropertyChangeListener {
     private List<User> allUsers = new ArrayList<>();
     private List<User> friends = new ArrayList<>();
-    private List<User> chatWith;
+    private List<User> chatWith = new ArrayList<>();
     private ClientViewController controller;
     private boolean typeOfList = true; //When true = all users & when false = Friends
 
@@ -61,7 +61,9 @@ public class ContactController implements PropertyChangeListener {
      * @return the username of the user added to the chat. Null if no user was added.
      */
     public String addFriendToChat(int index) {
+        if (chatWith == null || chatWith.isEmpty()) {
             chatWith = new ArrayList<>();
+        }
         if (index != -1) {
             User userToAdd = null;
             if (typeOfList) {
