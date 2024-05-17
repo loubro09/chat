@@ -41,10 +41,11 @@ public class ServerMessageController implements PropertyChangeListener {
      * @param message the message containing the chat message
      */
     private void sendMessageToReceiver(Message message) {
-        List<User> receivers = message.getReceivers(); //list of all receivers in the message
+        List<User> receivers = message.getReceivers();
+        //list of all receivers in the message
         //iterates through each user in the list
         for (User receiver : receivers) {
-            System.out.println(receiver.getUserName());
+            System.out.println("Receiver: " + receiver.getUserName());
             User user = uc.getUserByUsername(receiver.getUserName());
             //iterates through each entry in the clients list from the UserController
             //for (Map.Entry<User, ServerNetworkBoundary.ClientHandler> entry : uc.getClients().entrySet()) {
@@ -67,7 +68,6 @@ public class ServerMessageController implements PropertyChangeListener {
                         System.out.println("not online receiver");
                         uc.getServerNetworkBoundary().getUnreceivedMessage().put(receiver, message);
                     }
-                    break;
                 }
             }
         //}

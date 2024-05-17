@@ -61,9 +61,7 @@ public class ContactController implements PropertyChangeListener {
      * @return the username of the user added to the chat. Null if no user was added.
      */
     public String addFriendToChat(int index) {
-        if (chatWith == null) {
             chatWith = new ArrayList<>();
-        }
         if (index != -1) {
             User userToAdd = null;
             if (typeOfList) {
@@ -91,10 +89,13 @@ public class ContactController implements PropertyChangeListener {
      * Clears the chat list
      */
     public void emptyChatWith() {
-        if(chatWith != null){
-        chatWith.clear();}
+        if(chatWith != null) {
+            chatWith.clear();
+            System.out.println("chatWith list cleared");
+        }
         else {
             chatWith = new ArrayList<>();
+            System.out.println("chatWith list initialized and cleared");
         }
     }
 
