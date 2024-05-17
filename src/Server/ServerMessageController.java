@@ -45,6 +45,7 @@ public class ServerMessageController implements PropertyChangeListener {
         //iterates through each user in the list
         for (User receiver : receivers) {
             System.out.println(receiver.getUserName());
+            User user = uc.getUserByUsername(receiver.getUserName());
             //iterates through each entry in the clients list from the UserController
             //for (Map.Entry<User, ServerNetworkBoundary.ClientHandler> entry : uc.getClients().entrySet()) {
                 //gets the user associated with the current entry
@@ -54,7 +55,7 @@ public class ServerMessageController implements PropertyChangeListener {
                     //gets the client handler associated with the user
                     //ServerNetworkBoundary.ClientHandler clientHandler = entry.getValue();
                     //System.out.println(clientHandler.getUser().getUserName() + " is logged in");
-                     ServerNetworkBoundary.ClientHandler clientHandler = uc.getClients().get(receiver);
+                     ServerNetworkBoundary.ClientHandler clientHandler = uc.getClients().get(user);
                     if (clientHandler != null) { //if the receiver is logged in
                         //creates the message for the receiver
                         System.out.println(clientHandler.getUser().getUserName() + " is logged in");

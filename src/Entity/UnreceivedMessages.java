@@ -40,12 +40,12 @@ public class UnreceivedMessages implements Serializable {
             Map.Entry<User, ArrayList<Message>> entry = iterator.next();
             if (entry.getKey().getUserName().equals(user.getUserName())) {
                 System.out.println(user.getUserName() + " oijnq3g");
-                userMessages = entry.getValue();
+                userMessages.addAll(entry.getValue());
                 for (Message message : userMessages) {
                     System.out.println("Message for user " + user.getUserName() + ": " + message.getText());
                 }
                 iterator.remove(); // Remove the entry from the hashmap using iterator's remove() method
-                saveToFile(fileName); // Save changes after removing messages
+                saveToFile(fileName); // Save changes after removing message
             }
         }
         return userMessages;

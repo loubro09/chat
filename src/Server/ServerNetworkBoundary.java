@@ -115,6 +115,13 @@ public class ServerNetworkBoundary {
                 this.ois = new ObjectInputStream(socket.getInputStream());
             } catch (IOException e) {
                 e.printStackTrace();
+                try {
+                    if (ois != null) ois.close();
+                    if (oos != null) oos.close();
+                    if (socket != null && !socket.isClosed()) socket.close();
+                } catch (IOException ef) {
+                    ef.printStackTrace();
+                }
             }
         }
 

@@ -369,7 +369,7 @@ public class UserController implements PropertyChangeListener {
      * @param userName the username of the user
      * @return the user
      */
-    private User getUserByUsername(String userName) {
+    public User getUserByUsername(String userName) {
         for (User user : allUsers) {
             if (user.getUserName().equals(userName)) {
                 return user;
