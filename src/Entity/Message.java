@@ -11,13 +11,14 @@ import java.util.List;
  * The class represents messages like login, log out and sending a text message.
  */
 public class Message implements Serializable {
+    private static final long serialVersionUID = -6224408929258950762L;
     private MessageType messageType;
     private String text;
     private User sender;
     private List<User> receivers;
     private User receiver;
-    private LocalDateTime timeDelivered;
-    private LocalDateTime timeReceived;
+    private LocalDateTime timeDeliveredToServer;
+    private LocalDateTime timeDeliveredToClient;
 
     /**
      * A constructor that only takes the type of message as a parameter.
@@ -33,7 +34,8 @@ public class Message implements Serializable {
      * @param user  The user object for this message.
      */
     public Message(MessageType messageType, User user) {
-        this.messageType = messageType; sender = user;
+        this.messageType = messageType;
+        this.sender = user;
     }
 
     /**
@@ -44,7 +46,9 @@ public class Message implements Serializable {
      * @param allUsers  A list of all users in the system.
      */
     public Message(MessageType messageType, User savedUser, List<User> allUsers) {
-        this.messageType = messageType; sender = savedUser; receivers = allUsers;
+        this.messageType = messageType;
+        this.sender = savedUser;
+        this.receivers = allUsers;
     }
 
     /**
@@ -55,16 +59,16 @@ public class Message implements Serializable {
      * @param text The text that will be sent in the message.
      * @param sender The user object that's sending the message.
      * @param receivers The user object that will be receiving the message.
-     * @param timeDelivered The time the message was delivered.
-     * @param timeReceived The time the message was received.
+     * @param timeDeliveredToServer The time the message was delivered.
+     * @param timeDeliveredToClient The time the message was received.
      */
-    public Message(MessageType messageType, String text, User sender, List<User> receivers, LocalDateTime timeDelivered, LocalDateTime timeReceived) {
+    public Message(MessageType messageType, String text, User sender, List<User> receivers, LocalDateTime timeDeliveredToServer, LocalDateTime timeDeliveredToClient) {
         this.messageType = messageType;
         this.text = text;
         this.sender = sender;
         this.receivers = receivers;
-        this.timeDelivered = timeDelivered;
-        this.timeReceived = timeReceived;
+        this.timeDeliveredToServer = timeDeliveredToServer;
+        this.timeDeliveredToClient = timeDeliveredToClient;
     }
 
     /**
@@ -75,32 +79,32 @@ public class Message implements Serializable {
      * @param text The text that will be sent in the message.
      * @param sender The user object that's sending the message.
      * @param receiver The user object that's receiving the message.
-     * @param timeDelivered The time the message was delivered.
-     * @param timeReceived The time the message was received.
+     * @param timeDeliveredToServer The time the message was delivered.
+     * @param timeDeliveredToClient The time the message was received.
      */
-    public Message(MessageType messageType, String text, User sender, User receiver, LocalDateTime timeDelivered, LocalDateTime timeReceived) {
+    public Message(MessageType messageType, String text, User sender, User receiver, LocalDateTime timeDeliveredToServer, LocalDateTime timeDeliveredToClient) {
         this.messageType = messageType;
         this.text = text;
         this.sender = sender;
         this.receiver = receiver;
-        this.timeDelivered = timeDelivered;
-        this.timeReceived = timeReceived;
+        this.timeDeliveredToServer = timeDeliveredToServer;
+        this.timeDeliveredToClient = timeDeliveredToClient;
     }
 
     /**
      * A getter for the timeDelivered time.
      * @return timeDelivered.
      */
-    public LocalDateTime getTimeDelivered() {
-        return timeDelivered;
+    public LocalDateTime getTimeDeliveredToServer() {
+        return timeDeliveredToServer;
     }
 
     /**
      * A getter for the timeReceived time.
      * @return timeReceived.
      */
-    public LocalDateTime getTimeReceived() {
-        return timeReceived;
+    public LocalDateTime getTimeDeliveredToClient() {
+        return timeDeliveredToClient;
     }
 
     /**
@@ -133,7 +137,23 @@ public class Message implements Serializable {
      */
     @Override
     public String toString() {
-        return "" + messageType + " - user: " + sender.getUserName();
+        String str = "";
+        switch (messageType) {
+            case message:
+                str = sender.getUserName() + " sent a message to " + receiver.getUserName() + "\n Time " +
+                        "received by Server : " + timeDeliveredToServer + "\nTime received by client: " + timeDeliveredToClient;
+                break;
+            case loginSuccess:
+                str = sender.getUserName() + " has logged in.";
+                break;
+            case registerSuccess:
+                str = sender.getUserName() + " has created an account.";
+                break;
+            case logOut:
+                str = sender.getUserName() + " has logged out.";
+        }
+        return str;
+        //return "" + messageType + " - user: " + sender.getUserName();
     }
 
     /**
@@ -147,4 +167,11 @@ public class Message implements Serializable {
      * @return receiver User object.
      */
 
+    public void setTimeDeliveredToServer(LocalDateTime timeDeliveredToServer) {
+        this.timeDeliveredToServer = timeDeliveredToServer;
+    }
+
+    public void setTimeDeliveredToClient(LocalDateTime timeDeliveredToClient) {
+        this.timeDeliveredToClient = timeDeliveredToClient;
+    }
 }

@@ -14,7 +14,7 @@ public class ActivityController {
      * Writing to the log file.
      * @param message contains the activity which has occurred
      */
-    public static void writeToLogFile(Message message) {
+    public void writeToLogFile(Message message) {
         try (FileWriter fileWriter = new FileWriter("logger.txt", true);
              BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
 

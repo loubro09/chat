@@ -5,8 +5,8 @@ import Entity.MessageType;
 import Entity.User;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 /**
  * The ServerMessageController class listens for changes regarding messages being sent between users, and handles the
@@ -32,6 +32,7 @@ public class ServerMessageController implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         if ("message".equals(evt.getPropertyName())) { //listens for messages
             Message message = (Message) evt.getNewValue();
+            message.setTimeDeliveredToServer(LocalDateTime.now());
             sendMessageToReceiver(message);
         }
     }
@@ -61,7 +62,8 @@ public class ServerMessageController implements PropertyChangeListener {
                         //creates the message for the receiver
                         System.out.println(clientHandler.getUser().getUserName() + " is logged in");
                         Message messageToReceiver = new Message(MessageType.message, message.getText(), message.getSender(),
-                                receiver, message.getTimeDelivered(), message.getTimeReceived());
+                                receiver, message.getTimeDeliveredToServer(), null);
+                        messageToReceiver.setTimeDeliveredToClient(LocalDateTime.now());
                         //sends the message to the receiver
                         uc.getServerNetworkBoundary().sendMessage(messageToReceiver, clientHandler);
                     } else { //if the receiver is not logged in the message is stored in buffer

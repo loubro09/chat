@@ -11,7 +11,6 @@ import java.util.Map;
  * Saving the messages using a HashMap until the receiver user gets online.
  */
 public class UnreceivedMessages implements Serializable {
-    //private static final long serialVersionUID = 1L;
     private HashMap<User, ArrayList<Message>> messages = new HashMap<>();
     private String fileName = "unreceivedmessages.dat";
 
@@ -67,8 +66,6 @@ public class UnreceivedMessages implements Serializable {
     public synchronized void loadFromFile(String fileName) {
         try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))){
             messages = (HashMap<User, ArrayList<Message>>) ois.readObject();
-            test();
-
         } catch (FileNotFoundException e) {
             System.out.println("File not found. Creating a new file: " + fileName);
             saveToFile(fileName);

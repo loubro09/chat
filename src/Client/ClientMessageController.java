@@ -47,7 +47,7 @@ public class ClientMessageController implements PropertyChangeListener{
     public void sendMessage(String text) {
         List<User> recievers = clientViewController.getContactController().getChatWith();
         Message message = new Message(MessageType.message, text, clientViewController.getLogController().getLoggedInUser(), recievers,
-                LocalDateTime.now(), LocalDateTime.now());
+                null, null);
         clientViewController.getLogController().getCnb().sendMessage(message);
     }
 

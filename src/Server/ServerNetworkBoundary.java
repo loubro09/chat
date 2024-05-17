@@ -63,6 +63,10 @@ public class ServerNetworkBoundary {
     public void sendMessage(Message message, ClientHandler client) {
         try {
             client.getOos().writeObject(message); //writes messages to the object output stream
+            MessageType messageType = message.getMessageType();
+            if (messageType == MessageType.message || messageType == MessageType.loginSuccess || messageType == MessageType.registerSuccess) {
+                activityController.writeToLogFile(message);
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -149,12 +153,12 @@ public class ServerNetworkBoundary {
                     switch (messageType) { //checks which type of message has been received
                         case message: //if a user has sent a message to another user
                             propertyChangeSupport.firePropertyChange("message", null, message);
-                            activityController.writeToLogFile(message); //adds message to log file
+                            //activityController.writeToLogFile(message); //adds message to log file
                             break;
                         case logIn: //if a user has logged in
                             user = message.getSender();
                             propertyChangeSupport.firePropertyChange("login", this, user);
-                            activityController.writeToLogFile(message); //adds message to log file
+                            //activityController.writeToLogFile(message); //adds message to log file
                             break;
                         case logOut: //if a user has logged out
                             propertyChangeSupport.firePropertyChange("logout",null,message);
@@ -162,7 +166,7 @@ public class ServerNetworkBoundary {
                             break;
                         case registerUser: //if a new user has been registered
                             propertyChangeSupport.firePropertyChange("register", message, this);
-                            activityController.writeToLogFile(message); //adds message to log file
+                            //activityController.writeToLogFile(message); //adds message to log file
                             break;
                         case addFriends: //if a user has added a new friend to their contacts list
                             propertyChangeSupport.firePropertyChange("updateFriendsList", message, this);
