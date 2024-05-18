@@ -88,36 +88,42 @@ public class UserController implements PropertyChangeListener {
                 clients.remove(savedUser);
                 System.out.println("User " + savedUser.getUserName() + " is already logged in. Updating login information.");
             }
+
             clients.put(savedUser, client);
             System.out.println("User " + savedUser.getUserName() + " logged in successfully.");
             savedUser.setOnline(true); //sets the logged in user to online
             Message loginSuccessMessage = new Message(MessageType.loginSuccess, savedUser, allUsers); //creates login success message
             serverNetworkBoundary.sendMessage(loginSuccessMessage, client); //sends message
-            System.out.println("saved user" + savedUser.getUserName());
             Message userLoggedInMessage = new Message(MessageType.userLoggedIn, savedUser); //creates user logged in message
             for (ServerNetworkBoundary.ClientHandler receiver : clients.values()) { //sends message to all users
                 if (receiver != null) {
                     serverNetworkBoundary.sendMessage(userLoggedInMessage, receiver);
                 }
             }
-            sendUnreceivedMessages(savedUser,client);
+            sendUnreceivedMessages(savedUser,client); //sends the user all its unreceived messages
         } else { //if the user has not made an account already the login fails
             System.out.println("User " + user.getUserName() + " does not exist.");
             Message loginFailMessage = new Message(MessageType.loginFail); //creates login fail message
             serverNetworkBoundary.sendMessage(loginFailMessage, client); //sends login fail message back to client
         }
     }
+
+    /**
+     * Sends the user all its unreceived messages when it has logged in.
+     * @param user the receiver of the messages
+     * @param client the receiver's socket connection
+     */
     private void sendUnreceivedMessages(User user, ServerNetworkBoundary.ClientHandler client) {
-        System.out.println(user.getUserName() + "senducoweif");
+        //gets list of unreceived messages for the user
         ArrayList<Message> unreceivedMessages = serverNetworkBoundary.getUnreceivedMessage().retrieveMessages(user);
         if (unreceivedMessages != null && !unreceivedMessages.isEmpty()) {
             for (Message msg : unreceivedMessages) {
-                System.out.println(msg.getText() + " is sending");
-                serverNetworkBoundary.sendMessage(msg, client);
+                System.out.println("Unreceived message to " + user + " is sent: " + msg.getText());
+                serverNetworkBoundary.sendMessage(msg, client); //sends each message
             }
         }
         else {
-            System.out.println("No unreceived msgs");
+            System.out.println("No unreceived messages");
         }
     }
 

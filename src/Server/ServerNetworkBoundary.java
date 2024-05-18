@@ -129,6 +129,10 @@ public class ServerNetworkBoundary {
             }
         }
 
+        /**
+         * Returns the user belonging to this client socket.
+         * @return the user.
+         */
         public User getUser() {
             return user;
         }

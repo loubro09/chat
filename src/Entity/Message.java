@@ -2,6 +2,7 @@ package Entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -100,14 +101,6 @@ public class Message implements Serializable {
     }
 
     /**
-     * A getter for the timeReceived time.
-     * @return timeReceived.
-     */
-    public LocalDateTime getTimeDeliveredToClient() {
-        return timeDeliveredToClient;
-    }
-
-    /**
      * Getter for the text String.
      * @return text String.
      */
@@ -140,8 +133,11 @@ public class Message implements Serializable {
         String str = "";
         switch (messageType) {
             case message:
-                str = sender.getUserName() + " sent a message to " + receiver.getUserName() + "\n Time " +
-                        "received by Server : " + timeDeliveredToServer + "\nTime received by client: " + timeDeliveredToClient;
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+                str = sender.getUserName() + " sent a message to " + receiver.getUserName() + ". Time " +
+                        "received by Server : " + timeDeliveredToServer.format(formatter) +
+                        ". Time received by client: " + timeDeliveredToClient.format(formatter);
                 break;
             case loginSuccess:
                 str = sender.getUserName() + " has logged in.";
@@ -153,7 +149,6 @@ public class Message implements Serializable {
                 str = sender.getUserName() + " has logged out.";
         }
         return str;
-        //return "" + messageType + " - user: " + sender.getUserName();
     }
 
     /**
@@ -163,14 +158,17 @@ public class Message implements Serializable {
     public List<User> getReceivers() {return receivers;}
 
     /**
-     * Getter for the receiver user object.
-     * @return receiver User object.
+     * Sets the timeDeliveredToServer variable.
+     * @param timeDeliveredToServer
      */
-
     public void setTimeDeliveredToServer(LocalDateTime timeDeliveredToServer) {
         this.timeDeliveredToServer = timeDeliveredToServer;
     }
 
+    /**
+     * Sets the timeDeliveredToClient variable.
+     * @param timeDeliveredToClient
+     */
     public void setTimeDeliveredToClient(LocalDateTime timeDeliveredToClient) {
         this.timeDeliveredToClient = timeDeliveredToClient;
     }

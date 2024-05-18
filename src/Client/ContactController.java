@@ -93,11 +93,9 @@ public class ContactController implements PropertyChangeListener {
     public void emptyChatWith() {
         if(chatWith != null) {
             chatWith.clear();
-            System.out.println("chatWith list cleared");
         }
         else {
             chatWith = new ArrayList<>();
-            System.out.println("chatWith list initialized and cleared");
         }
     }
 
@@ -154,12 +152,22 @@ public class ContactController implements PropertyChangeListener {
         this.allUsers = allUsers;
     }
 
+    /**
+     * Returns the user's list of friends.
+     * @return the list of friends.
+     */
     public List<User> getFriends() {
         return friends;
     }
+
+    /**
+     * Returns the list of people the user is chatting with.
+     * @return the list of people.
+     */
     public List<User> getChatWith() {
         return chatWith;
     }
+
     /**
      * Returns the type of list being displayed (all users or friends).
      * @return true if displaying all users, false if displaying friends.
@@ -168,6 +176,10 @@ public class ContactController implements PropertyChangeListener {
         this.typeOfList = typeOfList;
     }
 
+    /**
+     * Sets the user's friendlist.
+     * @param friends the list of friends.
+     */
     public void setFriends(List<User> friends) {
         this.friends = friends;
     }

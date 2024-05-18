@@ -32,7 +32,6 @@ public class ClientViewController {
             case Log_Out:
                 logController.logOut();
                 contactController.emptyChatWith();
-                System.out.println("logged out, chat emptied " + contactController.getChatWith());
                 mainFrame.getMainPanel().getLeftPanel().deleteInteractingUser();
                 break;
 
@@ -43,7 +42,6 @@ public class ClientViewController {
             case send:
                 mainFrame.getMainPanel().getRightPanel().getBtnAddToChat().setEnabled(false);
                 String text = mainFrame.getMainPanel().getLeftPanel().sendMessage();
-                System.out.println("message sent");
                 System.out.println(text);
                 clientMessageController.sendMessage(text);
                 break;
@@ -72,7 +70,7 @@ public class ClientViewController {
                     mainFrame.enableSendMessageButtons();
                 }
                 mainFrame.getMainPanel().getLeftPanel().setInteractingUser(iu);
-                System.out.println("Contact added to chat" + contactController.getChatWith());
+                System.out.println("Contact added to chat: " + iu);
                 break;
 
             case New_Chat:
@@ -81,10 +79,10 @@ public class ClientViewController {
                 mainFrame.getMainPanel().getRightPanel().getBtnAddToChat().setEnabled(true);
                 mainFrame.getMainPanel().getLeftPanel().clearTextBox();
                 mainFrame.getMainPanel().getLeftPanel().deleteInteractingUser();
-                System.out.println("new chat");
+                System.out.println("New chat created.");
                 break;
             default:
-                throw new IllegalStateException("Unexpected value: " + button);
+                break;
         }
     }
 
@@ -97,7 +95,6 @@ public class ClientViewController {
                     userNames[i] = " 🟢 " + userNames[i];
                 } else {
                     userNames[i] = " 🔴 " + userNames[i];
-                    System.out.println("user offline");
                 }
             }
         }

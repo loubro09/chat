@@ -80,19 +80,15 @@ ClientNetworkBoundary {
                             break;
                         case loginFail:
                             propertyChangeSupport.firePropertyChange("logFail",null,message);
-                            System.out.println("Kunde inte logga in");
                             break;
                         case userLoggedIn:
                             propertyChangeSupport.firePropertyChange("userLoggedIn", null, message);
-                            System.out.println("Inloggad");
                             break;
                         case userLoggedOut:
                             propertyChangeSupport.firePropertyChange("userLoggedOut", null, message);
-                            System.out.println("Utloggad");
                             break;
                         case message:
                             propertyChangeSupport.firePropertyChange("messageReceived", null, message);
-                            System.out.println("meddelande mottaget");
                             break;
                     }
                 }
