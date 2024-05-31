@@ -50,8 +50,7 @@ public class ServerMessageController implements PropertyChangeListener {
             if (clientHandler != null) { //if the receiver is logged in
                 //creates the message for the receiver
                 System.out.println(clientHandler.getUser().getUserName() + " is logged in");
-                Message messageToReceiver = new Message(MessageType.message, message.getText(), message.getSender(),
-                        receiver, message.getTimeDeliveredToServer(), null);
+                Message messageToReceiver = new Message(MessageType.message, message.getSender());
                 messageToReceiver.setTimeDeliveredToClient(LocalDateTime.now()); //timestamps
                 //sends the message to the receiver
                 uc.getServerNetworkBoundary().sendMessage(messageToReceiver, clientHandler);

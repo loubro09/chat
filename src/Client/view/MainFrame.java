@@ -1,5 +1,6 @@
 package Client.view;
 
+import Client.ClientMessageController;
 import Client.ClientViewController;
 import Entity.User;
 import javax.swing.*;
@@ -153,5 +154,8 @@ public class MainFrame extends JFrame {
         mainPanel.getRightPanel().getBtnSelectContact().setVisible(true);
         mainPanel.getRightPanel().getBtnAddToChat().setVisible(true);
         mainPanel.getBtnNewChat().setVisible(true);
+    }
+    public ClientMessageController getClientMessageController(){
+        return controller.getClientMessageController();
     }
 }

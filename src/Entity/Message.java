@@ -20,6 +20,7 @@ public class Message implements Serializable {
     private User receiver;
     private LocalDateTime timeDeliveredToServer;
     private LocalDateTime timeDeliveredToClient;
+    private byte[] image;
 
     /**
      * A constructor that only takes the type of message as a parameter.
@@ -51,6 +52,13 @@ public class Message implements Serializable {
         this.sender = savedUser;
         this.receivers = allUsers;
     }
+    public Message(MessageType messageType, User sender, List<User> receivers, LocalDateTime timeDeliveredToServer, LocalDateTime timeDeliveredToClient) {
+        this.messageType = messageType;
+        this.sender = sender;
+        this.receivers = receivers;
+        this.timeDeliveredToServer = timeDeliveredToServer;
+        this.timeDeliveredToClient = timeDeliveredToClient;
+    }
 
     /**
      * A constructor that takes a message type (a message), a message text, a sender user object,
@@ -66,6 +74,14 @@ public class Message implements Serializable {
     public Message(MessageType messageType, String text, User sender, List<User> receivers, LocalDateTime timeDeliveredToServer, LocalDateTime timeDeliveredToClient) {
         this.messageType = messageType;
         this.text = text;
+        this.sender = sender;
+        this.receivers = receivers;
+        this.timeDeliveredToServer = timeDeliveredToServer;
+        this.timeDeliveredToClient = timeDeliveredToClient;
+    }
+    public Message(MessageType messageType, byte[] image, User sender, List<User> receivers, LocalDateTime timeDeliveredToServer, LocalDateTime timeDeliveredToClient) {
+        this.messageType = messageType;
+        this.image = image;
         this.sender = sender;
         this.receivers = receivers;
         this.timeDeliveredToServer = timeDeliveredToServer;
@@ -91,6 +107,16 @@ public class Message implements Serializable {
         this.timeDeliveredToServer = timeDeliveredToServer;
         this.timeDeliveredToClient = timeDeliveredToClient;
     }
+   /* public Message(MessageType messageType, byte[]image, User sender, User receiver, LocalDateTime timeDeliveredToServer, LocalDateTime timeDeliveredToClient) {
+        this.messageType = messageType;
+        this.image = image;
+        this.sender = sender;
+        this.receiver = receiver;
+        this.timeDeliveredToServer = timeDeliveredToServer;
+        this.timeDeliveredToClient = timeDeliveredToClient;
+    }
+
+    */
 
     /**
      * A getter for the timeDelivered time.
@@ -106,6 +132,9 @@ public class Message implements Serializable {
      */
     public String getText(){
         return text;
+    }
+    public byte[] getImage() {
+        return image;
     }
 
     /**

@@ -128,4 +128,8 @@ public class ClientViewController {
     public static void main(String[] args) {
         new ClientViewController();
     }
+
+    public ClientMessageController getClientMessageController() {
+        return clientMessageController;
+    }
 }

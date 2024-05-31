@@ -36,3 +36,13 @@
 2024-05-15 15:12:17 - message - user: loubro
 2024-05-16 12:50:34 - logIn - user: kenalt
 2024-05-16 13:36:31 - logIn - user: kenalt
+2024-05-30 12:42:58 - idanor has logged in.
+2024-05-30 12:45:08 - idanor has logged in.
+2024-05-30 12:45:21 - kenalt has logged in.
+2024-05-30 12:45:34 - kenalt sent a message to idanor. Time received by Server : 2024-05-30 12:45:34. Time received by client: 2024-05-30 12:45:34
+2024-05-30 13:56:07 - idanor has logged in.
+2024-05-30 13:58:29 - kenalt has logged in.
+2024-05-31 10:22:19 - kenalt has logged in.
+2024-05-31 10:22:47 - idanor has logged in.
+2024-05-31 10:34:19 - idanor has logged in.
+2024-05-31 10:36:32 - idanor has logged in.

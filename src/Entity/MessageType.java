@@ -5,6 +5,7 @@ package Entity;
  */
 public enum MessageType {
     message,
+    image,
     logIn,
     logOut,
     registerUser,

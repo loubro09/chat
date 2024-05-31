@@ -110,11 +110,11 @@ public class LPanel extends JPanel implements ActionListener {
                 if (file != null) {
                     appendPicture(file);
                     btnSend.setEnabled(true);
+                    mainFrame.getClientMessageController().sendImage(file);
                 }
             }
         }
     }
-
     /**
      * Method for sending a message in the chat box.
      * @return if the message is not empty, return the text message.
@@ -136,6 +136,10 @@ public class LPanel extends JPanel implements ActionListener {
      */
     public void receivedMessage(String username, String message) {
         appendMessage(username + ": " + message);
+    }
+    public void receivedImage(String username, byte[] imageData){
+        appendMessage(username+ ": ");
+        appendPicture(imageData);
     }
 
     /**
@@ -159,10 +163,7 @@ public class LPanel extends JPanel implements ActionListener {
         repaint();
     }
 
-    /**
-     * Appends an image.
-     * @param file image to the chat box.
-     */
+
     private void appendPicture(File file) {
         try {
             ImageIcon imageIcon = new ImageIcon(ImageIO.read(file));
@@ -188,6 +189,35 @@ public class LPanel extends JPanel implements ActionListener {
             repaint();
         } catch (IOException ex) {
             ex.printStackTrace();
+        }
+    }
+
+    private void appendPicture(byte[]imageData){
+        try{
+            ImageIcon imageIcon= new ImageIcon(imageData);
+            Image image = imageIcon.getImage();
+            int width = textChatBox.getWidth();
+            int height = textChatBox.getHeight();
+
+
+            int scaledWidth, scaledHeight;
+            double aspectRatio = (double) image.getWidth(null) / image.getHeight(null);
+            if (width / aspectRatio <= height) {
+                scaledWidth = width;
+                scaledHeight = (int) (width / aspectRatio);
+            } else {
+                scaledWidth = (int) (height * aspectRatio);
+                scaledHeight = height;
+            }
+            Image scaledImage = image.getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH);
+            ImageIcon scaledIcon = new ImageIcon(scaledImage);
+            JLabel pictureLabel = new JLabel(scaledIcon);
+            textChatBox.add(pictureLabel);
+            revalidate();
+            repaint();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+
         }
     }
 
