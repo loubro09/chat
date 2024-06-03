@@ -110,7 +110,6 @@ public class LPanel extends JPanel implements ActionListener {
                 if (file != null) {
                     appendPicture(file);
                     btnSend.setEnabled(true);
-
                 }
             }
         }
@@ -138,9 +137,9 @@ public class LPanel extends JPanel implements ActionListener {
     public void receivedMessage(String username, String message) {
         appendMessage(username + ": " + message);
     }
-    public void receivedImage(String username, byte[] imageData){
+    public void receivedImage(String username, File imageData){
         appendMessage(username+ ": ");
-        //appendPicture(imageData);
+        appendPicture(imageData);
         appendPicture(file);
     }
 

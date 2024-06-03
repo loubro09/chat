@@ -94,11 +94,15 @@ public class ClientMessageController implements PropertyChangeListener{
                 ByteArrayInputStream bis = new ByteArrayInputStream(imageData);
                 BufferedImage image = ImageIO.read(bis);
                 bis.close();
-                clientViewController.getMainFrame().getMainPanel().getLeftPanel().receivedMessage(senderName, String.valueOf(image));
+                File tempFile = File.createTempFile("received_image", ".png");
+                ImageIO.write(image, "png", tempFile);
+                clientViewController.getMainFrame().getMainPanel().getLeftPanel().receivedImage(senderName, tempFile);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-
         }
     }
+
 }
+
+

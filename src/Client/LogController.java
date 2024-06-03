@@ -49,7 +49,7 @@ public class LogController implements PropertyChangeListener{
         User user = new User(userName);
 
         //Local
-        cnb = new ClientNetworkBoundary("127.0.0.1", 1234);
+        //cnb = new ClientNetworkBoundary("127.0.0.1", 1234);
 
         //Ida
         //cnb = new ClientNetworkBoundary("192.168.0.130", 1234);
@@ -59,7 +59,7 @@ public class LogController implements PropertyChangeListener{
         ///cnb = new ClientNetworkBoundary("192.168.1.114", 1234);
 
         //Alanah
-        //cnb = new ClientNetworkBoundary("172.20.10.12", 1234);
+        cnb = new ClientNetworkBoundary("10.2.1.183", 1234);
         
         cnb.addPropertyChangeListener(this);
         cnb.addPropertyChangeListener(cvc.getContactController());
