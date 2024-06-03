@@ -54,7 +54,7 @@ public class ClientMessageController implements PropertyChangeListener{
      */
     public void sendMessage(String text) {
         List<User> recievers = clientViewController.getContactController().getChatWith();
-        Message message = new Message(MessageType.message,text, clientViewController.getLogController().getLoggedInUser(), recievers, null,null);
+        Message message = new Message(MessageType.message, text, clientViewController.getLogController().getLoggedInUser(), recievers, null,null);
         clientViewController.getLogController().getCnb().sendMessage(message);
     }
 
@@ -71,7 +71,7 @@ public class ClientMessageController implements PropertyChangeListener{
     public void sendImageAndText(String text,ImageIcon imageIcon) {
 
         List<User> receivers = clientViewController.getContactController().getChatWith();
-        Message message = new Message(MessageType.image,text, clientViewController.getLogController().getLoggedInUser(), receivers, LocalDateTime.now(), null, imageIcon);
+        Message message = new Message(MessageType.msgAndImg,text, clientViewController.getLogController().getLoggedInUser(), receivers, LocalDateTime.now(), null, imageIcon);
         clientViewController.getLogController().getCnb().sendMessage(message);
     }
 
@@ -87,6 +87,11 @@ public class ClientMessageController implements PropertyChangeListener{
         } else if (message.getMessageType() == MessageType.image) {
             ImageIcon imageData = message.getImage();
             System.out.println(imageData.toString());
+            clientViewController.getMainFrame().getMainPanel().getLeftPanel().receivedImage(senderName, imageData);
+        } else if (message.getMessageType() == MessageType.msgAndImg) {
+            String text = message.getText();
+            clientViewController.getMainFrame().getMainPanel().getLeftPanel().receivedMessage(senderName, text);
+            ImageIcon imageData = message.getImage();
             clientViewController.getMainFrame().getMainPanel().getLeftPanel().receivedImage(senderName, imageData);
         }
     }

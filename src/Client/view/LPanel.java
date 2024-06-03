@@ -23,6 +23,7 @@ public class LPanel extends JPanel implements ActionListener {
     private int width;
     private int height;
     private ImageIcon file;
+    private ImageIcon placeHolder;
     private MainFrame mainFrame;
 
     /**
@@ -84,6 +85,9 @@ public class LPanel extends JPanel implements ActionListener {
         bottomPanel.setPreferredSize(new Dimension(width, 50));
         messageTextField = new JTextField();
         bottomPanel.add(messageTextField, BorderLayout.CENTER);
+
+
+
         choosePhoto = new JButton("Choose Photo");
         choosePhoto.addActionListener(this);
         bottomPanel.add(choosePhoto, BorderLayout.EAST);
@@ -92,6 +96,8 @@ public class LPanel extends JPanel implements ActionListener {
         interactingUserLabel = new JLabel("Interacting with: ");
         topPanel.add(interactingUserLabel, BorderLayout.SOUTH);
         add(buttonPanel, BorderLayout.SOUTH);
+
+        placeHolder = null;
     }
 
     /**
@@ -105,16 +111,19 @@ public class LPanel extends JPanel implements ActionListener {
             int result = fileChooser.showOpenDialog(this);
             if (result == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
-                ImageIcon image = new ImageIcon(file.getAbsolutePath());
-                if (file != null) {
-                    appendPicture(image);
-                    btnSend.setEnabled(true);
-                }
+                placeHolder = new ImageIcon(file.getAbsolutePath());
+                choosePhoto.setIcon(placeHolder);
+//                if (file != null) {
+//                    appendPicture(image);
+//                    btnSend.setEnabled(true);
+//                }
             }
         }
     }
     public ImageIcon getSelectedImage() {
-        return file;
+        ImageIcon selectedImage = placeHolder;
+        placeHolder = null;
+        return selectedImage;
     }
     /**
      * Method for sending a message in the chat box.
@@ -122,18 +131,27 @@ public class LPanel extends JPanel implements ActionListener {
      */
     public String sendMessage() {
         String message = messageTextField.getText();
-        if (!message.isEmpty() || file != null) {
-            if (!message.isEmpty()) {
-                appendMessage("You: " + message);
-                messageTextField.setText("");
-            }
-            if (file != null) {
-                appendPicture(file);
-                file = null;
-            }
-            return message;
+
+        boolean messageHasValue = false;
+
+        if(!message.isEmpty() && placeHolder != null) {
+            messageHasValue = true;
+            appendPicture(placeHolder);
+            appendMessage("You: " + message);
+            // båda
+        } else if(!message.isEmpty() && placeHolder == null) {
+            messageHasValue = true;
+            appendMessage("You: " + message);
+        } else if(message.isEmpty() && placeHolder != null) {
+            messageHasValue = true;
+            appendPicture(placeHolder);
+            // bild
         }
-        return null;
+
+        messageTextField.setText("");
+
+        return messageHasValue? message : null;
+
     }
 
     /**
@@ -172,23 +190,6 @@ public class LPanel extends JPanel implements ActionListener {
 
 
     private void appendPicture(ImageIcon file) {
-
-        /*int width = textChatBox.getWidth();
-        int height = textChatBox.getHeight();
-
-            int scaledWidth, scaledHeight;
-            double aspectRatio = (double) image.getWidth(null) / image.getHeight(null);
-            if (width / aspectRatio <= height) {
-                scaledWidth = width;
-                scaledHeight = (int) (width / aspectRatio);
-            } else {
-                scaledWidth = (int) (height * aspectRatio);
-                scaledHeight = height;
-            }
-
-            Image scaledImage = image.getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH);
-            ImageIcon scaledIcon = new ImageIcon(scaledImage);*/
-
         JLabel pictureLabel = new JLabel(file);
         textChatBox.add(pictureLabel);
         revalidate();

@@ -49,13 +49,13 @@ public class ClientViewController {
                 String text = mainFrame.getMainPanel().getLeftPanel().sendMessage();
                 ImageIcon imageFile = mainFrame.getMainPanel().getLeftPanel().getSelectedImage();
 
-                if (text != null && imageFile != null) {
+                if (!text.isBlank() && imageFile != null) {
                     clientMessageController.sendImageAndText(text, imageFile);
                 }
-                else if (text != null ) {
+                else if (!text.isBlank() && imageFile == null) {
                     clientMessageController.sendMessage(text);
                 }
-                else if (imageFile != null){
+                else if (text.isBlank() && imageFile != null){
                     try {
                         clientMessageController.sendImage(imageFile);
                     } catch (IOException e) {
@@ -63,7 +63,6 @@ public class ClientViewController {
                     }
                 }
                 break;
-
 
             case Choose_Contact:
                 contactController.addNewFriend(mainFrame.getSelectionRightPanel());

@@ -88,6 +88,8 @@ ClientNetworkBoundary {
                         case userLoggedOut:
                             propertyChangeSupport.firePropertyChange("userLoggedOut", null, message);
                             break;
+                        case msgAndImg:
+                        case image:
                         case message:
                             propertyChangeSupport.firePropertyChange("messageReceived", null, message);
                             break;
