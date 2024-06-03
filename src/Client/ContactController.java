@@ -111,7 +111,6 @@ public class ContactController implements PropertyChangeListener {
             }
         }
         controller.allUsersToString(allUsers);
-        System.out.println(loggedIn);
     }
 
     /**
@@ -126,7 +125,6 @@ public class ContactController implements PropertyChangeListener {
             }
         }
         controller.allUsersToString(allUsers);
-        System.out.println(loggedOut);
     }
 
     /**

@@ -3,6 +3,7 @@ package Server;
 import Entity.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -165,7 +166,7 @@ public class ServerNetworkBoundary {
                             //activityController.writeToLogFile(message); //adds message to log file
                             break;
                         case logOut: //if a user has logged out
-                            propertyChangeSupport.firePropertyChange("logout",null,message);
+                            propertyChangeSupport.firePropertyChange("logout", null, message);
                             activityController.writeToLogFile(message); //adds message to log file
                             break;
                         case registerUser: //if a new user has been registered
@@ -176,6 +177,8 @@ public class ServerNetworkBoundary {
                             propertyChangeSupport.firePropertyChange("updateFriendsList", message, this);
                     }
                 }
+            } catch (EOFException ef) {
+                System.out.println("Client closed the connection.");
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             } finally {

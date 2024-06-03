@@ -120,7 +120,7 @@ public class UserController implements PropertyChangeListener {
         if (unreceivedMessages != null && !unreceivedMessages.isEmpty()) {
             for (Message msg : unreceivedMessages) {
                 if (msg != null) {
-                    System.out.println("Unreceived message to " + user + " is sent: " + msg.getText());
+                    System.out.println("Unreceived message to " + user.getUserName() + " is sent: " + msg.getText());
                     msg.setTimeDeliveredToClient(LocalDateTime.now());
                     serverNetworkBoundary.sendMessage(msg, client); //sends each message
                 }
