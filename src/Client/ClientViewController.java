@@ -27,7 +27,8 @@ public class ClientViewController {
         mainFrame.disableStartButtons();
     }
 
-    public void buttonPressed(ButtonType button) {
+
+    public void buttonPressed(ButtonType button)  {
         switch (button) {
             case Log_In:
                 logInFrame = new LogInFrame(this);
@@ -46,9 +47,26 @@ public class ClientViewController {
             case send:
                 mainFrame.getMainPanel().getRightPanel().getBtnAddToChat().setEnabled(false);
                 String text = mainFrame.getMainPanel().getLeftPanel().sendMessage();
-                System.out.println(text);
-                clientMessageController.sendMessage(text);
+                ImageIcon imageFile = mainFrame.getMainPanel().getLeftPanel().getSelectedImage();
 
+                if (text != null && imageFile != null) {
+                    clientMessageController.sendMessage(text);
+                    try {
+                        clientMessageController.sendImage(imageFile);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                else if (text != null ) {
+                    clientMessageController.sendMessage(text);
+                }
+                else if (imageFile != null){
+                    try {
+                        clientMessageController.sendImage(imageFile);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 break;
 
 

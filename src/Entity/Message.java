@@ -1,5 +1,7 @@
 package Entity;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -20,7 +22,7 @@ public class Message implements Serializable {
     private User receiver;
     private LocalDateTime timeDeliveredToServer;
     private LocalDateTime timeDeliveredToClient;
-    private byte[] image;
+    private ImageIcon image;
 
     /**
      * A constructor that only takes the type of message as a parameter.
@@ -79,7 +81,7 @@ public class Message implements Serializable {
         this.timeDeliveredToServer = timeDeliveredToServer;
         this.timeDeliveredToClient = timeDeliveredToClient;
     }
-    public Message(MessageType messageType, byte[] image, User sender, List<User> receivers, LocalDateTime timeDeliveredToServer, LocalDateTime timeDeliveredToClient) {
+    public Message(MessageType messageType, ImageIcon image, User sender, List<User> receivers, LocalDateTime timeDeliveredToServer, LocalDateTime timeDeliveredToClient) {
         this.messageType = messageType;
         this.image = image;
         this.sender = sender;
@@ -108,16 +110,7 @@ public class Message implements Serializable {
         this.timeDeliveredToServer = timeDeliveredToServer;
         this.timeDeliveredToClient = timeDeliveredToClient;
     }
-   /* public Message(MessageType messageType, byte[]image, User sender, User receiver, LocalDateTime timeDeliveredToServer, LocalDateTime timeDeliveredToClient) {
-        this.messageType = messageType;
-        this.image = image;
-        this.sender = sender;
-        this.receiver = receiver;
-        this.timeDeliveredToServer = timeDeliveredToServer;
-        this.timeDeliveredToClient = timeDeliveredToClient;
-    }
 
-    */
 
     /**
      * A getter for the timeDelivered time.
@@ -134,7 +127,7 @@ public class Message implements Serializable {
     public String getText(){
         return text;
     }
-    public byte[] getImage() {
+    public ImageIcon getImage() {
         return image;
     }
 

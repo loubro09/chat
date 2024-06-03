@@ -5,6 +5,8 @@ import Entity.MessageType;
 import Entity.User;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -60,10 +62,9 @@ public class ClientMessageController implements PropertyChangeListener{
      * Sends image in the current chat
      */
 
-    public void sendImage(File imageFile) throws IOException {
+    public void sendImage(ImageIcon imageFile) throws IOException {
             List<User> receivers = clientViewController.getContactController().getChatWith();
-            byte[] imageData = Files.readAllBytes(imageFile.toPath());
-            Message message = new Message(MessageType.image, imageData, clientViewController.getLogController().getLoggedInUser(), receivers, null, null);
+            Message message = new Message(MessageType.image, imageFile, clientViewController.getLogController().getLoggedInUser(), receivers, null, null);
             clientViewController.getLogController().getCnb().sendMessage(message);
 
     }
@@ -77,7 +78,6 @@ public class ClientMessageController implements PropertyChangeListener{
             e.printStackTrace();
         }
     }
-
      */
     /**
      * Updates The user interface and displays the received message
@@ -89,17 +89,9 @@ public class ClientMessageController implements PropertyChangeListener{
             String text = message.getText();
             clientViewController.getMainFrame().getMainPanel().getLeftPanel().receivedMessage(senderName, text);
         } else if (message.getMessageType() == MessageType.image) {
-            byte[] imageData = message.getImage();
-            try {
-                ByteArrayInputStream bis = new ByteArrayInputStream(imageData);
-                BufferedImage image = ImageIO.read(bis);
-                bis.close();
-                File tempFile = File.createTempFile("received_image", ".png");
-                ImageIO.write(image, "png", tempFile);
-                clientViewController.getMainFrame().getMainPanel().getLeftPanel().receivedImage(senderName, tempFile);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            ImageIcon imageData = message.getImage();
+            System.out.println(imageData.toString());
+            clientViewController.getMainFrame().getMainPanel().getLeftPanel().receivedImage(senderName, imageData);
         }
     }
 

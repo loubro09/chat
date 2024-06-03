@@ -4,6 +4,7 @@ import Entity.Message;
 import Entity.MessageType;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -95,7 +96,7 @@ ClientNetworkBoundary {
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
 
-            } finally {
+            }
                 try {
                     ois.close();
                     oos.close();
@@ -106,4 +107,4 @@ ClientNetworkBoundary {
             }
         }
     }
-}
+

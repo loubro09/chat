@@ -1,12 +1,10 @@
 package Client.view;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 
 
 /**
@@ -24,7 +22,7 @@ public class LPanel extends JPanel implements ActionListener {
     private JButton choosePhoto;
     private int width;
     private int height;
-    private File file;
+    private ImageIcon file;
     private MainFrame mainFrame;
 
     /**
@@ -106,24 +104,33 @@ public class LPanel extends JPanel implements ActionListener {
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showOpenDialog(this);
             if (result == JFileChooser.APPROVE_OPTION) {
-                file = fileChooser.getSelectedFile();
+                File file = fileChooser.getSelectedFile();
+                ImageIcon image = new ImageIcon(file.getAbsolutePath());
                 if (file != null) {
-                    appendPicture(file);
+                    appendPicture(image);
                     btnSend.setEnabled(true);
                 }
             }
         }
+    }
+    public ImageIcon getSelectedImage() {
+        return file;
     }
     /**
      * Method for sending a message in the chat box.
      * @return if the message is not empty, return the text message.
      */
     public String sendMessage() {
-        if (!messageTextField.getText().isEmpty()) {
-            String message = messageTextField.getText();
-            appendMessage("You: " + message);
-            messageTextField.setText("");
-
+        String message = messageTextField.getText();
+        if (!message.isEmpty() || file != null) {
+            if (!message.isEmpty()) {
+                appendMessage("You: " + message);
+                messageTextField.setText("");
+            }
+            if (file != null) {
+                appendPicture(file);
+                file = null;
+            }
             return message;
         }
         return null;
@@ -137,10 +144,9 @@ public class LPanel extends JPanel implements ActionListener {
     public void receivedMessage(String username, String message) {
         appendMessage(username + ": " + message);
     }
-    public void receivedImage(String username, File imageData){
+    public void receivedImage(String username, ImageIcon image){
         appendMessage(username+ ": ");
-        appendPicture(imageData);
-        appendPicture(file);
+        appendPicture(image);
     }
 
     /**
@@ -165,12 +171,10 @@ public class LPanel extends JPanel implements ActionListener {
     }
 
 
-    private void appendPicture(File file) {
-        try {
-            ImageIcon imageIcon = new ImageIcon(ImageIO.read(file));
-            Image image = imageIcon.getImage();
-            int width = textChatBox.getWidth();
-            int height = textChatBox.getHeight();
+    private void appendPicture(ImageIcon file) {
+
+        /*int width = textChatBox.getWidth();
+        int height = textChatBox.getHeight();
 
             int scaledWidth, scaledHeight;
             double aspectRatio = (double) image.getWidth(null) / image.getHeight(null);
@@ -183,14 +187,12 @@ public class LPanel extends JPanel implements ActionListener {
             }
 
             Image scaledImage = image.getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH);
-            ImageIcon scaledIcon = new ImageIcon(scaledImage);
-            JLabel pictureLabel = new JLabel(scaledIcon);
-            textChatBox.add(pictureLabel);
-            revalidate();
-            repaint();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+            ImageIcon scaledIcon = new ImageIcon(scaledImage);*/
+
+        JLabel pictureLabel = new JLabel(file);
+        textChatBox.add(pictureLabel);
+        revalidate();
+        repaint();
     }
 
 
