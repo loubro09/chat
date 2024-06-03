@@ -50,12 +50,7 @@ public class ClientViewController {
                 ImageIcon imageFile = mainFrame.getMainPanel().getLeftPanel().getSelectedImage();
 
                 if (text != null && imageFile != null) {
-                    clientMessageController.sendMessage(text);
-                    try {
-                        clientMessageController.sendImage(imageFile);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                    clientMessageController.sendImageAndText(text, imageFile);
                 }
                 else if (text != null ) {
                     clientMessageController.sendMessage(text);

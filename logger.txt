@@ -73,3 +73,7 @@
 2024-05-31 11:58:59 - idanor has logged in.
 2024-05-31 12:03:54 - idanor has logged in.
 2024-06-03 10:09:37 - idanor has logged in.
+2024-06-03 11:37:27 - idanor has logged in.
+2024-06-03 11:37:41 - kenalt has logged in.
+2024-06-03 11:37:50 - idanor sent a message to kenalt. Time received by Server : 2024-06-03 11:37:50. Time received by client: 2024-06-03 11:37:50
+2024-06-03 11:38:11 - idanor sent a message to kenalt. Time received by Server : 2024-06-03 11:38:11. Time received by client: 2024-06-03 11:38:11

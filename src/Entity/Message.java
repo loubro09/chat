@@ -111,6 +111,16 @@ public class Message implements Serializable {
         this.timeDeliveredToClient = timeDeliveredToClient;
     }
 
+    public Message(MessageType messageType, String text, User sender, List<User> receivers, LocalDateTime timeDeliveredToServer, LocalDateTime timeDeliveredToClient, ImageIcon image) {
+        this.messageType = messageType;
+        this.text = text;
+        this.sender = sender;
+        this.receivers = receivers;
+        this.timeDeliveredToServer = timeDeliveredToServer;
+        this.timeDeliveredToClient = timeDeliveredToClient;
+        this.image = image;
+    }
+
 
     /**
      * A getter for the timeDelivered time.

@@ -68,17 +68,13 @@ public class ClientMessageController implements PropertyChangeListener{
             clientViewController.getLogController().getCnb().sendMessage(message);
 
     }
-    /*public void sendImageAndText(String text,File imageFile) {
-        try {
-            byte[] imageData = Files.readAllBytes(imageFile.toPath());
-            List<User> receivers = clientViewController.getContactController().getChatWith();
-            Message message = new Message(MessageType.image,text, imageData, clientViewController.getLogController().getLoggedInUser(), receivers, LocalDateTime.now(), null);
-            clientViewController.getLogController().getCnb().sendMessage(message);
-        }catch (IOException e){
-            e.printStackTrace();
-        }
+    public void sendImageAndText(String text,ImageIcon imageIcon) {
+
+        List<User> receivers = clientViewController.getContactController().getChatWith();
+        Message message = new Message(MessageType.image,text, clientViewController.getLogController().getLoggedInUser(), receivers, LocalDateTime.now(), null, imageIcon);
+        clientViewController.getLogController().getCnb().sendMessage(message);
     }
-     */
+
     /**
      * Updates The user interface and displays the received message
      * @param message the received message
