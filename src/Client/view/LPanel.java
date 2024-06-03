@@ -149,6 +149,9 @@ public class LPanel extends JPanel implements ActionListener {
         }
 
         messageTextField.setText("");
+        choosePhoto.setIcon(null);
+
+
 
         return messageHasValue? message : null;
 
