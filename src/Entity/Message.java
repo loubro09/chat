@@ -88,6 +88,7 @@ public class Message implements Serializable {
         this.timeDeliveredToClient = timeDeliveredToClient;
     }
 
+
     /**
      * A constructor that takes a message type (a message), a message text, a sender user object,
      * the user that will receive the message, time for when the message got delivered and receive as parameters.

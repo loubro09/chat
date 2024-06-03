@@ -34,6 +34,7 @@ public class ContactController implements PropertyChangeListener {
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+
         if ("userLoggedIn".equals(evt.getPropertyName())) {
             Message message = (Message) evt.getNewValue();
             updateOnline(message);
@@ -41,6 +42,7 @@ public class ContactController implements PropertyChangeListener {
             Message message = (Message) evt.getNewValue();
             updateOffline(message);
         }
+
     }
     /**
      * Adds a new friend based on the selected index.
@@ -106,6 +108,7 @@ public class ContactController implements PropertyChangeListener {
     private void updateOnline(Message message) {
         User loggedIn = message.getSender();
         for (User u : allUsers) {
+            System.out.println("test");
             if (loggedIn.getUserName().equals(u.getUserName())) {
                 u.setOnline(true);
             }

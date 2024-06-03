@@ -110,7 +110,7 @@ public class LPanel extends JPanel implements ActionListener {
                 if (file != null) {
                     appendPicture(file);
                     btnSend.setEnabled(true);
-                    mainFrame.getClientMessageController().sendImage(file);
+
                 }
             }
         }
@@ -124,6 +124,7 @@ public class LPanel extends JPanel implements ActionListener {
             String message = messageTextField.getText();
             appendMessage("You: " + message);
             messageTextField.setText("");
+
             return message;
         }
         return null;
@@ -139,7 +140,8 @@ public class LPanel extends JPanel implements ActionListener {
     }
     public void receivedImage(String username, byte[] imageData){
         appendMessage(username+ ": ");
-        appendPicture(imageData);
+        //appendPicture(imageData);
+        appendPicture(file);
     }
 
     /**
@@ -192,34 +194,6 @@ public class LPanel extends JPanel implements ActionListener {
         }
     }
 
-    private void appendPicture(byte[]imageData){
-        try{
-            ImageIcon imageIcon= new ImageIcon(imageData);
-            Image image = imageIcon.getImage();
-            int width = textChatBox.getWidth();
-            int height = textChatBox.getHeight();
-
-
-            int scaledWidth, scaledHeight;
-            double aspectRatio = (double) image.getWidth(null) / image.getHeight(null);
-            if (width / aspectRatio <= height) {
-                scaledWidth = width;
-                scaledHeight = (int) (width / aspectRatio);
-            } else {
-                scaledWidth = (int) (height * aspectRatio);
-                scaledHeight = height;
-            }
-            Image scaledImage = image.getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH);
-            ImageIcon scaledIcon = new ImageIcon(scaledImage);
-            JLabel pictureLabel = new JLabel(scaledIcon);
-            textChatBox.add(pictureLabel);
-            revalidate();
-            repaint();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-
-        }
-    }
 
     /**
      * sets the label for who the user is interacting/chattin g with

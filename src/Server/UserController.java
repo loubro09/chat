@@ -91,7 +91,7 @@ public class UserController implements PropertyChangeListener {
             clients.put(savedUser, client);
             System.out.println("User " + savedUser.getUserName() + " logged in successfully.");
             savedUser.setOnline(true); //sets the logged in user to online
-            Message loginSuccessMessage = new Message(MessageType.loginSuccess, savedUser); //creates login success message
+            Message loginSuccessMessage = new Message(MessageType.loginSuccess, savedUser,allUsers); //creates login success message
             serverNetworkBoundary.sendMessage(loginSuccessMessage, client); //sends message
             Message userLoggedInMessage = new Message(MessageType.userLoggedIn, savedUser); //creates user logged in message
             for (ServerNetworkBoundary.ClientHandler receiver : clients.values()) { //sends message to all users

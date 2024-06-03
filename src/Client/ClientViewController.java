@@ -5,6 +5,10 @@ import Client.view.LogInFrame;
 import Client.view.MainFrame;
 import Client.view.RegisterUserFrame;
 import Entity.User;
+
+import javax.swing.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public class ClientViewController {
@@ -44,7 +48,31 @@ public class ClientViewController {
                 String text = mainFrame.getMainPanel().getLeftPanel().sendMessage();
                 System.out.println(text);
                 clientMessageController.sendMessage(text);
+
+                // File chooser for selecting an image
+                JFileChooser fileChooser = new JFileChooser();
+                int returnValue = fileChooser.showOpenDialog(null);
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    File imageFile = fileChooser.getSelectedFile();
+                    if(imageFile!= null) {
+                        try {
+                            clientMessageController.sendImage(imageFile);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
                 break;
+
+
+                /*mainFrame.getMainPanel().getRightPanel().getBtnAddToChat().setEnabled(false);
+                String text = mainFrame.getMainPanel().getLeftPanel().sendMessage();
+                System.out.println(text);
+                clientMessageController.sendMessage(text);
+                clientMessageController.sendImage(imageFile);
+                break;
+
+                 */
 
             case Choose_Contact:
                 contactController.addNewFriend(mainFrame.getSelectionRightPanel());

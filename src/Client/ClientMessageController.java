@@ -58,21 +58,16 @@ public class ClientMessageController implements PropertyChangeListener{
 
     /**
      * Sends image in the current chat
-     * @param imageFile
      */
 
-    public void sendImage(File imageFile) {
-        try {
-            byte[] imageData = Files.readAllBytes(imageFile.toPath());
+    public void sendImage(File imageFile) throws IOException {
             List<User> receivers = clientViewController.getContactController().getChatWith();
-            Message message = new Message(MessageType.image, imageData, clientViewController.getLogController().getLoggedInUser(), receivers, LocalDateTime.now(), null);
+            byte[] imageData = Files.readAllBytes(imageFile.toPath());
+            Message message = new Message(MessageType.image, imageData, clientViewController.getLogController().getLoggedInUser(), receivers, null, null);
             clientViewController.getLogController().getCnb().sendMessage(message);
-        }catch (IOException e){
-            e.printStackTrace();
-        }
 
     }
-    public void sendImageAndText(String text,File imageFile) {
+    /*public void sendImageAndText(String text,File imageFile) {
         try {
             byte[] imageData = Files.readAllBytes(imageFile.toPath());
             List<User> receivers = clientViewController.getContactController().getChatWith();
@@ -82,6 +77,8 @@ public class ClientMessageController implements PropertyChangeListener{
             e.printStackTrace();
         }
     }
+
+     */
     /**
      * Updates The user interface and displays the received message
      * @param message the received message
