@@ -137,7 +137,8 @@ public class Message implements Serializable {
 
                 str = sender.getUserName() + " sent a message to " + receiver.getUserName() + ". Time " +
                         "received by Server : " + timeDeliveredToServer.format(formatter) +
-                        ". Time received by client: " + timeDeliveredToClient.format(formatter);
+                        ". Time received by client: " + timeDeliveredToClient.format(formatter) + ". Message : " +
+                        text;
                 break;
             case loginSuccess:
                 str = sender.getUserName() + " has logged in.";
