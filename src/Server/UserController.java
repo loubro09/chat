@@ -6,6 +6,7 @@ import Entity.User;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -118,8 +119,11 @@ public class UserController implements PropertyChangeListener {
         ArrayList<Message> unreceivedMessages = serverNetworkBoundary.getUnreceivedMessage().retrieveMessages(user);
         if (unreceivedMessages != null && !unreceivedMessages.isEmpty()) {
             for (Message msg : unreceivedMessages) {
-                System.out.println("Unreceived message to " + user + " is sent: " + msg.getText());
-                serverNetworkBoundary.sendMessage(msg, client); //sends each message
+                if (msg != null) {
+                    System.out.println("Unreceived message to " + user + " is sent: " + msg.getText());
+                    msg.setTimeDeliveredToClient(LocalDateTime.now());
+                    serverNetworkBoundary.sendMessage(msg, client); //sends each message
+                }
             }
         }
         else {

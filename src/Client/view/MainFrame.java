@@ -30,10 +30,10 @@ public class MainFrame extends JFrame {
 
     /**
      * Populates the right panel
-     * @param informationArray what should be shown depending on user actions
+     * @param userNamesOnline what should be shown depending on user actions
      */
-    public void populateRightPanel(String[] informationArray){
-        mainPanel.getRightPanel().populateList(informationArray);
+    public void populateRightPanel(String[] userNamesOnline){
+        mainPanel.getRightPanel().populateList(userNamesOnline);
     }
 
     /**
