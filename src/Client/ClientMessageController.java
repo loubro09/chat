@@ -3,6 +3,8 @@ package Client;
 import Entity.Message;
 import Entity.MessageType;
 import Entity.User;
+
+import javax.swing.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.time.LocalDateTime;
@@ -43,10 +45,10 @@ public class ClientMessageController implements PropertyChangeListener{
      * sends a message to the current chat
      * @param text the text message
      */
-    public void sendMessage(String text) {
+    public void sendMessage(String text, ImageIcon image) {
         List<User> recievers = clientViewController.getContactController().getChatWith();
         Message message = new Message(MessageType.message, text, clientViewController.getLogController().getLoggedInUser(), recievers,
-                null, null);
+                null, null, image);
         clientViewController.getLogController().getCnb().sendMessage(message);
     }
 
@@ -57,6 +59,7 @@ public class ClientMessageController implements PropertyChangeListener{
     public void receiveMessage(Message message) {
         String senderName = message.getSender().getUserName();
         String text = message.getText();
-        clientViewController.getMainFrame().getMainPanel().getLeftPanel().receivedMessage(senderName, text);
+        ImageIcon image = message.getImage();
+        clientViewController.getMainFrame().getMainPanel().getLeftPanel().receivedMessage(senderName, text, image);
     }
 }

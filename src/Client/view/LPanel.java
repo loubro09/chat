@@ -26,6 +26,7 @@ public class LPanel extends JPanel implements ActionListener {
     private int height;
     private File file;
     private MainFrame mainFrame;
+    private ImageIcon scaledIcon;
 
     /**
      * Constructor for LPanel
@@ -122,9 +123,16 @@ public class LPanel extends JPanel implements ActionListener {
     public String sendMessage() {
         if (!messageTextField.getText().isEmpty()) {
             String message = messageTextField.getText();
-            appendMessage("You: " + message);
+            appendMessage("You: ", message, null);
             messageTextField.setText("");
             return message;
+        }
+        return null;
+    }
+
+    public ImageIcon sendPicture() {
+        if (scaledIcon != null) {
+            return scaledIcon;
         }
         return null;
     }
@@ -134,8 +142,8 @@ public class LPanel extends JPanel implements ActionListener {
      * @param username of the sender
      * @param message text from the sender
      */
-    public void receivedMessage(String username, String message) {
-        appendMessage(username + ": " + message);
+    public void receivedMessage(String username, String message, ImageIcon image) {
+        appendMessage(username + ": ", message, image);
     }
 
     /**
@@ -152,9 +160,17 @@ public class LPanel extends JPanel implements ActionListener {
      * @param message to append to the chat box.
      */
 
-    private void appendMessage(String message) {
-        JLabel messageLabel = new JLabel(message);
-        textChatBox.add(messageLabel);
+    private void appendMessage(String sender, String message, ImageIcon image) {
+        if (image != null) {
+            JLabel username = new JLabel(sender);
+            JLabel pictureLabel = new JLabel(image);
+            textChatBox.add(username);
+            textChatBox.add(pictureLabel);
+        }
+        if (message != null) {
+            JLabel messageLabel = new JLabel(sender + message);
+            textChatBox.add(messageLabel);
+        }
         revalidate(); //Refresh the layout after adding a component
         repaint();
     }
@@ -180,9 +196,14 @@ public class LPanel extends JPanel implements ActionListener {
                 scaledHeight = height;
             }
 
+            scaledWidth = scaledWidth/2;
+            scaledHeight = scaledHeight/2;
+
             Image scaledImage = image.getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH);
-            ImageIcon scaledIcon = new ImageIcon(scaledImage);
+            scaledIcon = new ImageIcon(scaledImage);
             JLabel pictureLabel = new JLabel(scaledIcon);
+            JLabel sender = new JLabel("You: ");
+            textChatBox.add(sender);
             textChatBox.add(pictureLabel);
             revalidate();
             repaint();

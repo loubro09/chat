@@ -5,6 +5,8 @@ import Client.view.LogInFrame;
 import Client.view.MainFrame;
 import Client.view.RegisterUserFrame;
 import Entity.User;
+
+import javax.swing.*;
 import java.util.List;
 
 public class ClientViewController {
@@ -42,8 +44,9 @@ public class ClientViewController {
             case send:
                 mainFrame.getMainPanel().getRightPanel().getBtnAddToChat().setEnabled(false);
                 String text = mainFrame.getMainPanel().getLeftPanel().sendMessage();
-                System.out.println(text);
-                clientMessageController.sendMessage(text);
+                ImageIcon image = mainFrame.getMainPanel().getLeftPanel().sendPicture();
+                System.out.println("Sending message: " + text);
+                clientMessageController.sendMessage(text, image);
                 break;
 
             case Choose_Contact:

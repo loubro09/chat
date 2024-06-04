@@ -63,7 +63,7 @@ public class LogController implements PropertyChangeListener{
         
         cnb.addPropertyChangeListener(this);
         cnb.addPropertyChangeListener(cvc.getContactController());
-        Message message = new Message(MessageType.logIn, null, user, (List<User>) null, LocalDateTime.now(), null);
+        Message message = new Message(MessageType.logIn, null, user, (List<User>) null, LocalDateTime.now(), null, null);
         cnb.sendMessage(message);
     }
 
@@ -71,7 +71,7 @@ public class LogController implements PropertyChangeListener{
      * Log out function
      */
     public void logOut(){
-        Message message = new Message(MessageType.logOut, null, loggedInUser, (List<User>) null, LocalDateTime.now(),null);
+        Message message = new Message(MessageType.logOut, null, loggedInUser, (List<User>) null, LocalDateTime.now(),null, null);
         cnb.sendMessage(message);
         cvc.getMainFrame().setLoggedOut();
     }
@@ -85,7 +85,7 @@ public class LogController implements PropertyChangeListener{
         cnb = new ClientNetworkBoundary("127.0.0.1", 1234);
         //cnb = new ClientNetworkBoundary("192.168.0.130", 1234);
         cnb.addPropertyChangeListener(this);
-        Message message = new Message(MessageType.registerUser, null, user, (List<User>) null, LocalDateTime.now(), null);
+        Message message = new Message(MessageType.registerUser, null, user, (List<User>) null, LocalDateTime.now(), null, null);
         cnb.sendMessage(message);
     }
 

@@ -51,14 +51,14 @@ public class ServerMessageController implements PropertyChangeListener {
                 //creates the message for the receiver
                 System.out.println(clientHandler.getUser().getUserName() + " is logged in");
                 Message messageToReceiver = new Message(MessageType.message, message.getText(), message.getSender(),
-                        receiver, message.getTimeDeliveredToServer(), null);
+                        receiver, message.getTimeDeliveredToServer(), null, message.getImage());
                 messageToReceiver.setTimeDeliveredToClient(LocalDateTime.now()); //timestamps
                 //sends the message to the receiver
                 uc.getServerNetworkBoundary().sendMessage(messageToReceiver, clientHandler);
             } else { //if the receiver is not logged in the message is stored in buffer
                 //System.out.println(clientHandler.getUser().getUserName() + " is not logged in. The message will be saved.");
                 Message messageToReceiver = new Message(MessageType.message, message.getText(), message.getSender(),
-                        receiver, message.getTimeDeliveredToServer(), null);
+                        receiver, message.getTimeDeliveredToServer(), null, message.getImage());
                 uc.getServerNetworkBoundary().getUnreceivedMessage().put(receiver, messageToReceiver); //saves message in buffer
             }
         }

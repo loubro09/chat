@@ -131,7 +131,7 @@ public class ContactController implements PropertyChangeListener {
      * Sends a message with the friendslist to the server
      */
     public void setFriendsListInServer() {
-        Message message = new Message(MessageType.addFriends, null, controller.getLogController().getLoggedInUser(), friends, LocalDateTime.now(), null);
+        Message message = new Message(MessageType.addFriends, null, controller.getLogController().getLoggedInUser(), friends, LocalDateTime.now(), null, null);
         controller.getLogController().getCnb().sendMessage(message);
     }
 
