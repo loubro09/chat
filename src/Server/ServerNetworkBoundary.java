@@ -174,6 +174,7 @@ public class ServerNetworkBoundary {
                             break;
                         case addFriends: //if a user has added a new friend to their contacts list
                             propertyChangeSupport.firePropertyChange("updateFriendsList", message, this);
+                            activityController.writeToLogFile(message);
                     }
                 }
             } catch (EOFException ef) {

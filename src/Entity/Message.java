@@ -151,6 +151,9 @@ public class Message implements Serializable {
             case loginSuccess:
                 str = sender.getUserName() + " has logged in.";
                 break;
+            case addFriends:
+                str = sender.getUserName() + " Added a new friend";
+                break;
             case registerSuccess:
                 str = sender.getUserName() + " has created an account.";
                 break;
