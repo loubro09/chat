@@ -63,6 +63,7 @@ public class ClientViewController {
 
             case allUsers:
                 contactController.setTypeOfList(true);
+                mainFrame.getMainPanel().getRightPanel().getBtnSelectContact().setEnabled(true);
                 allUsersToString(contactController.getAllUsers());
                 mainFrame.setSelectContact();
                 break;

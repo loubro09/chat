@@ -36,3 +36,70 @@
 2024-05-15 15:12:17 - message - user: loubro
 2024-05-16 12:50:34 - logIn - user: kenalt
 2024-05-16 13:36:31 - logIn - user: kenalt
+2024-06-06 10:03:19 - kenalt has logged in.
+2024-06-06 10:03:27 - alacol has logged in.
+2024-06-06 10:03:33 - alacol has logged out.
+2024-06-06 10:03:35 - kenalt has logged out.
+2024-06-06 10:04:21 - kenalt has logged in.
+2024-06-06 10:05:19 - kenalt has logged out.
+2024-06-06 10:05:23 - alacol has logged in.
+2024-06-06 10:05:23 - kenalt sent a message to alacol. Time received by Server : 2024-06-06 10:04:30. Time received by client: 2024-06-06 10:05:23. Message : HEJ utan bild 
+2024-06-06 10:05:23 - kenalt sent a message to alacol. Time received by Server : 2024-06-06 10:04:57. Time received by client: 2024-06-06 10:05:23. Message : hej med bild 
+2024-06-06 10:05:23 - kenalt sent a message to alacol. Time received by Server : 2024-06-06 10:05:10. Time received by client: 2024-06-06 10:05:23. Message : null
+2024-06-06 10:05:29 - alacol has logged out.
+2024-06-06 10:08:30 - kenalt has logged in.
+2024-06-06 10:10:20 - kenalt has logged in.
+2024-06-06 10:10:41 - kenalt has logged in.
+2024-06-06 10:14:48 - alacol has logged in.
+2024-06-06 10:15:13 - alacol has logged out.
+2024-06-06 10:15:16 - alacol has logged in.
+2024-06-06 10:15:25 - alacol has logged out.
+2024-06-06 10:15:29 - alacol has logged in.
+2024-06-06 10:17:50 - kenalt has logged in.
+2024-06-06 10:17:58 - kenalt has logged out.
+2024-06-06 10:18:11 - alacol has logged in.
+2024-06-06 10:18:24 - alacol has logged out.
+2024-06-06 10:18:26 - alacol has logged in.
+2024-06-06 10:18:36 - alacol has logged out.
+2024-06-06 10:20:55 - kenalt has logged in.
+2024-06-06 10:20:55 - 
+2024-06-06 10:21:56 - kenalt has logged out.
+2024-06-06 10:22:01 - alacol has logged in.
+2024-06-06 10:22:01 - 
+2024-06-06 10:22:01 - kenalt sent a message to alacol. Time received by Server : 2024-06-06 10:21:19. Time received by client: 2024-06-06 10:22:01. Message : asd
+2024-06-06 10:22:01 - kenalt sent a message to alacol. Time received by Server : 2024-06-06 10:21:44. Time received by client: 2024-06-06 10:22:01. Message : asd
+2024-06-06 10:24:24 - kenalt has logged in.
+2024-06-06 10:24:24 - 
+2024-06-06 10:25:04 - kenalt has logged in.
+2024-06-06 10:25:04 - 
+2024-06-06 10:26:06 - kenalt has logged in.
+2024-06-06 10:26:06 - 
+2024-06-06 10:26:53 - kenalt has logged in.
+2024-06-06 10:26:53 - 
+2024-06-06 10:27:38 - kenalt has logged in.
+2024-06-06 10:27:38 - 
+2024-06-06 10:28:18 - kenalt has logged in.
+2024-06-06 10:28:18 - 
+2024-06-06 10:29:27 - kenalt has logged in.
+2024-06-06 10:29:27 - 
+2024-06-06 10:33:56 - kenalt has logged in.
+2024-06-06 10:33:56 - 
+2024-06-06 10:34:16 - kenalt has logged in.
+2024-06-06 10:34:16 - 
+2024-06-06 10:35:10 - kenalt has logged in.
+2024-06-06 10:35:22 - 
+2024-06-06 10:35:34 - kenalt has logged in.
+2024-06-06 10:35:34 - 
+2024-06-06 10:35:55 - kenalt has logged in.
+2024-06-06 10:35:55 - 
+2024-06-06 10:37:15 - kenalt has logged in.
+2024-06-06 10:37:33 - 
+2024-06-06 10:38:52 - kenalt has logged in.
+2024-06-06 10:38:52 - 
+2024-06-06 10:39:20 - kenalt has logged in.
+2024-06-06 10:39:20 - 
+2024-06-06 10:40:51 - kenalt has logged in.
+2024-06-06 10:41:41 - 
+2024-06-06 10:44:20 - kenalt has logged in.
+2024-06-06 10:44:20 - kenaltUser is logged in
+2024-06-06 10:46:30 - kenalt has logged in.

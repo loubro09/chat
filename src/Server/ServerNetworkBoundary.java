@@ -63,9 +63,8 @@ public class ServerNetworkBoundary {
      */
     public void sendMessage(Message message, ClientHandler client) {
         try {
-            client.getOos().writeObject(message); //writes messages to the object output stream
-            MessageType messageType = message.getMessageType();
-            if (messageType == MessageType.message || messageType == MessageType.loginSuccess || messageType == MessageType.registerSuccess) {
+            client.getOos().writeObject(message);//writes messages to the object output stream
+            if (message.getMessageType()!= MessageType.userLoggedIn) {
                 activityController.writeToLogFile(message);
             }
         } catch (IOException e) {
@@ -167,7 +166,7 @@ public class ServerNetworkBoundary {
                             break;
                         case logOut: //if a user has logged out
                             propertyChangeSupport.firePropertyChange("logout", null, message);
-                            activityController.writeToLogFile(message); //adds message to log file
+                            //activityController.writeToLogFile(message); //adds message to log file
                             break;
                         case registerUser: //if a new user has been registered
                             propertyChangeSupport.firePropertyChange("register", message, this);
