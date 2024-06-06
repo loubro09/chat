@@ -33,9 +33,8 @@ public class Mainframe extends JFrame {
         startDateSpinner = new JSpinner(new SpinnerDateModel());
         endDateSpinner = new JSpinner(new SpinnerDateModel());
         viewTrafficButton = new JButton("View Traffic");
-
-        //if View Traffic button is clicked the log messages between the chosen times are printed
         viewTrafficButton.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 viewTrafficBetweenTimePoints();
@@ -54,9 +53,7 @@ public class Mainframe extends JFrame {
         mainPanel.add(scrollPane, BorderLayout.CENTER);
 
         add(mainPanel);
-
         setVisible(true);
-
         List<String> logMessages = ActivityController.readLogFile();
         updateLogTextArea(logMessages);
     }
@@ -65,16 +62,10 @@ public class Mainframe extends JFrame {
      * This method gets the chosen start and end time, filters the log messages and prints them.
      */
     private void viewTrafficBetweenTimePoints() {
-        Date startDate = (Date) startDateSpinner.getValue(); //gets the chosen starting date and time
-        Date endDate = (Date) endDateSpinner.getValue(); //gets the chosen ending date and time
-
-        //Read all log messages from file
+        Date startDate = (Date) startDateSpinner.getValue();
+        Date endDate = (Date) endDateSpinner.getValue();
         List<String> logMessages = ActivityController.readLogFile();
-
-        //Filter log messages between selected time points
         List<String> filteredMessages = filterMessagesBetweenTimePoints(logMessages, startDate, endDate);
-
-        //Display filtered messages in the logTextArea
         updateLogTextArea(filteredMessages);
     }
 
@@ -94,9 +85,8 @@ public class Mainframe extends JFrame {
             if (parts.length == 2) {
                 try {
                     Date messageDate = dateFormat.parse(parts[0]);
-                    //checks if a log occurred within the chosen time
                     if (messageDate.after(startDate) && messageDate.before(endDate)) {
-                        filteredMessages.add(message); //adds to list if true
+                        filteredMessages.add(message);
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -111,9 +101,7 @@ public class Mainframe extends JFrame {
      * @param logMessages the messages to be printed.
      */
     private void updateLogTextArea(List<String> logMessages) {
-        //Clear logTextArea
         logTextArea.setText("");
-        //Append log messages to logTextArea
         for (String message : logMessages) {
             logTextArea.append(message + "\n");
         }

@@ -41,12 +41,12 @@ public class UserController implements PropertyChangeListener {
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if ("login".equals(evt.getPropertyName())){ //if a user has logged in
+        if ("login".equals(evt.getPropertyName())){
             User user = (User) evt.getNewValue();
             ServerNetworkBoundary.ClientHandler client = (ServerNetworkBoundary.ClientHandler) evt.getOldValue();
             logIn(user, client);
         }
-        else if("register".equals(evt.getPropertyName())) { //if a new user has registered an account
+        else if("register".equals(evt.getPropertyName())) {
             Message message = (Message) evt.getOldValue();
             User user = message.getSender();
             ServerNetworkBoundary.ClientHandler client = (ServerNetworkBoundary.ClientHandler) evt.getNewValue();
@@ -56,12 +56,12 @@ public class UserController implements PropertyChangeListener {
                 e.printStackTrace();
             }
         }
-        else if ("logout".equals(evt.getPropertyName())) { //if a user has logged out
+        else if ("logout".equals(evt.getPropertyName())) {
             Message message = (Message) evt.getNewValue();
             User user = message.getSender();
             logOut(user);
         }
-        else if ("updateFriendsList".equals(evt.getPropertyName())) { //if a user has added a new friend
+        else if ("updateFriendsList".equals(evt.getPropertyName())) {
             Message message = (Message) evt.getOldValue();
             String userName = message.getSender().getUserName();
             List<User> friends = message.getReceivers();
@@ -75,37 +75,36 @@ public class UserController implements PropertyChangeListener {
      * @param client the user's socket connection.
      */
     public void logIn(User user, ServerNetworkBoundary.ClientHandler client) {
-        if (checkIfUsersExists(user)) { //checks if the user has created an account already
+        if (checkIfUsersExists(user)) {
             User savedUser = null;
             String userName = user.getUserName();
             for (User u : allUsers) {
                 if (u.getUserName().equals(userName)) {
-                    savedUser = u; //retrieves the user logging in from the list
-                    updateFriendsListFromFile(savedUser); //adds the users friends to their friend list
+                    savedUser = u;
+                    updateFriendsListFromFile(savedUser);
                 }
             }
-            if (checkHashmapList(savedUser)) { //checks if user is already logged in
-                //if the user is already logged in they are removed from the clients hashmap and added anew
+            if (checkHashmapList(savedUser)) {
                 clients.remove(savedUser);
                 System.out.println("User " + savedUser.getUserName() + " is already logged in. Updating login information.");
             }
 
             clients.put(savedUser, client);
             System.out.println("User " + savedUser.getUserName() + " logged in successfully.");
-            savedUser.setOnline(true); //sets the logged in user to online
-            Message loginSuccessMessage = new Message(MessageType.loginSuccess, savedUser, allUsers); //creates login success message
-            serverNetworkBoundary.sendMessage(loginSuccessMessage, client); //sends message
-            Message userLoggedInMessage = new Message(MessageType.userLoggedIn, savedUser); //creates user logged in message
-            for (ServerNetworkBoundary.ClientHandler receiver : clients.values()) { //sends message to all users
+            savedUser.setOnline(true);
+            Message loginSuccessMessage = new Message(MessageType.loginSuccess, savedUser, allUsers);
+            serverNetworkBoundary.sendMessage(loginSuccessMessage, client);
+            Message userLoggedInMessage = new Message(MessageType.userLoggedIn, savedUser);
+            for (ServerNetworkBoundary.ClientHandler receiver : clients.values()) {
                 if (receiver != null) {
                     serverNetworkBoundary.sendMessage(userLoggedInMessage, receiver);
                 }
             }
-            sendUnreceivedMessages(savedUser,client); //sends the user all its unreceived messages
-        } else { //if the user has not made an account already the login fails
+            sendUnreceivedMessages(savedUser,client);
+        } else {
             System.out.println("User " + user.getUserName() + " does not exist.");
-            Message loginFailMessage = new Message(MessageType.loginFail); //creates login fail message
-            serverNetworkBoundary.sendMessage(loginFailMessage, client); //sends login fail message back to client
+            Message loginFailMessage = new Message(MessageType.loginFail);
+            serverNetworkBoundary.sendMessage(loginFailMessage, client);
         }
     }
 
@@ -122,7 +121,7 @@ public class UserController implements PropertyChangeListener {
                 if (msg != null) {
                     System.out.println("Unreceived message to " + user.getUserName() + " is sent: " + msg.getText());
                     msg.setTimeDeliveredToClient(LocalDateTime.now());
-                    serverNetworkBoundary.sendMessage(msg, client); //sends each message
+                    serverNetworkBoundary.sendMessage(msg, client);
                 }
             }
         }
@@ -136,7 +135,7 @@ public class UserController implements PropertyChangeListener {
      * @param user the user logging out.
      */
     private void logOut(User user) {
-        user.setOnline(false); //changes the users status to offline
+        user.setOnline(false);
 
         User userToRemove = null;
         for (User u : clients.keySet()) {
@@ -146,17 +145,17 @@ public class UserController implements PropertyChangeListener {
             }
         }
         if (userToRemove != null) {
-            clients.remove(userToRemove); //removes the user from the hashmap list of clients
+            clients.remove(userToRemove);
         }
         for (User u : allUsers) {
             if (u.getUserName().equals(user.getUserName())) {
-                u.setOnline(false); //changes the users status to offline
+                u.setOnline(false);
                 break;
             }
         }
 
-        Message userLoggedOutMessage = new Message(MessageType.userLoggedOut, user); //creates a new logged out message
-        for (ServerNetworkBoundary.ClientHandler receiver : clients.values()) { //sends the message to all users
+        Message userLoggedOutMessage = new Message(MessageType.userLoggedOut, user);
+        for (ServerNetworkBoundary.ClientHandler receiver : clients.values()) {
             if (receiver != null) {
                 serverNetworkBoundary.sendMessage(userLoggedOutMessage, receiver);
             }
@@ -170,17 +169,17 @@ public class UserController implements PropertyChangeListener {
      * @throws IOException
      */
     private void addUser(User user, ServerNetworkBoundary.ClientHandler client) throws IOException {
-        boolean userExists = checkIfUsersExists(user); //checks if the user already exists
+        boolean userExists = checkIfUsersExists(user);
 
-        if (!userExists) { //if the user doesn't already exist it is added to the program
+        if (!userExists) {
             allUsers.add(user);
             addUsersToFile(userFileName);
-            Message message = new Message(MessageType.registerSuccess); //creates a register success message
-            serverNetworkBoundary.sendMessage(message, client); //sends the message
+            Message message = new Message(MessageType.registerSuccess);
+            serverNetworkBoundary.sendMessage(message, client);
         }
-        else { //if the user already exists
-            Message message = new Message(MessageType.registerFail); //creates a register fail message
-            serverNetworkBoundary.sendMessage(message, client); //sends the message
+        else {
+            Message message = new Message(MessageType.registerFail);
+            serverNetworkBoundary.sendMessage(message, client);
         }
     }
 
@@ -244,9 +243,9 @@ public class UserController implements PropertyChangeListener {
     private void addUsersToFile(String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             for (User user : allUsers) {
-                writer.write(user.getUserName()); //writes the username of the user to the file
-                writer.newLine(); //add a new line
-                createUserFile(user); //creates a new file for the user
+                writer.write(user.getUserName());
+                writer.newLine();
+                createUserFile(user);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -264,7 +263,7 @@ public class UserController implements PropertyChangeListener {
             if (userFile.createNewFile()) {
                 System.out.println("Created file: " + userFilePath);
                 try (BufferedWriter writer = new BufferedWriter(new FileWriter(userFile))) {
-                    writer.write(user.getUserName()); //writes the username of the user to the file
+                    writer.write(user.getUserName());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -287,18 +286,18 @@ public class UserController implements PropertyChangeListener {
         try (BufferedReader reader = new BufferedReader(new FileReader(userFile))) {
             List<String> existingUsers = new ArrayList<>();
             String line;
-            while ((line = reader.readLine()) != null) { //adds the users already existing friends to a list
+            while ((line = reader.readLine()) != null) {
                 existingUsers.add(line.trim());
             }
 
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(userFile, true))) {
                 writer.newLine();
                 for (User user : friends) {
-                    String friendName = user.getUserName(); //gets the names of the users friends
-                    if (!existingUsers.contains(friendName)) { //checks if the friend already exists in the file
-                        writer.write(friendName); //writes the username of the new friend
+                    String friendName = user.getUserName();
+                    if (!existingUsers.contains(friendName)) {
+                        writer.write(friendName);
                         writer.newLine();
-                        existingUsers.add(friendName); //updates the list of existing users
+                        existingUsers.add(friendName);
                     }
                 }
             }
@@ -317,9 +316,9 @@ public class UserController implements PropertyChangeListener {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String userName = line.trim(); //reads each name from the file
-                User user = new User(userName); //creates a new user with the read name
-                userList.add(user); //adds the user to the list
+                String userName = line.trim();
+                User user = new User(userName);
+                userList.add(user);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -332,23 +331,23 @@ public class UserController implements PropertyChangeListener {
      * @param loggedInUser the user
      */
     public void updateFriendsListFromFile(User loggedInUser) {
-        String userFilePath = loggedInUser.getUserName() + ".txt"; //each user has a textfile with a list of their friends
+        String userFilePath = loggedInUser.getUserName() + ".txt";
         File userFile = new File(userFilePath);
         try (BufferedReader reader = new BufferedReader(new FileReader(userFile))) {
             String line;
             if ((line = reader.readLine()) != null) {
-                String userName = line.trim(); //the first name in the file is the user
+                String userName = line.trim();
                 User user = getUserByUsername(userName);
                 if (user != null) {
                     List<User> friends = new ArrayList<>();
-                    while ((line = reader.readLine()) != null) { //all other names are friends
+                    while ((line = reader.readLine()) != null) {
                         String friendUserName = line.trim();
-                        User friend = getUserByUsername(friendUserName); //gets the friend by their name
+                        User friend = getUserByUsername(friendUserName);
                         if (friend != null) {
-                            friends.add(friend); //adds the friend to the list
+                            friends.add(friend);
                         }
                     }
-                    loggedInUser.setFriendList(friends); //sets the friend list for the user
+                    loggedInUser.setFriendList(friends);
                 }
             }
         } catch (IOException e) {

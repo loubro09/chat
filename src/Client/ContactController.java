@@ -19,7 +19,7 @@ public class ContactController implements PropertyChangeListener {
     private List<User> friends = new ArrayList<>();
     private List<User> chatWith = new ArrayList<>();
     private ClientViewController controller;
-    private boolean typeOfList = true; //When true = all users & when false = Friends
+    private boolean typeOfList = true;
 
     /**
      * Constructor for ContactController
@@ -47,7 +47,7 @@ public class ContactController implements PropertyChangeListener {
      * @param index the index of the new friend.
      */
     public void addNewFriend(int index) {
-        if (index != -1) { //if something is selected in the left menu list
+        if (index != -1) {
             for (int i = 0; i < allUsers.size(); i++) {
                 if (i == index) {
                     friends.add(allUsers.get(i));

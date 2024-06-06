@@ -9,6 +9,10 @@ import Entity.User;
 import javax.swing.*;
 import java.util.List;
 
+/**
+ * The controller class responsible for handling user interactions in the client application.
+ * It manages actions such as logging in/out, registering new users, sending messages, adding friends to chats, etc.
+ */
 public class ClientViewController {
     private MainFrame mainFrame;
     private LogController logController;
@@ -17,6 +21,9 @@ public class ClientViewController {
     private LogInFrame logInFrame;
     private ClientMessageController clientMessageController;
 
+    /**
+     * Constructs a new ClientViewController.
+     */
     public ClientViewController() {
         logController = new LogController(this);
         contactController = new ContactController(this);
@@ -25,6 +32,11 @@ public class ClientViewController {
         mainFrame.disableStartButtons();
     }
 
+    /**
+     * Handles button presses and performs corresponding actions based on the button type.
+     *
+     * @param button the type of button pressed by the user
+     */
     public void buttonPressed(ButtonType button) {
         switch (button) {
             case Log_In:
@@ -90,6 +102,12 @@ public class ClientViewController {
         }
     }
 
+    /**
+     * Generates an array of user names, including an indicator of their online status,
+     * and populates the right panel of the main frame with this array.
+     *
+     * @param allUsers a list of User objects representing all users in the system
+     */
     public void allUsersToString(List<User> allUsers) {
         String[] userNames = new String[allUsers.size()];
         for (int i = 0; i <allUsers.size(); i++) {
@@ -129,6 +147,10 @@ public class ClientViewController {
         return mainFrame;
     }
 
+    /**
+     * Starts the client.
+     * @param args
+     */
     public static void main(String[] args) {
         new ClientViewController();
     }

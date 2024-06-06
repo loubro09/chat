@@ -130,6 +130,10 @@ public class LPanel extends JPanel implements ActionListener {
         return null;
     }
 
+    /**
+     *  Method for checking that the photo is not null
+     * @return Message Picture
+     */
     public ImageIcon sendPicture() {
         if (scaledIcon != null) {
             return scaledIcon;
@@ -171,7 +175,7 @@ public class LPanel extends JPanel implements ActionListener {
             JLabel messageLabel = new JLabel(sender + message);
             textChatBox.add(messageLabel);
         }
-        revalidate(); //Refresh the layout after adding a component
+        revalidate();
         repaint();
     }
 

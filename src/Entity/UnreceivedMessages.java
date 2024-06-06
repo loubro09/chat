@@ -49,11 +49,9 @@ public class UnreceivedMessages implements Serializable {
                     System.out.println("Unreceived message for user " + user.getUserName() + ": " + message.getText());
                 }
                 iterator.remove();
-                saveToFile(fileName); //save changes after removing message
+                saveToFile(fileName);
             }
         }
-
-        //sorts the messages by when they were delivered
         Collections.sort(userMessages, new Comparator<Message>() {
             @Override
             public int compare(Message m1, Message m2) {

@@ -15,7 +15,7 @@ import Entity.User;
 public class LogController implements PropertyChangeListener{
     private ClientNetworkBoundary cnb;
     private ClientViewController cvc;
-    private User loggedInUser; //sparas för att kunna logga ut
+    private User loggedInUser;
 
     /**
      * Constructs a LogController referencing the ClientViewController.
@@ -51,16 +51,6 @@ public class LogController implements PropertyChangeListener{
         //Local
         cnb = new ClientNetworkBoundary("127.0.0.1", 1234);
 
-        //Ida
-        //cnb = new ClientNetworkBoundary("192.168.0.130", 1234);
-
-        //Louis
-        //cnb = new ClientNetworkBoundary("10.2.9.154", 1234);
-        ///cnb = new ClientNetworkBoundary("192.168.1.114", 1234);
-
-        //Alanah
-        //cnb = new ClientNetworkBoundary("172.20.10.12", 1234);
-        
         cnb.addPropertyChangeListener(this);
         cnb.addPropertyChangeListener(cvc.getContactController());
         Message message = new Message(MessageType.logIn, null, user, (List<User>) null, LocalDateTime.now(), null, null);
@@ -83,7 +73,6 @@ public class LogController implements PropertyChangeListener{
     public void addUser(String userName){
         User user = new User(userName);
         cnb = new ClientNetworkBoundary("127.0.0.1", 1234);
-        //cnb = new ClientNetworkBoundary("192.168.0.130", 1234);
         cnb.addPropertyChangeListener(this);
         Message message = new Message(MessageType.registerUser, null, user, (List<User>) null, LocalDateTime.now(), null, null);
         cnb.sendMessage(message);
@@ -108,7 +97,7 @@ public class LogController implements PropertyChangeListener{
      * @param user the user that logged in
      */
     public void loginSuccess(User user) {
-        this.loggedInUser = user; //för utloggning
+        this.loggedInUser = user;
         cvc.getLoginFrame().setSuccess();
         cvc.getMainFrame().setLoggedIn(user,cvc.getLoginFrame().getUserIcon());
         cvc.setClientMessageController(new ClientMessageController(cvc));

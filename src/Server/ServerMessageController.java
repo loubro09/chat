@@ -39,29 +39,26 @@ public class ServerMessageController implements PropertyChangeListener {
 
     /**
      * Sends message received to all users in the receiver list.
+     * If reciever is not logged in the messages are stored in a buffer.
      * @param message the message containing the chat message
      */
     private void sendMessageToReceiver(Message message) {
-        List<User> receivers = message.getReceivers(); //list of all receivers in the message
-        //iterates through each user in the list
+        List<User> receivers = message.getReceivers();
         for (User receiver : receivers) {
             User user = uc.getUserByUsername(receiver.getUserName());
             ServerNetworkBoundary.ClientHandler clientHandler = uc.getClients().get(user);
-            if (clientHandler != null) { //if the receiver is logged in
-                //creates the message for the receiver
-                System.out.println(clientHandler.getUser().getUserName() + " is logged in");
+
+            if (clientHandler != null) {
                 Message messageToReceiver = new Message(MessageType.message, message.getText(), message.getSender(),
                         receiver, message.getTimeDeliveredToServer(), null, message.getImage());
-                messageToReceiver.setTimeDeliveredToClient(LocalDateTime.now()); //timestamps
-                //sends the message to the receiver
+                messageToReceiver.setTimeDeliveredToClient(LocalDateTime.now());
                 uc.getServerNetworkBoundary().sendMessage(messageToReceiver, clientHandler);
-            } else { //if the receiver is not logged in the message is stored in buffer
-                //System.out.println(clientHandler.getUser().getUserName() + " is not logged in. The message will be saved.");
+
+            } else {
                 Message messageToReceiver = new Message(MessageType.message, message.getText(), message.getSender(),
                         receiver, message.getTimeDeliveredToServer(), null, message.getImage());
-                uc.getServerNetworkBoundary().getUnreceivedMessage().put(receiver, messageToReceiver); //saves message in buffer
+                uc.getServerNetworkBoundary().getUnreceivedMessage().put(receiver, messageToReceiver);
             }
         }
     }
 }
-

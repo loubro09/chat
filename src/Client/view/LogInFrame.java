@@ -66,7 +66,7 @@ public class LogInFrame extends JFrame implements ActionListener {
         picture.setAlignmentX(Component.LEFT_ALIGNMENT);
         inputPanel.add(picture);
 
-        choosePhoto = new JButton("Choose Photo"); // Declaration added here
+        choosePhoto = new JButton("Choose Photo");
         choosePhoto.setAlignmentX(Component.LEFT_ALIGNMENT);
         choosePhoto.addActionListener(this);
         inputPanel.add(choosePhoto);
@@ -95,7 +95,7 @@ public class LogInFrame extends JFrame implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == choosePhoto) { //Check if "Choose Photo" button is clicked
+        if (e.getSource() == choosePhoto) {
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showOpenDialog(this);
             if (result == JFileChooser.APPROVE_OPTION) {
@@ -105,13 +105,13 @@ public class LogInFrame extends JFrame implements ActionListener {
                 try {
                     img = ImageIO.read(file);
                     Image scaledImg = img.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-                    userIcon = new ImageIcon(scaledImg); //Store the selected picture in userIcon
-                    picture.setIcon(userIcon); //Set the ImageIcon directly to the picture label
+                    userIcon = new ImageIcon(scaledImg);
+                    picture.setIcon(userIcon);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
             }
-        } else if (e.getSource() == login) { //Check if "Log in" button is clicked
+        } else if (e.getSource() == login) {
             controller.getLogController().logIn(enterUserName.getText());
         }
     }

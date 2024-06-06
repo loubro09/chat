@@ -33,7 +33,7 @@ public class ServerNetworkBoundary {
         clientsList = new ArrayList<>();
 
         try {
-            this.serverSocket = new ServerSocket(port); //creates a server socket for clients to connect to
+            this.serverSocket = new ServerSocket(port);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -63,7 +63,7 @@ public class ServerNetworkBoundary {
      */
     public void sendMessage(Message message, ClientHandler client) {
         try {
-            client.getOos().writeObject(message);//writes messages to the object output stream
+            client.getOos().writeObject(message);
             if (message.getMessageType()!= MessageType.userLoggedIn) {
                 activityController.writeToLogFile(message);
             }
@@ -80,13 +80,12 @@ public class ServerNetworkBoundary {
         public void run() {
             Socket socket = null;
             try {
-                while (true) { //continually listens for clients
+                while (true) {
                     try {
-                        socket = serverSocket.accept(); //accepts a new client
-                        //creates a new ClientHandler representing the new client
+                        socket = serverSocket.accept();
                         ClientHandler clientHandler = new ClientHandler(socket);
-                        clientsList.add(clientHandler); //adds the new client to a list
-                        clientHandler.start(); //starts listening to messages from the client
+                        clientsList.add(clientHandler);
+                        clientHandler.start();
                     } catch (IOException e) {
                         e.printStackTrace();
                         if (socket!= null)
@@ -152,27 +151,23 @@ public class ServerNetworkBoundary {
         public void run() {
             try {
                 while (true) {
-                    Message message = (Message) ois.readObject(); //message being read from the input stream
-                    MessageType messageType = message.getMessageType(); //gets the message type
-                    switch (messageType) { //checks which type of message has been received
-                        case message: //if a user has sent a message to another user
+                    Message message = (Message) ois.readObject();
+                    MessageType messageType = message.getMessageType();
+                    switch (messageType) {
+                        case message:
                             propertyChangeSupport.firePropertyChange("message", null, message);
-                            //activityController.writeToLogFile(message); //adds message to log file
                             break;
-                        case logIn: //if a user has logged in
+                        case logIn:
                             user = message.getSender();
                             propertyChangeSupport.firePropertyChange("login", this, user);
-                            //activityController.writeToLogFile(message); //adds message to log file
                             break;
-                        case logOut: //if a user has logged out
+                        case logOut:
                             propertyChangeSupport.firePropertyChange("logout", null, message);
-                            //activityController.writeToLogFile(message); //adds message to log file
                             break;
-                        case registerUser: //if a new user has been registered
+                        case registerUser:
                             propertyChangeSupport.firePropertyChange("register", message, this);
-                            //activityController.writeToLogFile(message); //adds message to log file
                             break;
-                        case addFriends: //if a user has added a new friend to their contacts list
+                        case addFriends:
                             propertyChangeSupport.firePropertyChange("updateFriendsList", message, this);
                             activityController.writeToLogFile(message);
                     }

@@ -10,6 +10,9 @@ import java.io.File;
 import java.io.IOException;
 
 
+/**
+ * A frame for registering a new user.
+ */
 public class RegisterUserFrame extends JFrame implements ActionListener {
     private JPanel mainPanel;
     private JTextField enterUserName;
@@ -21,6 +24,10 @@ public class RegisterUserFrame extends JFrame implements ActionListener {
     private JLabel error;
 
 
+    /**
+     * Constructs a new RegisterUserFrame with the specified ClientViewController.
+     * @param controller the ClientViewController to associate with this frame
+     */
     public RegisterUserFrame(ClientViewController controller) {
         this.controller = controller;
         setTitle("Register New User");
@@ -33,6 +40,9 @@ public class RegisterUserFrame extends JFrame implements ActionListener {
         setVisible(true);
     }
 
+    /**
+     * Sets up the panel for registering a new user.
+     */
     public void setupPanel() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
@@ -74,6 +84,11 @@ public class RegisterUserFrame extends JFrame implements ActionListener {
         getContentPane().add(mainPanel);
     }
 
+
+    /**
+     * Handles actions performed by the user, such as choosing a photo or registering a new user.
+     * @param e the ActionEvent representing the user's action
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == enterPhoto) {
@@ -96,11 +111,19 @@ public class RegisterUserFrame extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Sets the error message to be displayed on the frame.
+     *
+     * @param errorMessage the error message to be displayed
+     */
     public void setError(String errorMessage) {
         error.setVisible(true);
         error.setText(errorMessage);
     }
 
+    /**
+     * Closes the frame when the registration is successful.
+     */
     public void setSuccess() {
         this.dispose();
     }
