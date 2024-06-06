@@ -106,3 +106,7 @@
 2024-06-06 10:54:45 - kenalt has logged in.
 2024-06-06 11:01:44 - kenalt has logged in.
 2024-06-06 11:01:54 - kenalt Added a new friend
+2024-06-06 11:26:17 - idanor has logged in.
+2024-06-06 11:26:30 - alacol has logged in.
+2024-06-06 11:26:40 - idanor has logged in.
+2024-06-06 11:26:40 - alacol sent a message to idanor. Time received by Server : 2024-06-06 11:26:35. Time received by client: 2024-06-06 11:26:40. Message : yje
