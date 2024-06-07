@@ -110,3 +110,8 @@
 2024-06-06 11:26:30 - alacol has logged in.
 2024-06-06 11:26:40 - idanor has logged in.
 2024-06-06 11:26:40 - alacol sent a message to idanor. Time received by Server : 2024-06-06 11:26:35. Time received by client: 2024-06-06 11:26:40. Message : yje
+2024-06-07 14:51:28 - kenalt has logged in.
+2024-06-07 14:51:28 - alacol sent a message to kenalt. Time received by Server : 2024-06-06 11:25:25. Time received by client: 2024-06-07 14:51:28. Message : tja
+2024-06-07 14:51:46 - alacol has logged in.
+2024-06-07 14:51:54 - alacol sent a message to kenalt. Time received by Server : 2024-06-07 14:51:54. Time received by client: 2024-06-07 14:51:54. Message : asd
+2024-06-07 14:52:06 - kenalt sent a message to alacol. Time received by Server : 2024-06-07 14:52:06. Time received by client: 2024-06-07 14:52:06. Message : null

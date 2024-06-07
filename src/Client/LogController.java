@@ -7,6 +7,9 @@ import java.util.List;
 import Entity.Message;
 import Entity.MessageType;
 import Entity.User;
+
+import javax.swing.*;
+
 /**
  * This class handles user login, logout, and registration.
  * It interacts with the ClientNetworkBoundary to send messages to the server
@@ -45,7 +48,7 @@ public class LogController implements PropertyChangeListener{
      * Log in function for user
      * @param userName
      */
-    public void logIn(String userName) {
+    public void logIn(String userName, ImageIcon imageIcon) {
         User user = new User(userName);
 
         //Local
@@ -53,7 +56,7 @@ public class LogController implements PropertyChangeListener{
 
         cnb.addPropertyChangeListener(this);
         cnb.addPropertyChangeListener(cvc.getContactController());
-        Message message = new Message(MessageType.logIn, null, user, (List<User>) null, LocalDateTime.now(), null, null);
+        Message message = new Message(MessageType.logIn, null, user, (List<User>) null, LocalDateTime.now(), null, imageIcon);
         cnb.sendMessage(message);
     }
 
